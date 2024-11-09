@@ -1,4 +1,4 @@
-package main.java.interface_adapter.game;
+package interface_adapter.game;
 
 public class GameController {
     
