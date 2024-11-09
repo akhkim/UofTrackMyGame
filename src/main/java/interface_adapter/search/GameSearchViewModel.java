@@ -1,29 +1,23 @@
-package interface_adapter;
+package interface_adapter.search;
 import entity.GameSearchState;
-import use_case.search.DataAccess;
+import data_access.DataAccess;
+import use_case.search.GameSearchInteractor;
 
 public class GameSearchViewModel {
     private GameSearchState state;
-    private DataAccess dataAccess;
+    private GameSearchInteractor interactor;
 
     public GameSearchViewModel(GameSearchState state, DataAccess dataAccess) {
         this.state = state;
-        this.dataAccess = dataAccess;
+        this.interactor = new GameSearchInteractor(state, dataAccess);
     }
 
     public String searchByTitle() {
-        return dataAccess.searchByTitle(state.getTitle());
+        return interactor.searchByTitle();
     }
 
     public String searchByFilters() {
-        return dataAccess.searchByFilters(
-            state.getUpperPrice(),
-            state.getLowerPrice(),
-            state.getMetacritic(),
-            state.isOnSale() ? "1" : "0",
-            state.getSortBy(),
-            state.isDesc() ? "1" : "0"
-        );
+        return interactor.searchByFilters();
     }
 
     // Additional methods to update state

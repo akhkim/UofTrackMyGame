@@ -1,4 +1,4 @@
-package interface_adapter;
+package interface_adapter.search;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +12,10 @@ public class GameSearchController {
         this.viewModel = viewModel;
         this.view = view;
         setupListeners();
+    }
+
+    public GameSearchView getView() {
+        return view;
     }
 
     private void setupListeners() {
