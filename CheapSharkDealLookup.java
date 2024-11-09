@@ -45,6 +45,12 @@ public class CheapSharkDealLookup {
     public static String searchByFilters(String upperPrice, String lowerPrice, String metacritic, String onSale, String sortBy, String desc) {
         String baseUrl = "https://www.cheapshark.com/api/1.0/deals";
         Map<String, String> params = new HashMap<>();
+
+        // Setting default value for upperPrice if it is null or empty
+        if (upperPrice == null || upperPrice.isEmpty()) {
+            upperPrice = "10000";
+        }
+
         params.put("upperPrice", upperPrice);
         params.put("lowerPrice", lowerPrice);
         params.put("metacritic", metacritic);
