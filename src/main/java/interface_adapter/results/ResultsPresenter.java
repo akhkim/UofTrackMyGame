@@ -13,7 +13,7 @@ public class ResultsPresenter implements ResultsOutputBoundary {
     @Override
     public void prepareSuccessView(ResultsOutputData data) {
         ResultsState state = new ResultsState();
-        state.setGames(data.getGames());
+        state.setGames(data.getGame());
         resultsViewModel.setState(state);
     }
 

@@ -1,16 +1,15 @@
 package use_case.results;
 
 import entity.Game;
-import java.util.List;
 
 public class ResultsOutputData {
-    private final List<Game> games;
+    private final Game game;
 
-    public ResultsOutputData(List<Game> games) {
-        this.games = games;
+    public ResultsOutputData(Game game) {
+        this.game = game;
     }
 
-    public List<Game> getGames() {
-        return games;
+    public Game getGame() {
+        return game;
     }
 }

@@ -1,3 +1,5 @@
+// JSON TO GAME CLASS HERE, MAKE AN ARRAY OF GAME OBJECTS
+
 package use_case.results;
 
 import java.util.ArrayList;

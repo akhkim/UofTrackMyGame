@@ -1,3 +1,5 @@
+// FROM ARRAY OF GAMES, OUTPUT A GAME OBJECT ACCORDING TO THE CLICK
+
 package use_case.results;
 
 import java.util.List;
@@ -28,7 +30,6 @@ public class ResultsInteractor implements ResultsInputBoundary {
                 JSONObject jsonGame = jsonArray.getJSONObject(i);
                 Game game = new Game(
                     jsonGame.getString("title"),
-                    jsonGame.getString("metacriticLink"),
                     jsonGame.getString("salePrice"),
                     jsonGame.getString("normalPrice"),
                     jsonGame.getString("isOnSale"),

@@ -2,7 +2,6 @@ package entity;
 
 public class Game {
     private String title;
-    private String metacriticLink;
     private String salePrice;
     private String normalPrice;
     private String isOnSale;
@@ -14,13 +13,12 @@ public class Game {
     private String dealRating;
     private String thumb;
 
-    public Game(String title, String metacriticLink, String salePrice, 
+    public Game(String title, String salePrice, 
                      String normalPrice, String isOnSale, String savings,
                      String metacriticScore, String steamRatingText, 
                      String steamRatingPercent, String steamRatingCount,
                      String dealRating, String thumb) {
         this.title = title;
-        this.metacriticLink = metacriticLink;
         this.salePrice = salePrice;
         this.normalPrice = normalPrice;
         this.isOnSale = isOnSale;
@@ -35,10 +33,6 @@ public class Game {
 
     public String getTitle(){
         return title; 
-    }
-
-    public String getMetacriticLink(){
-        return metacriticLink; 
     }
 
     public String getSalePrice(){
