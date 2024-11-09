@@ -13,6 +13,7 @@ public class GameSearchView {
     private JToggleButton descToggleButton;
     private JButton searchByTitleButton;
     private JButton searchByFiltersButton;
+    private JButton feelingLuckyButton;
 
     public GameSearchView() {
         frame = new JFrame("UofTrackMyGames");
@@ -62,6 +63,7 @@ public class GameSearchView {
 
         searchByTitleButton = new JButton("Search by Title");
         searchByFiltersButton = new JButton("Search by Filters");
+        feelingLuckyButton = new JButton("Feeling Lucky!");
 
         JPanel sortPanel = new JPanel();
         sortPanel.setBackground(backgroundColor);
@@ -74,6 +76,8 @@ public class GameSearchView {
 
         panel.add(titleLabel);
         panel.add(titleField);
+        panel.add(new JLabel());
+        panel.add(searchByTitleButton);
         panel.add(upperPriceLabel);
         panel.add(upperPriceField);
         panel.add(lowerPriceLabel);
@@ -84,8 +88,8 @@ public class GameSearchView {
         panel.add(onSaleCheckBox);
         panel.add(sortByLabel);
         panel.add(sortPanel);
-        panel.add(searchByTitleButton);
         panel.add(searchByFiltersButton);
+        panel.add(feelingLuckyButton);
 
         frame.add(panel);
     }
@@ -129,6 +133,10 @@ public class GameSearchView {
 
     public JButton getSearchByFiltersButton() {
         return searchByFiltersButton;
+    }
+
+    public JButton getFeelingLuckyButton() {
+        return feelingLuckyButton;
     }
 
     public void displayResponse(String response) {
