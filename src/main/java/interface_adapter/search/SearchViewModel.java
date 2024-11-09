@@ -1,4 +1,4 @@
-package main.java.interface_adapter.search;
+package interface_adapter.search;
 
 public class SearchViewModel {
     

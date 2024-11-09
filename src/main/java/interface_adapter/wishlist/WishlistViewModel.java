@@ -1,4 +1,4 @@
-package main.java.interface_adapter.wishlist;
+package interface_adapter.wishlist;
 
 public class WishlistViewModel {
     

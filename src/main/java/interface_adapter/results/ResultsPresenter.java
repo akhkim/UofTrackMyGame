@@ -1,4 +1,4 @@
-package main.java.interface_adapter.results;
+package interface_adapter.results;
 
 public class ResultsPresenter {
     
