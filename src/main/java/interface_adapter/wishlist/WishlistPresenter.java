@@ -1,5 +1,4 @@
 package interface_adapter.wishlist;
-import entity.Wishlist;
 
 public class WishlistPresenter {
     private WishlistViewModel viewModel;

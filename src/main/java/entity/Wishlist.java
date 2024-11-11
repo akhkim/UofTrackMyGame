@@ -3,23 +3,11 @@ package entity;
 import java.util.*;
 
 public class Wishlist {
-    private String name;
     private ArrayList<Game> games;
 
     // Constructor
-    public Wishlist(String name) {
-        this.name = name;
+    public Wishlist() {
         this.games = new ArrayList<>();
-    }
-
-    // Getter for name
-    public String getName() {
-        return name;
-    }
-
-    // Setter for name
-    public void setName(String name) {
-        this.name = name;
     }
 
     // Getter for games

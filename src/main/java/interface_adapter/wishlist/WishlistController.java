@@ -1,5 +1,4 @@
 package interface_adapter.wishlist;
-import entity.Wishlist;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

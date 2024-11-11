@@ -1,5 +1,4 @@
 package interface_adapter.wishlist;
-import entity.Wishlist;
 
 import java.util.ArrayList;
 
