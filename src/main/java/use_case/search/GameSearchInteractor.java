@@ -1,11 +1,9 @@
 package use_case.search;
 
-import data_access.DataAccess;
-
 public class GameSearchInteractor implements GameSearchInputBoundary {
-    private final DataAccess dataAccess;
+    private final GameSearchDataAccessInterface dataAccess;
 
-    public GameSearchInteractor(DataAccess dataAccess) {
+    public GameSearchInteractor(GameSearchDataAccessInterface dataAccess) {
         this.dataAccess = dataAccess;
     }
 

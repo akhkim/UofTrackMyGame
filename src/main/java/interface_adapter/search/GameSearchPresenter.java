@@ -5,14 +5,15 @@ import view.GameSearchView;
 
 public class GameSearchPresenter {
     private GameSearchView view;
-    private final GameSearchInputBoundary interactor;
+    private GameSearchViewModel viewModel;
 
-    public GameSearchPresenter(GameSearchView view, GameSearchInputBoundary interactor) {
+    public GameSearchPresenter(GameSearchView view, GameSearchViewModel viewModel) {
         this.view = view;
-        this.interactor = interactor;
+        this.viewModel = viewModel;
     }
 
-    public void displayResponse(String response) {
+    public void presentSearchResults(String response) {
+        // Format the response if needed
         view.displayResponse(response);
     }
 }

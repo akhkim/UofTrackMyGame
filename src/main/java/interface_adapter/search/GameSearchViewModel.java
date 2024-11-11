@@ -6,11 +6,28 @@ import interface_adapter.ViewModel;
 
 public class GameSearchViewModel extends ViewModel<GameSearchState> {
     private final GameSearchInputBoundary inputBoundary;
+    private GameSearchPresenter presenter;
 
-    public GameSearchViewModel(GameSearchState state, GameSearchInputBoundary inputBoundary) {
+    public GameSearchViewModel(GameSearchState state, GameSearchInputBoundary inputBoundary, 
+                             GameSearchPresenter presenter) {
         super("GameSearchView");
         this.setState(state);
         this.inputBoundary = inputBoundary;
+        this.presenter = presenter;
+    }
+
+    public void searchByFilters() {
+        GameSearchState state = getState();
+        // System.out.println(state);
+        String response = inputBoundary.searchByFilters(
+            state.getUpperPrice(),
+            state.getLowerPrice(),
+            state.getMetacritic(),
+            state.isOnSale(),
+            state.getSortBy(),
+            state.isDesc()
+        );
+        presenter.presentSearchResults(response);
     }
 
     public String searchByTitle() {
@@ -19,18 +36,6 @@ public class GameSearchViewModel extends ViewModel<GameSearchState> {
             return "Please enter a title to search";
         }
         return inputBoundary.searchByTitle(title);
-    }
-
-    public String searchByFilters() {
-        GameSearchState state = getState();
-        return inputBoundary.searchByFilters(
-            state.getUpperPrice(),
-            state.getLowerPrice(),
-            state.getMetacritic(),
-            state.isOnSale(),
-            state.getSortBy(),
-            state.isDesc()
-        );
     }
 
     public String feelingLucky() {
@@ -72,5 +77,9 @@ public class GameSearchViewModel extends ViewModel<GameSearchState> {
     public void updateDesc(boolean desc) {
         getState().setDesc(desc);
         firePropertyChanged();
+    }
+
+    public void setPresenter(GameSearchPresenter presenter) {
+        this.presenter = presenter;
     }
 }

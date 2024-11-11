@@ -17,7 +17,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.FlowLayout; 
+import java.awt.FlowLayout;
 
 import interface_adapter.search.GameSearchController;
 import entity.GameSearchState;

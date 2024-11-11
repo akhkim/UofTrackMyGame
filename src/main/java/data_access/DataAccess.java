@@ -7,7 +7,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DataAccess {
+import use_case.search.GameSearchDataAccessInterface;
+
+public class DataAccess implements GameSearchDataAccessInterface {
 
     public String searchByTitle(String title) {
         String baseUrl = "https://www.cheapshark.com/api/1.0/games";

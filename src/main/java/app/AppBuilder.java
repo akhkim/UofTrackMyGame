@@ -10,6 +10,7 @@ import entity.GameSearchState;
 import interface_adapter.search.GameSearchController;
 import interface_adapter.search.GameSearchPresenter;
 import interface_adapter.search.GameSearchViewModel;
+import use_case.search.GameSearchDataAccessInterface;
 import use_case.search.GameSearchInputBoundary;
 import use_case.search.GameSearchInteractor;
 import view.GameSearchView;
@@ -31,11 +32,13 @@ public class AppBuilder {
 
     public AppBuilder addGameSearchView() {
         GameSearchState state = new GameSearchState();
-        DataAccess dataAccess = new DataAccess();
-        GameSearchInputBoundary interactor = new GameSearchInteractor(dataAccess);
-        GameSearchPresenter presenter = new GameSearchPresenter(gameSearchView, interactor);
-        gameSearchViewModel = new GameSearchViewModel(state, interactor);
+        GameSearchDataAccessInterface gateway = new DataAccess();
+        GameSearchInputBoundary interactor = new GameSearchInteractor(gateway);
+        GameSearchPresenter presenter = new GameSearchPresenter(null, null);
+        gameSearchViewModel = new GameSearchViewModel(state, interactor, presenter);
         gameSearchView = new GameSearchView(gameSearchViewModel);
+        presenter = new GameSearchPresenter(gameSearchView, gameSearchViewModel);
+        gameSearchViewModel.setPresenter(presenter);
         GameSearchController controller = new GameSearchController(gameSearchViewModel, gameSearchView);
         cardPanel.add(gameSearchView, "GameSearchView");
         return this;
