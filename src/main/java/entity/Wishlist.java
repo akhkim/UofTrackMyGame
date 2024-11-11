@@ -4,13 +4,20 @@ import java.util.*;
 
 public class Wishlist {
     private ArrayList<Game> games;
-
-    // Constructor
-    public Wishlist() {
+    
+    // Private constructor - only accessible through create method
+    private Wishlist() {
         this.games = new ArrayList<>();
     }
-
-    // Getter for games
+    
+    void addGame(Game game) {
+        this.games.add(game);
+    }
+    
+    static Wishlist create() {
+        return new Wishlist();
+    }
+    
     public ArrayList<Game> getGames() {
         return games;
     }
@@ -18,11 +25,6 @@ public class Wishlist {
     // Setter for games
     public void setGames(ArrayList<Game> games) {
         this.games = games;
-    }
-
-    // Method to add a game to the wishlist
-    public void addGame(Game game) {
-        this.games.add(game);
     }
 
     // Method to remove a game from the wishlist
