@@ -3,26 +3,21 @@ package entity;
 import java.util.*;
 
 public class Wishlist {
-    private String name;
     private ArrayList<Game> games;
-
-    // Constructor
-    public Wishlist(String name) {
-        this.name = name;
+    
+    // Private constructor - only accessible through create method
+    private Wishlist() {
         this.games = new ArrayList<>();
     }
-
-    // Getter for name
-    public String getName() {
-        return name;
+    
+    void addGame(Game game) {
+        this.games.add(game);
     }
-
-    // Setter for name
-    public void setName(String name) {
-        this.name = name;
+    
+    static Wishlist create() {
+        return new Wishlist();
     }
-
-    // Getter for games
+    
     public ArrayList<Game> getGames() {
         return games;
     }
@@ -30,11 +25,6 @@ public class Wishlist {
     // Setter for games
     public void setGames(ArrayList<Game> games) {
         this.games = games;
-    }
-
-    // Method to add a game to the wishlist
-    public void addGame(Game game) {
-        this.games.add(game);
     }
 
     // Method to remove a game from the wishlist
