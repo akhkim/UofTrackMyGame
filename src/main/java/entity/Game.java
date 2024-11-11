@@ -1,50 +1,77 @@
 package entity;
 
-import java.util.Map;
-
 public class Game {
-    private String name;
-    private Map<String, Float> prices;
-    private Map<String, Float> dealRatings;
-    private float rating;
+    private String title;
+    private String salePrice;
+    private String normalPrice;
+    private String isOnSale;
+    private String savings;
+    private String metacriticScore;
+    private String steamRatingText;
+    private String steamRatingPercent;
+    private String steamRatingCount;
+    private String dealRating;
+    private String thumb;
 
-    private float priceThreshold;
-
-    public Game(String name, Map<String, Float> prices, Map<String, Float> dealRatings, float rating, float priceThreshold) {
-        this.name = name;
-        this.prices = prices;
-        this.dealRatings = dealRatings;
-        this.rating = rating;
-        this.priceThreshold = priceThreshold;
+    public Game(String title, String salePrice, 
+                     String normalPrice, String isOnSale, String savings,
+                     String metacriticScore, String steamRatingText, 
+                     String steamRatingPercent, String steamRatingCount,
+                     String dealRating, String thumb) {
+        this.title = title;
+        this.salePrice = salePrice;
+        this.normalPrice = normalPrice;
+        this.isOnSale = isOnSale;
+        this.savings = savings;
+        this.metacriticScore = metacriticScore;
+        this.steamRatingText = steamRatingText;
+        this.steamRatingPercent = steamRatingPercent;
+        this.steamRatingCount = steamRatingCount;
+        this.dealRating = dealRating;
+        this.thumb = thumb;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle(){
+        return title; 
     }
 
-    public Map<String, Float> getPrices() {
-        return prices;
+    public String getSalePrice(){
+        return salePrice; 
     }
 
-    public void setPrice(String platform, float price) {
-        prices.put(platform, price);
+    public String getNormalPrice(){
+        return normalPrice; 
     }
 
-    public Map<String, Float> getDealRatings() {
-        return dealRatings;
+    public String getIsOnSale(){
+        return isOnSale; 
     }
 
-    public float getRating() {
-        return rating;
+    public String getSavings(){
+        return savings; 
     }
 
-    public float getPriceThreshold() {
-        return priceThreshold;
+    public String getMetacriticScore(){
+        return metacriticScore; 
     }
 
-    public void setPriceThreshold(Float priceThreshold) {
-        this.priceThreshold = priceThreshold;
+    public String getSteamRatingText(){
+        return steamRatingText; 
     }
 
+    public String getSteamRatingPercent(){
+        return steamRatingPercent; 
+    }
 
+    public String getSteamRatingCount(){
+        return steamRatingCount; 
+    }
+
+    public String getDealRating(){
+        return dealRating; 
+    }
+
+    public String getThumb(){
+        return thumb; 
+    }
 }
