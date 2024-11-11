@@ -1,11 +1,15 @@
 package app;
-import interface_adapter.search.GameSearchController;
-import view.GameSearchView;
+
+import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
-        GameSearchController controller = AppBuilder.buildGameSearchApp();
-        GameSearchView view = controller.getView();
-        view.show();
+        final AppBuilder appBuilder = new AppBuilder();
+        final JFrame application = appBuilder
+                                    .addGameSearchView()
+                                    .build();
+
+        application.pack();
+        application.setVisible(true);
     }
 }

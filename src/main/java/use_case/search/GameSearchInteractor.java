@@ -1,31 +1,28 @@
 package use_case.search;
 
-import entity.GameSearchState;
 import data_access.DataAccess;
 
-public class GameSearchInteractor {
-    private GameSearchState state;
-    private DataAccess dataAccess;
+public class GameSearchInteractor implements GameSearchInputBoundary {
+    private final DataAccess dataAccess;
 
-    public GameSearchInteractor(GameSearchState state, DataAccess dataAccess) {
-        this.state = state;
+    public GameSearchInteractor(DataAccess dataAccess) {
         this.dataAccess = dataAccess;
     }
 
-    public String searchByTitle() {
-        // Add any business logic or validation here
-        return dataAccess.searchByTitle(state.getTitle());
+    @Override
+    public String searchByTitle(String title) {
+        return dataAccess.searchByTitle(title);
     }
 
-    public String searchByFilters() {
-        // Add any business logic or validation here
+    @Override
+    public String searchByFilters(String upperPrice, String lowerPrice, String metacritic, boolean onSale, String sortBy, boolean desc) {
         return dataAccess.searchByFilters(
-            state.getUpperPrice(),
-            state.getLowerPrice(),
-            state.getMetacritic(),
-            state.isOnSale() ? "1" : "0",
-            state.getSortBy(),
-            state.isDesc() ? "1" : "0"
+            upperPrice,
+            lowerPrice,
+            metacritic,
+            onSale ? "1" : "0",
+            sortBy,
+            desc ? "1" : "0"
         );
     }
 } 

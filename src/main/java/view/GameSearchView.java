@@ -1,65 +1,70 @@
 package view;
-import javax.swing.*;
-import java.awt.*;
 
-public class GameSearchView {
-    private JFrame frame;
-    private JTextField titleField;
-    private JTextField upperPriceField;
-    private JTextField lowerPriceField;
-    private JTextField metacriticField;
-    private JCheckBox onSaleCheckBox;
-    private JComboBox<String> sortByComboBox;
-    private JToggleButton descToggleButton;
-    private JButton searchByTitleButton;
-    private JButton searchByFiltersButton;
-    private JButton feelingLuckyButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-    public GameSearchView() {
-        frame = new JFrame("UofTrackMyGames");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.FlowLayout; 
+
+import interface_adapter.search.GameSearchController;
+import entity.GameSearchState;
+import interface_adapter.search.GameSearchViewModel;
+
+public class GameSearchView extends JPanel implements ActionListener, PropertyChangeListener {
+    private final String viewName = "GameSearchView";
+    private final GameSearchViewModel viewModel;
+    
+    private final JTextField titleField = new JTextField(15);
+    private final JTextField upperPriceField = new JTextField(15);
+    private final JTextField lowerPriceField = new JTextField(15);
+    private final JTextField metacriticField = new JTextField(15);
+    private final JCheckBox onSaleCheckBox = new JCheckBox();
+    private final JComboBox<String> sortByComboBox;
+    private final JToggleButton descToggleButton = new JToggleButton("▲");
+    private GameSearchController controller;
+
+    private final JButton searchByTitleButton;
+    private final JButton searchByFiltersButton;
+    private final JButton feelingLuckyButton;
+
+    public GameSearchView(GameSearchViewModel viewModel) {
+        this.viewModel = viewModel;
+        viewModel.addPropertyChangeListener(this);
 
         Color backgroundColor = new Color(45, 45, 45);
         Color textColor = new Color(230, 230, 230);
 
-        JPanel panel = new JPanel();
-        panel.setBackground(backgroundColor);
-        panel.setLayout(new GridLayout(8, 2, 10, 10));
+        this.setBackground(backgroundColor);
+        this.setLayout(new GridLayout(8, 2, 10, 10));
 
-        JLabel titleLabel = new JLabel("Title");
+        final JLabel titleLabel = new JLabel("Title");
         titleLabel.setForeground(textColor);
-        titleField = new JTextField();
-
-        JLabel upperPriceLabel = new JLabel("Upper Price");
+        final JLabel upperPriceLabel = new JLabel("Upper Price");
         upperPriceLabel.setForeground(textColor);
-        upperPriceField = new JTextField();
-
-        JLabel lowerPriceLabel = new JLabel("Lower Price");
+        final JLabel lowerPriceLabel = new JLabel("Lower Price");
         lowerPriceLabel.setForeground(textColor);
-        lowerPriceField = new JTextField();
-
-        JLabel metacriticLabel = new JLabel("Metacritic");
+        final JLabel metacriticLabel = new JLabel("Metacritic");
         metacriticLabel.setForeground(textColor);
-        metacriticField = new JTextField();
-
-        JLabel onSaleLabel = new JLabel("On Sale");
+        final JLabel onSaleLabel = new JLabel("On Sale");
         onSaleLabel.setForeground(textColor);
-        onSaleCheckBox = new JCheckBox();
-
-        JLabel sortByLabel = new JLabel("Sort By");
+        final JLabel sortByLabel = new JLabel("Sort By");
         sortByLabel.setForeground(textColor);
+
         String[] sortByOptions = {"DealRating", "Title", "Savings", "Price", "Metacritic"};
         sortByComboBox = new JComboBox<>(sortByOptions);
-
-        descToggleButton = new JToggleButton("▲");
-        descToggleButton.addActionListener(e -> {
-            if (descToggleButton.isSelected()) {
-                descToggleButton.setText("▼");
-            } else {
-                descToggleButton.setText("▲");
-            }
-        });
 
         searchByTitleButton = new JButton("Search by Title");
         searchByFiltersButton = new JButton("Search by Filters");
@@ -71,34 +76,175 @@ public class GameSearchView {
         sortPanel.add(sortByComboBox);
         sortPanel.add(descToggleButton);
 
-        Dimension textFieldSize = titleField.getPreferredSize();
-        sortPanel.setPreferredSize(new Dimension(textFieldSize.width, textFieldSize.height));
+        // Add components in the desired order
+        this.add(titleLabel);
+        this.add(titleField);
+        this.add(new JLabel());  // Empty space
+        this.add(searchByTitleButton);
+        this.add(upperPriceLabel);
+        this.add(upperPriceField);
+        this.add(lowerPriceLabel);
+        this.add(lowerPriceField);
+        this.add(metacriticLabel);
+        this.add(metacriticField);
+        this.add(onSaleLabel);
+        this.add(onSaleCheckBox);
+        this.add(sortByLabel);
+        this.add(sortPanel);
+        this.add(searchByFiltersButton);
+        this.add(feelingLuckyButton);
 
-        panel.add(titleLabel);
-        panel.add(titleField);
-        panel.add(new JLabel());
-        panel.add(searchByTitleButton);
-        panel.add(upperPriceLabel);
-        panel.add(upperPriceField);
-        panel.add(lowerPriceLabel);
-        panel.add(lowerPriceField);
-        panel.add(metacriticLabel);
-        panel.add(metacriticField);
-        panel.add(onSaleLabel);
-        panel.add(onSaleCheckBox);
-        panel.add(sortByLabel);
-        panel.add(sortPanel);
-        panel.add(searchByFiltersButton);
-        panel.add(feelingLuckyButton);
+        // Add listeners
+        searchByTitleButton.addActionListener(this);
+        searchByFiltersButton.addActionListener(this);
+        feelingLuckyButton.addActionListener(this);
 
-        frame.add(panel);
+        addTitleListener();
+        addUpperPriceListener();
+        addLowerPriceListener();
+        addMetacriticListener();
+        addOnSaleListener();
+        addSortByListener();
+        addDescListener();
     }
 
-    public void show() {
-        frame.setVisible(true);
+    private void addTitleListener() {
+        titleField.getDocument().addDocumentListener(new DocumentListener() {
+            private void documentListenerHelper() {
+                viewModel.updateTitle(titleField.getText());
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
     }
 
-    // Getters for UI components
+    private void addUpperPriceListener() {
+        upperPriceField.getDocument().addDocumentListener(new DocumentListener() {
+            private void documentListenerHelper() {
+                viewModel.updateUpperPrice(upperPriceField.getText());
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
+    }
+
+    private void addLowerPriceListener() {
+        lowerPriceField.getDocument().addDocumentListener(new DocumentListener() {
+            private void documentListenerHelper() {
+                viewModel.updateLowerPrice(lowerPriceField.getText());
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
+    }
+
+    private void addMetacriticListener() {
+        metacriticField.getDocument().addDocumentListener(new DocumentListener() {
+            private void documentListenerHelper() {
+                viewModel.updateMetacritic(metacriticField.getText());
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
+    }
+
+    private void addOnSaleListener() {
+        onSaleCheckBox.addActionListener(e -> viewModel.updateOnSale(onSaleCheckBox.isSelected()));
+    }
+
+    private void addSortByListener() {
+        sortByComboBox.addActionListener(e -> viewModel.updateSortBy((String) sortByComboBox.getSelectedItem()));
+    }
+
+    private void addDescListener() {
+        descToggleButton.addActionListener(e -> {
+            if (descToggleButton.isSelected()) {
+                descToggleButton.setText("▼");
+            } else {
+                descToggleButton.setText("▲");
+            }
+            viewModel.updateDesc(descToggleButton.isSelected());
+        });
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        if (evt.getSource() == searchByTitleButton) {
+            controller.searchByTitle();
+        } else if (evt.getSource() == searchByFiltersButton) {
+            controller.searchByFilters();
+        } else if (evt.getSource() == feelingLuckyButton) {
+            controller.feelingLucky();
+        }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        // Handle updates from the ViewModel
+        GameSearchState state = (GameSearchState) evt.getNewValue();
+        // Update the view based on the new state if needed
+    }
+
+    public String getViewName() {
+        return viewName;
+    }
+
+    public void setController(GameSearchController controller) {
+        this.controller = controller;
+    }
+
     public JTextField getTitleField() {
         return titleField;
     }
@@ -127,20 +273,10 @@ public class GameSearchView {
         return descToggleButton;
     }
 
-    public JButton getSearchByTitleButton() {
-        return searchByTitleButton;
-    }
-
-    public JButton getSearchByFiltersButton() {
-        return searchByFiltersButton;
-    }
-
-    public JButton getFeelingLuckyButton() {
-        return feelingLuckyButton;
-    }
-
     public void displayResponse(String response) {
-        // Logic to display the response
-        System.out.println("Response: " + response);
+        // You'll need to decide how to display the response
+        // For example, you might want to add a JTextArea to show results:
+        // responseArea.setText(response);
+        System.out.println(response);
     }
 }

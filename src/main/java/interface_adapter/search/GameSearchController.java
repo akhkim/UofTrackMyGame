@@ -1,46 +1,38 @@
 package interface_adapter.search;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import view.GameSearchView;
 
 public class GameSearchController {
-    private GameSearchViewModel viewModel;
-    private GameSearchView view;
+    private final GameSearchViewModel viewModel;
+    private final GameSearchView view;
 
     public GameSearchController(GameSearchViewModel viewModel, GameSearchView view) {
         this.viewModel = viewModel;
         this.view = view;
-        setupListeners();
+        this.view.setController(this);
     }
 
-    public GameSearchView getView() {
-        return view;
+    public void searchByTitle() {
+        viewModel.updateTitle(view.getTitleField().getText());
+        String response = viewModel.searchByTitle();
+        view.displayResponse(response);
     }
 
-    private void setupListeners() {
-        view.getSearchByTitleButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                viewModel.updateTitle(view.getTitleField().getText());
-                String response = viewModel.searchByTitle();
-                view.displayResponse(response);
-            }
-        });
+    public void searchByFilters() {
+        viewModel.updateUpperPrice(view.getUpperPriceField().getText());
+        viewModel.updateLowerPrice(view.getLowerPriceField().getText());
+        viewModel.updateMetacritic(view.getMetacriticField().getText());
+        viewModel.updateOnSale(view.getOnSaleCheckBox().isSelected());
+        viewModel.updateSortBy((String) view.getSortByComboBox().getSelectedItem());
+        viewModel.updateDesc(view.getDescToggleButton().isSelected());
 
-        view.getSearchByFiltersButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                viewModel.updateUpperPrice(view.getUpperPriceField().getText());
-                viewModel.updateLowerPrice(view.getLowerPriceField().getText());
-                viewModel.updateMetacritic(view.getMetacriticField().getText());
-                viewModel.updateOnSale(view.getOnSaleCheckBox().isSelected());
-                viewModel.updateSortBy((String) view.getSortByComboBox().getSelectedItem());
-                viewModel.updateDesc(view.getDescToggleButton().isSelected());
+        String response = viewModel.searchByFilters();
+        view.displayResponse(response);
+    }
 
-                String response = viewModel.searchByFilters();
-                view.displayResponse(response);
-            }
-        });
+    public void feelingLucky() {
+        // Implement the logic for the "Feeling Lucky" feature
+        String response = viewModel.feelingLucky();
+        view.displayResponse(response);
     }
 }

@@ -1,12 +1,12 @@
 package entity;
 public class GameSearchState {
     private String title;
-    private String upperPrice = "10000"; // Default value
-    private String lowerPrice;
-    private String metacritic;
-    private boolean onSale;
-    private String sortBy;
-    private boolean desc;
+    private String upperPrice = "10000"; 
+    private String lowerPrice = "0";     
+    private String metacritic = "0";     
+    private boolean onSale = false;      
+    private String sortBy = "DealRating"; 
+    private boolean desc = true;         
 
     // Getters and setters for each field
     public String getTitle() {
