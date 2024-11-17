@@ -1,34 +1,41 @@
 package interface_adapter.wishlist;
 
+import entity.Game;
+import use_case.wishlist.WishlistDataAccessInterface;
 import java.util.ArrayList;
 
-public class WishlistState {
-    private ArrayList<String> gameTitles;
-    private ArrayList<String> notifyCriteria;
+public class WishlistState implements WishlistDataAccessInterface {
+    private ArrayList<Game> games;
 
     public WishlistState() {
-        this.gameTitles = new ArrayList<>();
-        this.notifyCriteria = new ArrayList<>();
+        this.games = new ArrayList<>();
     }
 
-    public ArrayList<String> getGameTitles() {
-        return gameTitles;
+    @Override
+    public ArrayList<Game> loadWishlist() {
+        // Return the current games as the loaded wishlist
+        return games;
     }
 
-    public ArrayList<String> getNotifyCriteria() {
-        return notifyCriteria;
+    @Override
+    public void saveWishlist(ArrayList<Game> games) {
+        // Update the internal list with the provided games
+        this.games = games;
     }
 
-    public void addGame(String gameName, String criteria) {
-        gameTitles.add(gameName);
-        notifyCriteria.add(criteria);
+    public ArrayList<Game> getGames() {
+        return games;
     }
 
-    public void removeGame(String gameName) {
-        int index = gameTitles.indexOf(gameName);
-        if (index >= 0) {
-            gameTitles.remove(index);
-            notifyCriteria.remove(index);
-        }
+    public void setGames(ArrayList<Game> games) {
+        this.games = games;
+    }
+
+    public void addGame(Game game) {
+        this.games.add(game);
+    }
+
+    public void removeGame(Game game) {
+        this.games.remove(game);
     }
 }
