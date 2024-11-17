@@ -35,21 +35,4 @@ public class WishlistViewModel {
     public boolean isSuccess() {
         return success;
     }
-
-    public void addGame(Game game) {
-        state.addGame(game);
-    }
-
-    public void removeGame(String title) {
-        Game gameToRemove = null;
-        for (Game game : state.getGames()) {
-            if (game.getTitle().equals(title)) {
-                gameToRemove = game;
-                break;
-            }
-        }
-        if (gameToRemove != null) {
-            state.removeGame(gameToRemove);
-        }
-    }
 }
