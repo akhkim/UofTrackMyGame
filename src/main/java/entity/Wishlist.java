@@ -4,17 +4,16 @@ import java.util.*;
 
 public class Wishlist {
     private ArrayList<Game> games;
-    
-    // Private constructor - only accessible through create method
+
     private Wishlist() {
         this.games = new ArrayList<>();
     }
     
-    void addGame(Game game) {
+    public void addGame(Game game) {
         this.games.add(game);
     }
     
-    static Wishlist create() {
+    public static Wishlist create() {
         return new Wishlist();
     }
     
