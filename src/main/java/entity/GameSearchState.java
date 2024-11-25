@@ -65,3 +65,4 @@ public class GameSearchState {
         this.desc = desc;
     }
 }
+
