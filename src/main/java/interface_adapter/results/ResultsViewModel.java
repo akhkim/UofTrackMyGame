@@ -1,43 +1,15 @@
 package interface_adapter.results;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import interface_adapter.ViewModel;
 
-import javax.swing.DefaultListModel;
+/**
+ * The View Model for the Login View.
+ */
+public class ResultsViewModel extends ViewModel<ResultsState> {
 
-import entity.Game;
-
-public class ResultsViewModel implements PropertyChangeListener {
-    private ResultsState state = new ResultsState();
-    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
-    private javax.swing.JList<String> gamesList = new javax.swing.JList<>();
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        ResultsState state = (ResultsState) evt.getNewValue();
-        updateGamesList(state);
+    public ResultsViewModel() {
+        super("results");
+        setState(new ResultsState());
     }
 
-    private void updateGamesList(ResultsState state) {
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (Game game : state.getGames()) {
-            listModel.addElement(game.getTitle());
-        }
-        gamesList.setModel(listModel);
-    }
-
-    public void setState(ResultsState state) {
-        ResultsState oldState = this.state;
-        this.state = state;
-        support.firePropertyChange("state", oldState, state);
-    }
-
-    public ResultsState getState() {
-        return state;
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
-    }
 }
