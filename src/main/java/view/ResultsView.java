@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
@@ -81,7 +83,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         // Left panel for image
         JPanel leftPanel = new JPanel(new BorderLayout());
         // You would need to implement image loading ***********************************************************************
-        JLabel imageLabel = new JLabel("Game Image");
+        JLabel imageLabel = new JLabel(game.getThumb());
         imageLabel.setPreferredSize(new Dimension(120, 120));
         leftPanel.add(imageLabel, BorderLayout.CENTER);
 
@@ -134,6 +136,29 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         card.add(leftPanel, BorderLayout.WEST);
         card.add(rightPanel, BorderLayout.CENTER);
 
+        card.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                resultsViewModel.setState(GameState(game));
+                resultsViewModel.firePropertyChanged();
+            }
+        });
+
+        card.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                card.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.BLUE, 2),
+                    new EmptyBorder(10, 10, 10, 10)
+                ));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                card.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    new EmptyBorder(10, 10, 10, 10)
+                ));
+            }
+        });
         return card;
     }
 }
