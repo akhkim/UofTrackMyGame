@@ -1,7 +1,7 @@
 package interface_adapter.results;
 
-import java.util.List;
 import entity.Game;
+import java.util.ArrayList;
 
 public class ResultsState {
     private String title = "";
@@ -15,15 +15,7 @@ public class ResultsState {
     private String steamRatingCount = "";
     private String dealRating = "";
     private String thumb = "";
-    private List<Game> games;
-
-    public List<Game> getGames() {
-        return games;
-    }
-
-    public void setGames(List<Game> games) {
-        this.games = games;
-    }
+    private ArrayList<Game> games = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -69,4 +61,11 @@ public class ResultsState {
         return thumb;
     }
 
+    public void setGames(ArrayList<Game> games) {
+        this.games = games;
+    }
+
+    public ArrayList<Game> getGames() {
+        return games;
+    }
 }

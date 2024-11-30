@@ -6,6 +6,8 @@ import interface_adapter.ViewManagerModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import entity.Game;
+import interface_adapter.results.ResultsState;
 
 public class GameSearchPresenter implements GameSearchOutputBoundary {
     private GameSearchViewModel viewModel;
