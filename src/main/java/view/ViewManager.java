@@ -25,4 +25,4 @@ public class ViewManager implements PropertyChangeListener {
             cardLayout.show(views, viewModelName);
         }
     }
-}
+} 

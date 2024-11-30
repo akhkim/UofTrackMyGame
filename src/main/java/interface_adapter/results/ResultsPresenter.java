@@ -1,27 +1,28 @@
 package interface_adapter.results;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.game.GameState;
 import interface_adapter.game.GameViewModel;
-import use_case.select_game.ResultsOutputBoundary;
-import use_case.select_game.ResultsOutputData;
+import interface_adapter.game.GameState;
+import use_case.results.ResultsOutputBoundary;
+import use_case.results.ResultsOutputData;
 
 public class ResultsPresenter implements ResultsOutputBoundary {
     private final ResultsViewModel resultsViewModel;
     private final GameViewModel gameViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public ResultsPresenter(ResultsViewModel resultsViewModel, GameViewModel gameViewModel, ViewManagerModel viewManagerModel) {
+    public ResultsPresenter(ResultsViewModel resultsViewModel,
+                            GameViewModel gameViewModel,
+                            ViewManagerModel viewManagerModel) {
+        this.viewManagerModel = viewManagerModel;
         this.resultsViewModel = resultsViewModel;
         this.gameViewModel = gameViewModel;
-        this.viewManagerModel = viewManagerModel;
     }
 
     @Override
-    public void prepareSuccessView(ResultsOutputData game) {
-        
+    public void prepareSuccessView(ResultsOutputData response) {
         final GameState gameState = gameViewModel.getState();
-        gameState.setGame(game.getGame());
+        gameState.setGame(response.getGame());
         this.gameViewModel.setState(gameState);
         this.gameViewModel.firePropertyChanged();
 
@@ -31,9 +32,8 @@ public class ResultsPresenter implements ResultsOutputBoundary {
 
     @Override
     public void prepareFailView(String error) {
-        
-        final ResultsState resultState = resultsViewModel.getState();
-        resultState.setError(error);
+        final ResultsState resultsState = resultsViewModel.getState();
+        resultsState.setError(error);
         resultsViewModel.firePropertyChanged();
     }
 }
