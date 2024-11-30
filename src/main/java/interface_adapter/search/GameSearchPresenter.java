@@ -14,6 +14,6 @@ public class GameSearchPresenter {
 
     public void presentSearchResults(String response) {
         // Format the response if needed
-        // view.displayResponse(response);
+        view.displayResponse(response);
     }
 }
