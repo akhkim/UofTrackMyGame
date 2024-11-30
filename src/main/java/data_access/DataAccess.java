@@ -108,7 +108,7 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
         }
 
         try (FileWriter file = new FileWriter("wishlist.json")) {
-            file.write(gamesArray.toString(4)); // Indent factor of 4 for pretty-printing
+            file.write(gamesArray.toString(4));
         } catch (IOException e) {
             e.printStackTrace();
         }

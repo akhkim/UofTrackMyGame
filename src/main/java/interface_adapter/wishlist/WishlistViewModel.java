@@ -1,14 +1,16 @@
 package interface_adapter.wishlist;
 
 import entity.Game;
+import interface_adapter.ViewModel;
 import java.util.ArrayList;
 
-public class WishlistViewModel {
+public class WishlistViewModel extends ViewModel<WishlistState> {
     private WishlistState state;
     private String message;
     private boolean success;
 
     public WishlistViewModel(WishlistState state) {
+        super("wishlist");
         this.state = state;
     }
 

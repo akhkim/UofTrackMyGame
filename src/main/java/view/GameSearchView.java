@@ -34,6 +34,7 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
 
     private final JButton searchByTitleButton;
     private final JButton searchByFiltersButton;
+    private final JButton goToWishlistButton;
 
     public GameSearchView(GameSearchViewModel viewModel) {
         this.viewModel = viewModel;
@@ -63,6 +64,7 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
 
         searchByTitleButton = new JButton("Search by Title");
         searchByFiltersButton = new JButton("Search by Filters");
+        goToWishlistButton = new JButton("Go to Wishlist");
 
         JPanel sortPanel = new JPanel();
         sortPanel.setBackground(backgroundColor);
@@ -86,10 +88,12 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         this.add(sortByLabel);
         this.add(sortPanel);
         this.add(searchByFiltersButton);
+        this.add(goToWishlistButton);
 
         // Add listeners
         searchByTitleButton.addActionListener(this);
         searchByFiltersButton.addActionListener(this);
+        goToWishlistButton.addActionListener(this);
 
         descToggleButton.addActionListener(e -> {
             if (descToggleButton.isSelected()) {
@@ -106,6 +110,8 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
             controller.searchByTitle();
         } else if (evt.getSource() == searchByFiltersButton) {
             controller.searchByFilters();
+        } else if (evt.getSource() == goToWishlistButton) {
+            controller.goToWishlist();
         }
     }
 
