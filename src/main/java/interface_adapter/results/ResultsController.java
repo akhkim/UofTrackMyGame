@@ -1,9 +1,8 @@
 package interface_adapter.results;
 
-import use_case.results.ResultsInputBoundary;
-import use_case.results.ResultsInputData;
-
-import java.util.List;
+import entity.Game;
+import use_case.select_game.ResultsInputBoundary;
+import use_case.select_game.ResultsInputData;
 
 /**
  * The controller for the Results Use Case.
@@ -16,12 +15,8 @@ public class ResultsController {
         this.resultsUseCaseInteractor = resultsUseCaseInteractor;
     }
 
-    /**
-     * Executes the Results Use Case.
-     * @param gameTitles the list of game titles to process
-     */
-    public void execute(List<String> gameTitles) {
-        final ResultsInputData resultsInputData = new ResultsInputData(gameTitles);
-        resultsUseCaseInteractor.execute(resultsInputData);
+    public void execute(Game game) {
+        ResultsInputData inputData = new ResultsInputData(game);
+        resultsUseCaseInteractor.execute(inputData);
     }
 }
