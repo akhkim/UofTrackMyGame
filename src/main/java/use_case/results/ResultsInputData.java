@@ -2,21 +2,21 @@
 
 package use_case.results;
 
-import java.util.ArrayList;
-import java.util.List;
+import entity.Game;
 
 /**
  * The Input Data for the Results Use Case.
  */
 public class ResultsInputData {
 
-    private final List<String> gameTitles;
+    private final Game game;
 
-    public ResultsInputData(List<String> gameTitles) {
-        this.gameTitles = new ArrayList<>(gameTitles);
+    public ResultsInputData(Game game) {
+        this.game = game;
     }
 
-    List<String> getGameTitles() {
-        return new ArrayList<>(gameTitles);
+    public Game getGame() {
+        return this.game;
     }
+
 }

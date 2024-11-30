@@ -14,11 +14,11 @@ public class Game {
     private String thumb;
     private String gameID;
 
-    public Game(String title, String salePrice, 
+    public Game(String gameID, String title, String salePrice,
                      String normalPrice, String isOnSale, String savings,
                      String metacriticScore, String steamRatingText, 
                      String steamRatingPercent, String steamRatingCount,
-                     String dealRating, String thumb, String gameID) {
+                     String dealRating, String thumb) {
         this.title = title;
         this.salePrice = salePrice;
         this.normalPrice = normalPrice;
@@ -77,5 +77,7 @@ public class Game {
         return thumb; 
     }
 
-    public String getGameID(){ return gameID; }
+    public String getGameID(){
+        return gameID;
+    }
 }

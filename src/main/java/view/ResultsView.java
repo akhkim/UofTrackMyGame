@@ -136,4 +136,8 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
 
         return card;
     }
+
+    public String getViewName() {
+        return viewName;
+    }
 }

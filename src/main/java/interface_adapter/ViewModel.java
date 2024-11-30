@@ -11,15 +11,18 @@ import java.beans.PropertyChangeSupport;
  * @param <T> The type of state object contained in the model.
  */
 public class ViewModel<T> {
-
-    private final String viewName;
-
-    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
-
     private T state;
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+    private String viewName;
 
     public ViewModel(String viewName) {
         this.viewName = viewName;
+    }
+
+    public void setState(T state) {
+        this.state = state;
+        // support.firePropertyChange("state", oldState, state);
+        System.out.println("Setting state: " + state);
     }
 
     public String getViewName() {
@@ -27,38 +30,18 @@ public class ViewModel<T> {
     }
 
     public T getState() {
-        return this.state;
+        return state;
     }
 
-    public void setState(T state) {
-        this.state = state;
-    }
-
-    /**
-     * Fires a property changed event for the state of this ViewModel.
-     */
-    public void firePropertyChanged() {
-        this.support.firePropertyChange("state", null, this.state);
-    }
-
-    /**
-     * Fires a property changed event for the state of this ViewModel, which
-     * allows the user to specify a different propertyName. This can be useful
-     * when a class is listening for multiple kinds of property changes.
-     * <p/>
-     * For example, the LoggedInView listens for two kinds of property changes;
-     * it can use the property name to distinguish which property has changed.
-     * @param propertyName the label for the property that was changed
-     */
-    public void firePropertyChanged(String propertyName) {
-        this.support.firePropertyChange(propertyName, null, this.state);
-    }
-
-    /**
-     * Adds a PropertyChangeListener to this ViewModel.
-     * @param listener The PropertyChangeListener to be added
-     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-        this.support.addPropertyChangeListener(listener);
+        support.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
+    }
+
+    public void firePropertyChanged() {
+        support.firePropertyChange("state", null, state);
     }
 }

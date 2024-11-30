@@ -1,14 +1,25 @@
 package interface_adapter.wishlist;
-import entity.Wishlist;
 
-public class WishlistPresenter {
-    private WishlistViewModel viewModel;
+import use_case.wishlist.*;
+
+public class WishlistPresenter implements WishlistOutputBoundary {
+    private final WishlistViewModel viewModel;
 
     public WishlistPresenter(WishlistViewModel viewModel) {
         this.viewModel = viewModel;
     }
 
-    public String formatNotification(String criteria) {
-        return "Notify when " + criteria;
+    @Override
+    public WishlistOutputData presentSuccess(String message) {
+        viewModel.setMessage(message);
+        viewModel.setSuccess(true);
+        return new WishlistOutputData(true, message);
+    }
+
+    @Override
+    public WishlistOutputData presentError(String message) {
+        viewModel.setMessage(message);
+        viewModel.setSuccess(false);
+        return new WishlistOutputData(false, message);
     }
 }
