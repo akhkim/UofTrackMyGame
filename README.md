@@ -18,7 +18,7 @@ Frederick Chen, Bhavya Jain, Andrew Kim, Kerri Wei, John Zhang
 
 
 ## Project Goals
-UofTrackMyGame is a game browsing application, where the user can search for a game, and the application compares the price of that game on various platforms to display the best available deal at that moment.
+UofTrackMyGame is a game price searching application, where the user can search for a game, and the application compares the price of that game on various platforms to display the best available deal at that moment.
 
 This project was initially created to provide better access to gaming for all, especially those who find it financially burdening to pay the full price for a game; Even for those who can afford the games, with the modern game prices continuously increasing, everyone would prefer to save as much as possible on such games, which is what UofTrackMyGame is for. 
 
