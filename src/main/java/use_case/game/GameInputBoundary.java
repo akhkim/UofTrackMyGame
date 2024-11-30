@@ -6,13 +6,16 @@ package use_case.game;
 public interface GameInputBoundary {
 
     /**
-     * Executes the game use case.
+     * Open game window use case.
      * @param gameInputData the input data
      */
-    void execute(GameInputData gameInputData);
+    void gameWindow(GameInputData gameInputData);
 
     /**
-     * Executes the switch to login view use case.
+     * Add to wishlist use case
+     * @param gameInputData the input data
+     * @param email the user's email
+     * @param thresholdPrice the price at which the user wants to be notified
      */
-    void switchToLoginView();
+    void addToWishlist(GameInputData gameInputData, String email, String thresholdPrice);
 }

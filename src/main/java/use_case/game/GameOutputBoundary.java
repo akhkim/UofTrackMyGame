@@ -1,10 +1,16 @@
 package use_case.game;
 
 /**
- * Input Boundary for actions which are related to signing up.
+ * Output boundary for Game Window and Add to Wishlist Use Cases.
  */
 public interface GameOutputBoundary {
+    /**
+     * Prepares the success view for
+     */
+    void prepareSuccessView(GameOutputData gameOutputData);
 
-
-
+    /**
+     * Switches to the Wishlist View.
+     */
+    void switchToWishlistView();
 }

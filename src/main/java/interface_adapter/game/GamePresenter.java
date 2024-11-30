@@ -19,4 +19,17 @@ public class GamePresenter implements GameOutputBoundary {
         this.gameViewModel = gameViewModel;
     }
 
+    @Override
+    public void prepareSuccessView(GameOutputData gameOutputData) {
+
+    }
+
+    @Override
+    public void switchToWishlistView(){
+        //TODO: fix this
+        viewManagerModel.setState();
+    }
+
+
+
 }

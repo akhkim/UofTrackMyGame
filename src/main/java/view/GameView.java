@@ -4,97 +4,112 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class GameView {
+import interface_adapter.game.GameController;
+import interface_adapter.game.GameState;
+import interface_adapter.game.GameViewModel;
 
-    public static void main(String[] args) {
-        // Run the UI creation on the Event Dispatch Thread
-        SwingUtilities.invokeLater(() -> {
-            // Create the main frame
-            JFrame frame = new JFrame("Game Information");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(500, 200);
-            frame.setLocationRelativeTo(null); // Center the window on the screen
+public class GameView extends JPanel implements ActionListener, PropertyChangeListener {
+    private final String viewName = "Game Information";
 
-            // Create a panel with BoxLayout to hold the information vertically
-            JPanel panel = new JPanel();
-            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    private final GameViewModel gameViewModel;
+    private final JTextField thresholdPriceInputField = new JTextField(15);
+    private final JTextField emailInputField = new JTextField(15);
+    private final GameController gameController;
 
-            // Game information (replace these with actual data)
-            String gameTitle = "Game Title: The Legend of Code";
-            String gamePrice = "Price: $29.99";
-            String metaCriticScore = "MetaCritic Score: 85";
-            String dealRating = "Deal Rating: Excellent";
+    private final JButton addToWishlist;
 
-            // Create labels for each piece of information
-            JLabel titleLabel = new JLabel(gameTitle, JLabel.CENTER);
-            JLabel priceLabel = new JLabel(gamePrice, JLabel.CENTER);
-            JLabel metaCriticLabel = new JLabel(metaCriticScore, JLabel.CENTER);
-            JLabel dealRatingLabel = new JLabel(dealRating, JLabel.CENTER);
+    // Labels to display game information
+    private final JLabel gameTitle;
+    private final JLabel gamePrice;
+    private final JLabel metaScore;
+    private final JLabel dealRating;
 
-            // Center align each label and add it to the panel
-            titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            metaCriticLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            dealRatingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    public GameView(GameViewModel gameViewModel, GameController gameController) {
+        this.gameController = gameController;
+        this.gameViewModel = gameViewModel;
+        gameViewModel.addPropertyChangeListener(this);
 
-            panel.add(titleLabel);
-            panel.add(Box.createVerticalStrut(5));  // Adds 2 pixels of vertical space
-            panel.add(priceLabel);
-            panel.add(Box.createVerticalStrut(5));
-            panel.add(metaCriticLabel);
-            panel.add(Box.createVerticalStrut(5));
-            panel.add(dealRatingLabel);
-            panel.add(Box.createVerticalStrut(10));
+        // Set up the main panel layout
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-            // Create a sub-panel for the price input, email input, and button
-            JPanel inputPanel = new JPanel();
-            inputPanel.setLayout(new FlowLayout());
+        // Create title label with center alignment
+        JLabel title = new JLabel(GameViewModel.TITLE_LABEL);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            // Text field for entering a price
-            JTextField priceInput = new JTextField(10);
-            inputPanel.add(new JLabel("Enter Price: "));
-            inputPanel.add(priceInput);
+        // Initialize game information labels
+        gameTitle = new JLabel("Game: " + gameViewModel.getState().getTitle());
+        gamePrice = new JLabel("Price: $" + gameViewModel.getState().getSalePrice());
+        metaScore = new JLabel("Metacritic Score: " + gameViewModel.getState().getMetacriticScore());
+        dealRating = new JLabel("Deal Rating: " + gameViewModel.getState().getDealRating());
 
-            // Text field for entering an email
-            JTextField emailInput = new JTextField(15);
-            inputPanel.add(new JLabel("Enter Email: "));
-            inputPanel.add(emailInput);
+        // Create input panels with labels
+        JPanel pricePanel = new JPanel();
+        pricePanel.add(new JLabel("Enter Price: "));
+        pricePanel.add(thresholdPriceInputField);
 
-            // "Notify Me" button
-            JButton notifyButton = new JButton("Notify Me");
-            inputPanel.add(notifyButton);
+        JPanel emailPanel = new JPanel();
+        emailPanel.add(new JLabel("Enter Email: "));
+        emailPanel.add(emailInputField);
 
-            // Action listener for the button
-            notifyButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String enteredPrice = priceInput.getText();
-                    String enteredEmail = emailInput.getText();
+        // Create wishlist button
+        addToWishlist = new JButton("Add to Wishlist");
+        addToWishlist.addActionListener(this);
 
-                    if (!enteredPrice.isEmpty() && !enteredEmail.isEmpty()) {
-                        JOptionPane.showMessageDialog(frame,
-                                "You will be notified at " + enteredEmail + " when the price is " + enteredPrice,
-                                "Notification Set",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(frame,
-                                "Please enter both a valid price and email.",
-                                "Invalid Input",
-                                JOptionPane.WARNING_MESSAGE);
-                    }
-                }
-            });
+        // Add components to the main panel
+        add(Box.createVerticalStrut(10));
+        add(title);
+        add(Box.createVerticalStrut(20));
+        add(gameTitle);
+        add(gamePrice);
+        add(metaScore);
+        add(dealRating);
+        add(Box.createVerticalStrut(20));
+        add(pricePanel);
+        add(emailPanel);
+        add(Box.createVerticalStrut(10));
+        add(addToWishlist);
+        add(Box.createVerticalStrut(10));
 
-            // Center align the input panel and add it to the main panel
-            inputPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            panel.add(inputPanel);
+        // Set alignments
+        for (Component component : getComponents()) {
+            component.setAlignmentX(Component.CENTER_ALIGNMENT);
+        }
+    }
 
-            // Add the main panel to the frame
-            frame.add(panel);
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(addToWishlist)) {
+            GameState currentState = gameViewModel.getState();
 
-            // Make the frame visible
-            frame.setVisible(true);
-        });
+            try {
+                String thresholdPrice = thresholdPriceInputField.getText();
+                String email = emailInputField.getText();
+
+                gameController.addToWishlist(thresholdPrice, email);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Please enter a valid price",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        GameState state = (GameState) evt.getNewValue();
+        if (state != null) {
+            gameTitle.setText("Game: " + state.getTitle());
+            gamePrice.setText("Price: $" + state.getSalePrice());
+            metaScore.setText("Metacritic Score: " + state.getMetacriticScore());
+            dealRating.setText("Deal Rating: " + state.getDealRating());
+        }
+    }
+
+    public String getViewName() {
+        return viewName;
     }
 }

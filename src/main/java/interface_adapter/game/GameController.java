@@ -4,31 +4,41 @@ import use_case.game.GameInputBoundary;
 import use_case.game.GameInputData;
 
 /**
- * Controller for the Signup Use Case.
+ * Controller for the Game Window Use Case.
  */
 public class GameController {
 
     private final GameInputBoundary userGameUseCaseInteractor;
 
     public GameController(GameInputBoundary userGameUseCaseInteractor) {
-        this.GameUseCaseInteractor = userGameUseCaseInteractor;
+        this.userGameUseCaseInteractor = userGameUseCaseInteractor;
     }
 
     /**
-     * Executes the Game Window Use Case.
-     * @param title, the title of the game.
+     * Executes the open Game Window Use Case.
      */
-    public void execute(String title) {
-        final GameInputData gameInputData = new GameInputData(title);
-
-        userGameCaseInteractor.execute(gameInputData);
+    public void gameWindow(String title, String salePrice,
+                           String normalPrice, String isOnSale, String savings,
+                           String metacriticScore, String steamRatingText,
+                           String steamRatingPercent, String steamRatingCount,
+                           String dealRating, String thumb, String gameID) {
+        final GameInputData gameInputData = new GameInputData(title, salePrice, normalPrice, isOnSale, savings,
+                metacriticScore, steamRatingText, steamRatingPercent, steamRatingCount, dealRating, thumb, gameID);
+        userGameUseCaseInteractor.gameWindow(gameInputData);
     }
 
     /**
-     * Executes the "add to wishlist" Use Case.
+     * Executes the add to Wishlist Use Case.
      */
-    public void addToWishlist() {
-        userGameUseCaseInteractor.execute();
+    public void addToWishlist(String title, String salePrice,
+                              String normalPrice, String isOnSale, String savings,
+                              String metacriticScore, String steamRatingText,
+                              String steamRatingPercent, String steamRatingCount,
+                              String dealRating, String thumb, String gameID,
+                              String email, String thresholdPrice) {
+        final GameInputData gameInputData = new GameInputData(title, salePrice, normalPrice, isOnSale, savings,
+                metacriticScore, steamRatingText, steamRatingPercent, steamRatingCount, dealRating, thumb, gameID);
+        userGameUseCaseInteractor.addToWishlist(gameInputData, email, thresholdPrice);
     }
 
 }
