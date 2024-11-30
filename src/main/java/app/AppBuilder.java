@@ -39,7 +39,7 @@ public class AppBuilder {
         gameSearchView = new GameSearchView(gameSearchViewModel);
         presenter = new GameSearchPresenter(gameSearchView, gameSearchViewModel);
         gameSearchViewModel.setPresenter(presenter);
-        GameSearchController controller = new GameSearchController(gameSearchViewModel, gameSearchView);
+        GameSearchController controller = new GameSearchController(interactor, gameSearchView);
         cardPanel.add(gameSearchView, "GameSearchView");
         return this;
     }
