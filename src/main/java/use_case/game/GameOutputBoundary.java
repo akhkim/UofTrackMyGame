@@ -5,7 +5,7 @@ package use_case.game;
  */
 public interface GameOutputBoundary {
     /**
-     * Prepares the success view for
+     * Opens Game Window.
      */
     void prepareSuccessView(GameOutputData gameOutputData);
 

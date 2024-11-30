@@ -1,7 +1,6 @@
 package interface_adapter.game;
 
 import interface_adapter.ViewManagerModel;
-import use_case.game.GameInputData;
 import use_case.game.GameOutputBoundary;
 import use_case.game.GameOutputData;
 
@@ -21,15 +20,14 @@ public class GamePresenter implements GameOutputBoundary {
 
     @Override
     public void prepareSuccessView(GameOutputData gameOutputData) {
-
+        // On success, open game window
+        //TODO: fix the viewNames.
+        viewManagerModel.switchView('game');
     }
 
     @Override
     public void switchToWishlistView(){
-        //TODO: fix this
-        viewManagerModel.setState();
+        //Switch to wishlist view.
+        viewManagerModel.switchView('wishlist');
     }
-
-
-
 }
