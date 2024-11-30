@@ -14,8 +14,10 @@ import use_case.search.GameSearchDataAccessInterface;
 import use_case.search.GameSearchInputBoundary;
 import use_case.search.GameSearchInteractor;
 import view.GameSearchView;
+import view.ResultsView;
 import view.ViewManager;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.results.ResultsViewModel;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -25,6 +27,8 @@ public class AppBuilder {
 
     private GameSearchView gameSearchView;
     private GameSearchViewModel gameSearchViewModel;
+    private ResultsViewModel resultsViewModel;
+    private ResultsView resultsView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -41,6 +45,13 @@ public class AppBuilder {
         gameSearchViewModel.setPresenter(presenter);
         GameSearchController controller = new GameSearchController(gameSearchViewModel, gameSearchView);
         cardPanel.add(gameSearchView, "GameSearchView");
+        return this;
+    }
+
+    public AppBuilder addResultsView(){
+        resultsViewModel = new ResultsViewModel();
+        resultsView = new ResultsView(resultsViewModel);
+        cardPanel.add(resultsView, resultsView.getViewName());
         return this;
     }
 
