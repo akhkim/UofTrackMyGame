@@ -1,5 +1,4 @@
 package use_case.search;
-import org.json.JSONObject;
 
 public class GameSearchInteractor implements GameSearchInputBoundary {
     private final GameSearchDataAccessInterface dataAccess;
@@ -9,15 +8,13 @@ public class GameSearchInteractor implements GameSearchInputBoundary {
     }
 
     @Override
-    public void searchByTitle(String title) {
-        String response = dataAccess.searchByTitle(title);
-        GameSearchOutputBoundary presenter = new GameSearchPresenter();
-        
+    public String searchByTitle(String title) {
+        return dataAccess.searchByTitle(title);
     }
 
     @Override
-    public void searchByFilters(String upperPrice, String lowerPrice, String metacritic, boolean onSale, String sortBy, boolean desc) {
-        dataAccess.searchByFilters(
+    public String searchByFilters(String upperPrice, String lowerPrice, String metacritic, boolean onSale, String sortBy, boolean desc) {
+        return dataAccess.searchByFilters(
             upperPrice,
             lowerPrice,
             metacritic,

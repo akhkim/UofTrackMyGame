@@ -1,5 +1,8 @@
 package interface_adapter.results;
 
+import java.util.List;
+import entity.Game;
+
 public class ResultsState {
     private String title = "";
     private String salePrice = "";
@@ -12,6 +15,15 @@ public class ResultsState {
     private String steamRatingCount = "";
     private String dealRating = "";
     private String thumb = "";
+    private List<Game> games;
+
+    public List<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(List<Game> games) {
+        this.games = games;
+    }
 
     public String getTitle() {
         return title;
