@@ -26,7 +26,7 @@ import interface_adapter.search.GameSearchViewModel;
 public class GameSearchView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "GameSearchView";
     private final GameSearchViewModel viewModel;
-    
+
     private final JTextField titleField = new JTextField(15);
     private final JTextField upperPriceField = new JTextField(15);
     private final JTextField lowerPriceField = new JTextField(15);

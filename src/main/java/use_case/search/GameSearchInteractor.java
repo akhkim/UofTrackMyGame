@@ -23,4 +23,4 @@ public class GameSearchInteractor implements GameSearchInputBoundary {
             desc ? "1" : "0"
         );
     }
-} 
+}

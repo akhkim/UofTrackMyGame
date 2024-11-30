@@ -8,7 +8,7 @@ public class GameSearchViewModel extends ViewModel<GameSearchState> {
     private final GameSearchInputBoundary inputBoundary;
     private GameSearchPresenter presenter;
 
-    public GameSearchViewModel(GameSearchState state, GameSearchInputBoundary inputBoundary, 
+    public GameSearchViewModel(GameSearchState state, GameSearchInputBoundary inputBoundary,
                              GameSearchPresenter presenter) {
         super("GameSearchView");
         this.setState(state);

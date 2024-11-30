@@ -18,6 +18,9 @@ import view.ResultsView;
 import view.ViewManager;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.results.ResultsViewModel;
+import interface_adapter.wishlist.*;
+import use_case.wishlist.WishlistInteractor;
+import view.WishlistView;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -54,6 +57,17 @@ public class AppBuilder {
         cardPanel.add(resultsView, resultsView.getViewName());
         return this;
     }
+
+    public AppBuilder addWishlistView(){
+        WishlistState state = new WishlistState();
+        WishlistViewModel viewModel = new WishlistViewModel(state);
+        WishlistPresenter presenter = new WishlistPresenter(viewModel);
+        WishlistInteractor interactor = new WishlistInteractor(state, presenter); // No error now
+        WishlistController controller = new WishlistController(interactor);
+
+        new WishlistView(viewModel, controller);
+    }
+
 
     public JFrame build() {
         final JFrame application = new JFrame("Game Search Application");

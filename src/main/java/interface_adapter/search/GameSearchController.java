@@ -25,7 +25,7 @@ public class GameSearchController {
         viewModel.updateOnSale(view.getOnSaleCheckBox().isSelected());
         viewModel.updateSortBy((String) view.getSortByComboBox().getSelectedItem());
         viewModel.updateDesc(view.getDescToggleButton().isSelected());
-        
+
         viewModel.searchByFilters();
     }
 
