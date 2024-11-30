@@ -1,16 +1,26 @@
 package data_access;
 import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.net.URLEncoder;
 
+import entity.Game;
+import entity.GameFactory;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import use_case.search.GameSearchDataAccessInterface;
+import use_case.wishlist.WishlistDataAccessInterface;
 
-public class DataAccess implements GameSearchDataAccessInterface {
+public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAccessInterface {
 
     public String searchByTitle(String title) {
         System.out.println("Searching by title: " + title);
@@ -75,5 +85,48 @@ public class DataAccess implements GameSearchDataAccessInterface {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public void saveWishlist(ArrayList<Game> games) {
+        JSONArray gamesArray = new JSONArray();
+        for (Game game : games) {
+            JSONObject gameJSON = new JSONObject();
+            gameJSON.put("title", game.getTitle());
+            gameJSON.put("salePrice", game.getSalePrice());
+            gameJSON.put("normalPrice", game.getNormalPrice());
+            gameJSON.put("isOnSale", game.getIsOnSale());
+            gameJSON.put("savings", game.getSavings());
+            gameJSON.put("metacriticScore", game.getMetacriticScore());
+            gameJSON.put("steamRatingText", game.getSteamRatingText());
+            gameJSON.put("steamRatingPercent", game.getSteamRatingPercent());
+            gameJSON.put("steamRatingCount", game.getSteamRatingCount());
+            gameJSON.put("dealRating", game.getDealRating());
+            gameJSON.put("thumb", game.getThumb());
+            gameJSON.put("gameID", game.getGameID());
+            gamesArray.put(gameJSON);
+        }
+
+        try (FileWriter file = new FileWriter("wishlist.json")) {
+            file.write(gamesArray.toString(4)); // Indent factor of 4 for pretty-printing
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public ArrayList<Game> loadWishlist() {
+        ArrayList<Game> gamesArray = new ArrayList<>();
+        GameFactory gameFactory = new GameFactory();
+        try {
+            String stringJSON = new String(Files.readAllBytes(Paths.get("wishlist.json")));
+            JSONArray gamesJSON = new JSONArray(stringJSON);
+            for (int i = 0; i < gamesJSON.length(); i++){
+                gamesArray.add(gameFactory.create(gamesJSON.getJSONObject(i)));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return gamesArray;
     }
 }
