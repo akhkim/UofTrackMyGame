@@ -129,4 +129,28 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
         }
         return gamesArray;
     }
+
+    /**
+     * Sets a price alert for a specific game
+     * @param email User's email address
+     * @param gameID Game's ID
+     * @param price Target price
+     * @return true if alert was set successfully, false otherwise
+     */
+    public boolean setPriceAlert(String email, String gameID, String price) {
+        String baseUrl = "https://www.cheapshark.com/api/1.0/alerts";
+        Map<String, String> params = new HashMap<>();
+        params.put("action", "set");
+        params.put("email", email);
+        params.put("gameID", gameID);
+        params.put("price", price);
+
+        try {
+            String response = executeRequest(baseUrl, params);
+            return "true".equals(response.trim().toLowerCase());
+        } catch (Exception e) {
+            System.err.println("Error setting price alert: " + e.getMessage());
+            return false;
+        }
+    }
 }
