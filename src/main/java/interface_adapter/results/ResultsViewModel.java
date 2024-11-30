@@ -7,11 +7,17 @@ import java.beans.PropertyChangeSupport;
 import javax.swing.DefaultListModel;
 
 import entity.Game;
+import interface_adapter.ViewModel;
 
-public class ResultsViewModel implements PropertyChangeListener {
+public class ResultsViewModel extends ViewModel<ResultsState> implements PropertyChangeListener {
     private ResultsState state = new ResultsState();
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     private javax.swing.JList<String> gamesList = new javax.swing.JList<>();
+
+    public ResultsViewModel(ResultsState state) {
+        super("ResultsView");
+        this.setState(state);
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -13,14 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 
 import interface_adapter.search.GameSearchController;
-import entity.GameSearchState;
 import interface_adapter.search.GameSearchViewModel;
 
 public class GameSearchView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -38,7 +34,6 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
 
     private final JButton searchByTitleButton;
     private final JButton searchByFiltersButton;
-    private final JButton feelingLuckyButton;
 
     public GameSearchView(GameSearchViewModel viewModel) {
         this.viewModel = viewModel;
@@ -68,7 +63,6 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
 
         searchByTitleButton = new JButton("Search by Title");
         searchByFiltersButton = new JButton("Search by Filters");
-        feelingLuckyButton = new JButton("Feeling Lucky!");
 
         JPanel sortPanel = new JPanel();
         sortPanel.setBackground(backgroundColor);
@@ -92,130 +86,17 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         this.add(sortByLabel);
         this.add(sortPanel);
         this.add(searchByFiltersButton);
-        this.add(feelingLuckyButton);
 
         // Add listeners
         searchByTitleButton.addActionListener(this);
         searchByFiltersButton.addActionListener(this);
-        feelingLuckyButton.addActionListener(this);
 
-        addTitleListener();
-        addUpperPriceListener();
-        addLowerPriceListener();
-        addMetacriticListener();
-        addOnSaleListener();
-        addSortByListener();
-        addDescListener();
-    }
-
-    private void addTitleListener() {
-        titleField.getDocument().addDocumentListener(new DocumentListener() {
-            private void documentListenerHelper() {
-                viewModel.updateTitle(titleField.getText());
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-        });
-    }
-
-    private void addUpperPriceListener() {
-        upperPriceField.getDocument().addDocumentListener(new DocumentListener() {
-            private void documentListenerHelper() {
-                viewModel.updateUpperPrice(upperPriceField.getText());
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-        });
-    }
-
-    private void addLowerPriceListener() {
-        lowerPriceField.getDocument().addDocumentListener(new DocumentListener() {
-            private void documentListenerHelper() {
-                viewModel.updateLowerPrice(lowerPriceField.getText());
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-        });
-    }
-
-    private void addMetacriticListener() {
-        metacriticField.getDocument().addDocumentListener(new DocumentListener() {
-            private void documentListenerHelper() {
-                viewModel.updateMetacritic(metacriticField.getText());
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-        });
-    }
-
-    private void addOnSaleListener() {
-        onSaleCheckBox.addActionListener(e -> viewModel.updateOnSale(onSaleCheckBox.isSelected()));
-    }
-
-    private void addSortByListener() {
-        sortByComboBox.addActionListener(e -> viewModel.updateSortBy((String) sortByComboBox.getSelectedItem()));
-    }
-
-    private void addDescListener() {
         descToggleButton.addActionListener(e -> {
             if (descToggleButton.isSelected()) {
                 descToggleButton.setText("▼");
             } else {
                 descToggleButton.setText("▲");
             }
-            viewModel.updateDesc(descToggleButton.isSelected());
         });
     }
 
@@ -225,16 +106,12 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
             controller.searchByTitle();
         } else if (evt.getSource() == searchByFiltersButton) {
             controller.searchByFilters();
-        } else if (evt.getSource() == feelingLuckyButton) {
-            controller.feelingLucky();
         }
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         // Handle updates from the ViewModel
-        GameSearchState state = (GameSearchState) evt.getNewValue();
-        // Update the view based on the new state if needed
     }
 
     public String getViewName() {
@@ -271,12 +148,5 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
 
     public JToggleButton getDescToggleButton() {
         return descToggleButton;
-    }
-
-    public void displayResponse(String response) {
-        // You'll need to decide how to display the response
-        // For example, you might want to add a JTextArea to show results:
-        // responseArea.setText(response);
-        System.out.println(response);
     }
 }

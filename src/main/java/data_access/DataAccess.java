@@ -6,13 +6,15 @@ import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.net.URLEncoder;
 
 import use_case.search.GameSearchDataAccessInterface;
 
 public class DataAccess implements GameSearchDataAccessInterface {
 
     public String searchByTitle(String title) {
-        String baseUrl = "https://www.cheapshark.com/api/1.0/games";
+        System.out.println("Searching by title: " + title);
+        String baseUrl = "https://www.cheapshark.com/api/1.0/deals";
         Map<String, String> params = new HashMap<>();
         params.put("title", title);
         return executeRequest(baseUrl, params);
@@ -31,16 +33,28 @@ public class DataAccess implements GameSearchDataAccessInterface {
     }
 
     private String executeRequest(String baseUrl, Map<String, String> params) {
-        StringBuilder urlWithParams = new StringBuilder(baseUrl);
-        if (!params.isEmpty()) {
-            urlWithParams.append("?");
-            params.forEach((key, value) -> urlWithParams.append(key).append("=").append(value).append("&"));
-            urlWithParams.setLength(urlWithParams.length() - 1);
-        }
-
         try {
+            StringBuilder urlWithParams = new StringBuilder(baseUrl);
+            if (!params.isEmpty()) {
+                urlWithParams.append("?");
+                boolean first = true;
+                for (Map.Entry<String, String> entry : params.entrySet()) {
+                    if (!first) {
+                        urlWithParams.append("&");
+                    }
+                    urlWithParams.append(URLEncoder.encode(entry.getKey(), "UTF-8"))
+                                .append("=")
+                                .append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+                    first = false;
+                }
+            }
+
             URI uri = new URI(urlWithParams.toString());
             URL url = uri.toURL();
+            
+            // Debug print
+            System.out.println("Requesting URL: " + url);
+
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -55,7 +69,7 @@ public class DataAccess implements GameSearchDataAccessInterface {
                 response.append(inputLine);
             }
             in.close();
-
+            // System.out.println("Response: " + response.toString());
             return response.toString();
         } catch (Exception e) {
             e.printStackTrace();

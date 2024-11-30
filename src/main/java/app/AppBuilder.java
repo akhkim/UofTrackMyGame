@@ -6,18 +6,20 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.DataAccess;
-import entity.GameSearchState;
 import interface_adapter.search.GameSearchController;
 import interface_adapter.search.GameSearchPresenter;
+import interface_adapter.search.GameSearchState;
 import interface_adapter.search.GameSearchViewModel;
 import use_case.search.GameSearchDataAccessInterface;
-import use_case.search.GameSearchInputBoundary;
+import use_case.search.GameSearchInputBoundary; 
 import use_case.search.GameSearchInteractor;
+import use_case.search.GameSearchOutputBoundary;
 import view.GameSearchView;
 import view.ResultsView;
 import view.ViewManager;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.results.ResultsViewModel;
+import interface_adapter.results.ResultsState;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -35,21 +37,26 @@ public class AppBuilder {
     }
 
     public AppBuilder addGameSearchView() {
-        GameSearchState state = new GameSearchState();
+        GameSearchState searchState = new GameSearchState();
+        ResultsState resultsState = new ResultsState();
+        gameSearchViewModel = new GameSearchViewModel(searchState);
+        resultsViewModel = new ResultsViewModel(resultsState);
+
         GameSearchDataAccessInterface gateway = new DataAccess();
-        GameSearchInputBoundary interactor = new GameSearchInteractor(gateway);
-        GameSearchPresenter presenter = new GameSearchPresenter(null, null);
-        gameSearchViewModel = new GameSearchViewModel(state, interactor, presenter);
+
+        GameSearchOutputBoundary presenter = new GameSearchPresenter(resultsViewModel, viewManagerModel);
+
+        GameSearchInputBoundary interactor = new GameSearchInteractor(gateway, presenter);
+
         gameSearchView = new GameSearchView(gameSearchViewModel);
-        presenter = new GameSearchPresenter(gameSearchView, gameSearchViewModel);
-        gameSearchViewModel.setPresenter(presenter);
-        GameSearchController controller = new GameSearchController(gameSearchViewModel, gameSearchView);
-        cardPanel.add(gameSearchView, "GameSearchView");
+
+        GameSearchController controller = new GameSearchController(gameSearchView, interactor);
+
+        cardPanel.add(gameSearchView, gameSearchView.getViewName());
         return this;
     }
 
-    public AppBuilder addResultsView(){
-        resultsViewModel = new ResultsViewModel();
+    public AppBuilder addResultsView() {
         resultsView = new ResultsView(resultsViewModel);
         cardPanel.add(resultsView, resultsView.getViewName());
         return this;
