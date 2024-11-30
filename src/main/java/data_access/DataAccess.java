@@ -116,6 +116,17 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
 
     @Override
     public ArrayList<Game> loadWishlist() {
-
+        ArrayList<Game> gamesArray = new ArrayList<>();
+        GameFactory gameFactory = new GameFactory();
+        try {
+            String stringJSON = new String(Files.readAllBytes(Paths.get("wishlist.json")));
+            JSONArray gamesJSON = new JSONArray(stringJSON);
+            for (int i = 0; i < gamesJSON.length(); i++){
+                gamesArray.add(gameFactory.create(gamesJSON.getJSONObject(i)));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return gamesArray;
     }
 }
