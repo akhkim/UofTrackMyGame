@@ -5,6 +5,7 @@ import org.json.JSONObject;
 public class GameFactory {
     public Game create(JSONObject jsonGame) {
         return new Game(
+            jsonGame.getString("gameID"),
             jsonGame.getString("title"),
             jsonGame.getString("salePrice"),
             jsonGame.getString("normalPrice"),

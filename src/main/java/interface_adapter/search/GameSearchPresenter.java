@@ -42,7 +42,7 @@ public class GameSearchPresenter implements GameSearchOutputBoundary {
                     jsonGame.optString("thumb", "0").equals("0") ? "unavailable" : jsonGame.optString("thumb")
                 );
                 games.add(game);
-                System.out.println(game.getTitle());
+                System.out.println(game.getTitle()); //Outputs all the titles of the games correctly
             }
 
             // Update ResultsViewModel with the new games
@@ -52,8 +52,7 @@ public class GameSearchPresenter implements GameSearchOutputBoundary {
             this.viewManagerModel.firePropertyChanged();
 
             // Switch to results view
-            this.viewManagerModel.setState(this.resultViewModel.getViewName());
-            this.viewManagerModel.firePropertyChanged();
+            this.viewManagerModel.switchView(this.resultViewModel.getViewName());
             
         } catch (Exception e) {
             // Handle any JSON parsing errors

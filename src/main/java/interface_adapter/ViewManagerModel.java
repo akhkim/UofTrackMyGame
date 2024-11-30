@@ -10,6 +10,7 @@ public class ViewManagerModel extends ViewModel<String> {
 
     // Method to switch views
     public void switchView(String viewName) {
+        System.out.println("Switching to view: " + viewName);
         this.setState(viewName);
         this.firePropertyChanged();
     }

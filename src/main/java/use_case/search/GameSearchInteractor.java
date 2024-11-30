@@ -1,7 +1,5 @@
 package use_case.search;
 
-import interface_adapter.search.GameSearchOutputBoundary;
-
 public class GameSearchInteractor implements GameSearchInputBoundary {
     private final GameSearchDataAccessInterface dataAccess;
     private final GameSearchOutputBoundary presenter;

@@ -15,6 +15,7 @@ public class ViewModel<T> {
     public void setState(T state) {
         this.state = state;
         // support.firePropertyChange("state", oldState, state);
+        System.out.println("Setting state: " + state);
     }
 
     public String getViewName() {
