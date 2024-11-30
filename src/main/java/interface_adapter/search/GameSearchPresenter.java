@@ -1,4 +1,3 @@
-
 package interface_adapter.search;
 
 import use_case.search.GameSearchInputBoundary;

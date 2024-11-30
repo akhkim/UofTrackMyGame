@@ -106,4 +106,6 @@ public class WishlistView {
         // Launch UI
         new WishlistView(viewModel, controller);
     }
+
+
 }
