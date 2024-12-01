@@ -98,16 +98,16 @@ public class GameView extends JPanel implements PropertyChangeListener {
         notifyButton.addActionListener(e -> {
             String trackingPrice = trackingPriceField.getText();
             String email = emailField.getText();
-//            JOptionPane.showMessageDialog(frame,
-//                    "Notification set for price: $" + trackingPrice + " to email: " + email,
-//                    "Notification Set",
-//                    JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(panel,
+                    "Notification set for price: $" + trackingPrice + " to email: " + email,
+                    "Notification Set",
+                    JOptionPane.INFORMATION_MESSAGE);
         });
         panel.add(notifyButton);
 
-        // Add the panel to the frame
-//        frame.add(panel);
-//        frame.setVisible(true);
+//        // REMOVED
+//        panel.add(panel);
+//        panel.setVisible(true);
     }
 
     public String getViewName(){
