@@ -1,6 +1,7 @@
 package view;
 
 import entity.Game;
+import interface_adapter.results.ResultsController;
 import interface_adapter.results.ResultsState;
 import interface_adapter.results.ResultsViewModel;
 
@@ -9,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
@@ -16,6 +19,8 @@ import java.text.DecimalFormat;
 public class ResultsView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "ResultsView";
     private final ResultsViewModel resultsViewModel;
+    private final Game selected = null;
+    private ResultsController resultsController;
 
     private final JPanel gamesPanel;
     private final JButton backButton;
@@ -64,8 +69,8 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     if (evt.getNewValue() instanceof ResultsState) {
         final ResultsState state = (ResultsState) evt.getNewValue();
         updateGamesDisplay(state);
+        }
     }
-}
 
     private void updateGamesDisplay(ResultsState state) {
         gamesPanel.removeAll();
@@ -81,21 +86,25 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         int cardHeight = 100;
         int columns = 3;
 
-        for (Game game : state.getGames()) {
-            JPanel gameCard = createGameCard(game);
-            gbc.gridx = col;
-            gbc.gridy = row;
-            gamesPanel.add(gameCard, gbc);
-            gameCard.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-            col++;
-            if (col >= columns) {
-                col = 0;
-                row++;
+        if (state.getGames().isEmpty()) {
+            JLabel errorLabel = new JLabel("No games found");
+            gamesPanel.add(errorLabel);
+        } else {
+            for (Game game : state.getGames()) {
+                JPanel gameCard = createGameCard(game);
+                gbc.gridx = col;
+                gbc.gridy = row;
+                gamesPanel.add(gameCard, gbc);
+                gameCard.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        
+                col++;
+                if (col >= columns) {
+                    col = 0;
+                    row++;
+                }
             }
         }
 
-        // Calculate the preferred size of the gamesPanel
         int panelWidth = columns * (cardWidth + gbc.insets.left + gbc.insets.right);
         int panelHeight = (row + 1) * (cardHeight + gbc.insets.top + gbc.insets.bottom);
         gamesPanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
@@ -146,10 +155,23 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         }
         gameCard.add(ratingPanel);
 
+        gameCard.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                // Handle mouse release event
+                System.out.println("Mouse released on game card: " + game.getTitle());
+                resultsController.execute(game);
+            }
+        });
+
         return gameCard;
     }
 
     public String getViewName() {
         return viewName;
+    }
+
+    public void setResultsController(ResultsController resultsController){
+        this.resultsController = resultsController;
     }
 }
