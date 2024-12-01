@@ -5,6 +5,7 @@ import interface_adapter.game.GameViewModel;
 import interface_adapter.game.GameState;
 import use_case.results.ResultsOutputBoundary;
 import use_case.results.ResultsOutputData;
+import view.GameView;
 
 public class ResultsPresenter implements ResultsOutputBoundary {
     private final ResultsViewModel resultsViewModel;
@@ -21,13 +22,17 @@ public class ResultsPresenter implements ResultsOutputBoundary {
 
     @Override
     public void prepareSuccessView(ResultsOutputData response) {
-//        final GameState gameState = gameViewModel.getState();
-//        gameState.setGame(response.getGame());
-//        this.gameViewModel.setState(gameState);
-//        this.gameViewModel.firePropertyChanged();
-//
-//        this.viewManagerModel.setState(gameViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
+        final GameState gameState = gameViewModel.getState();
+        gameState.setGame(response.getGame());
+        this.gameViewModel.setState(gameState);
+        this.gameViewModel.firePropertyChanged();
+
+        new GameView(
+            response.getGame().getTitle(),
+            response.getGame().getSalePrice(),
+            response.getGame().getMetacriticScore(),
+            response.getGame().getDealRating()
+        );
     }
 
     @Override

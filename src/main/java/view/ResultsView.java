@@ -119,13 +119,19 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     private JPanel createGameCard(Game game) {
         JPanel gameCard = new JPanel();
         gameCard.setLayout(new BoxLayout(gameCard, BoxLayout.Y_AXIS));
-        gameCard.setBorder(new EmptyBorder(15, 15, 15, 15)); // Increase padding for larger cards
+        gameCard.setBorder(new EmptyBorder(15, 15, 15, 15));
 
         // Game title
         JLabel titleLabel = new JLabel(game.getTitle());
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Make game titles more prominent
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
         gameCard.add(titleLabel);
+
+        // Store name
+        JLabel storeLabel = new JLabel("Store: " + game.getStoreName());
+        storeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        storeLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+        gameCard.add(storeLabel);
 
         // Price information
         JPanel pricePanel = new JPanel();
