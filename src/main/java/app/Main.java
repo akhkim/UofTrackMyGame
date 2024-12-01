@@ -17,9 +17,9 @@ public class Main {
     public static void main(String[] args) {
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
-                .addGameSearchView()
-                .addResultsView()
-                .build();
+                                    .addGameSearchView()
+                                    .addResultsView()
+                                    .build();
         application.pack();
         application.setVisible(true);
     }

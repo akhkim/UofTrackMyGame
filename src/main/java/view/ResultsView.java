@@ -12,14 +12,14 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
-import java.awt.font.TextAttribute;
-import java.util.Map;
 
 public class ResultsView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "results";
+    private final String viewName = "ResultsView";
     private final ResultsViewModel resultsViewModel;
+
     private final JPanel gamesPanel;
     private final JButton backButton;
+    private final JScrollPane scrollPane;
 
     public ResultsView(ResultsViewModel resultsViewModel) {
         this.resultsViewModel = resultsViewModel;
@@ -27,114 +27,126 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
 
         setLayout(new BorderLayout());
 
-        // Create a panel for the back button at the top
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        gamesPanel = new JPanel();
+        gamesPanel.setLayout(new GridLayout(0, 3, 10, 10)); // 0 rows, 3 columns, with 10px gaps
+
+        scrollPane = new JScrollPane(gamesPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
         backButton = new JButton("Back");
         backButton.addActionListener(this);
-        topPanel.add(backButton);
-        add(topPanel, BorderLayout.NORTH);
 
-        // Create a scrollable panel for games
-        gamesPanel = new JPanel();
-        gamesPanel.setLayout(new BoxLayout(gamesPanel, BoxLayout.Y_AXIS));
-        JScrollPane scrollPane = new JScrollPane(gamesPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         add(scrollPane, BorderLayout.CENTER);
+        add(backButton, BorderLayout.SOUTH);
+
+        // Set preferred size to fit three games perfectly
+        setPreferredSize(new Dimension(1000, 700)); // Adjust dimensions as needed
+
+        // Set minimum size to ensure the window is not resized below a certain size
+        setMinimumSize(new Dimension(900, 600)); // Adjust dimensions as needed
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == backButton) {
-            // Handle back button action
+    /**
+     * React to a button click that results in evt.
+     * @param evt the ActionEvent to react to
+     */
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println("Click " + evt.getActionCommand());
+        if (evt.getSource() == backButton) {
+            // Switch to the search view
+            
         }
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("state".equals(evt.getPropertyName())) {
-            ResultsState state = (ResultsState) evt.getNewValue();
-            updateGamesDisplay(state);
-        }
+    if (evt.getNewValue() instanceof ResultsState) {
+        final ResultsState state = (ResultsState) evt.getNewValue();
+        updateGamesDisplay(state);
     }
+}
 
     private void updateGamesDisplay(ResultsState state) {
         gamesPanel.removeAll();
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        int row = 0;
+        int col = 0;
+        int cardWidth = 200;
+        int cardHeight = 100;
+        int columns = 3;
 
         for (Game game : state.getGames()) {
             JPanel gameCard = createGameCard(game);
-            gamesPanel.add(gameCard);
-            gamesPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Spacing between cards
+            gbc.gridx = col;
+            gbc.gridy = row;
+            gamesPanel.add(gameCard, gbc);
+            gameCard.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+
+            col++;
+            if (col >= columns) {
+                col = 0;
+                row++;
+            }
         }
 
-        gamesPanel.revalidate();
-        gamesPanel.repaint();
+        // Calculate the preferred size of the gamesPanel
+        int panelWidth = columns * (cardWidth + gbc.insets.left + gbc.insets.right);
+        int panelHeight = (row + 1) * (cardHeight + gbc.insets.top + gbc.insets.bottom);
+        gamesPanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
+
+        // Adjust the parent container size if needed
+        gamesPanel.getParent().revalidate();
+        gamesPanel.getParent().repaint();
     }
 
     private JPanel createGameCard(Game game) {
-        JPanel card = new JPanel();
-        card.setLayout(new BorderLayout());
-        card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.GRAY),
-            new EmptyBorder(10, 10, 10, 10)
-        ));
+        JPanel gameCard = new JPanel();
+        gameCard.setLayout(new BoxLayout(gameCard, BoxLayout.Y_AXIS));
+        gameCard.setBorder(new EmptyBorder(15, 15, 15, 15)); // Increase padding for larger cards
 
-        // Left panel for image
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        // You would need to implement image loading ***********************************************************************
-        JLabel imageLabel = new JLabel("Game Image");
-        imageLabel.setPreferredSize(new Dimension(120, 120));
-        leftPanel.add(imageLabel, BorderLayout.CENTER);
-
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-
+        // Game title
         JLabel titleLabel = new JLabel(game.getTitle());
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Make game titles more prominent
+        gameCard.add(titleLabel);
 
-        JPanel pricePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        // Price information
+        JPanel pricePanel = new JPanel();
+        pricePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         if ("1".equals(game.getIsOnSale())) {
-            JLabel normalPriceLabel = new JLabel("$" + game.getNormalPrice());
-            normalPriceLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-            @SuppressWarnings("unchecked")
-            Map<TextAttribute, Object> attributes = (Map<TextAttribute, Object>) normalPriceLabel.getFont().getAttributes();
-            attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
-            normalPriceLabel.setFont(normalPriceLabel.getFont().deriveFont(attributes));
-            pricePanel.add(normalPriceLabel);
-            
-            JLabel salePriceLabel = new JLabel("$" + game.getSalePrice());
-            salePriceLabel.setFont(new Font("Arial", Font.BOLD, 14));
-            salePriceLabel.setForeground(Color.GREEN);
-            pricePanel.add(salePriceLabel);
+            JLabel normalPriceLabel = new JLabel("Original: $" + game.getNormalPrice());
+            JLabel salePriceLabel = new JLabel("Sale: $" + game.getSalePrice());
 
             DecimalFormat df = new DecimalFormat("#.##");
             String savingsStr = df.format(Double.parseDouble(game.getSavings()));
-            JLabel savingsLabel = new JLabel(" (-" + savingsStr + "%)");
+            JLabel savingsLabel = new JLabel("Savings: " + savingsStr + "%");
+
+            pricePanel.add(normalPriceLabel);
+            pricePanel.add(salePriceLabel);
             pricePanel.add(savingsLabel);
         } else {
-            JLabel priceLabel = new JLabel("$" + game.getNormalPrice());
-            pricePanel.add(priceLabel);
+            pricePanel.add(new JLabel("Price: $" + game.getNormalPrice()));
         }
+        gameCard.add(pricePanel);
 
-        JPanel ratingPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        // Ratings
+        JPanel ratingPanel = new JPanel();
+        ratingPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         ratingPanel.add(new JLabel("Steam Rating: " + game.getSteamRatingText() + 
-                                 " (" + game.getSteamRatingPercent() + "%) " +
-                                 "from " + game.getSteamRatingCount() + " reviews"));
+                                    " (" + game.getSteamRatingPercent() + "%)"));
 
         if (!"0".equals(game.getMetacriticScore())) {
-            JLabel metacriticLabel = new JLabel("Metacritic: " + game.getMetacriticScore());
-            ratingPanel.add(metacriticLabel);
+            ratingPanel.add(new JLabel("Metacritic: " + game.getMetacriticScore()));
         }
+        gameCard.add(ratingPanel);
 
-        rightPanel.add(titleLabel);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        rightPanel.add(pricePanel);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        rightPanel.add(ratingPanel);
-
-        card.add(leftPanel, BorderLayout.WEST);
-        card.add(rightPanel, BorderLayout.CENTER);
-
-        return card;
+        return gameCard;
     }
 
     public String getViewName() {
