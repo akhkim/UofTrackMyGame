@@ -19,7 +19,7 @@ public class WishlistInteractor implements WishlistInputBoundary {
     @Override
     public WishlistOutputData addGameToWishlist(WishlistInputData inputData) {
         String gameTitle = inputData.getGameTitle();
-        Game game = new Game(gameTitle, "", "", "", "", "", "", "", "", "", "", "");
+        Game game = new Game(gameTitle, "", "", "", "", "", "", "", "", "", "", "", "" );
         wishlist.addGame(game);
 
         // Save the updated wishlist to the data layer
