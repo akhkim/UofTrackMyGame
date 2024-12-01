@@ -12,10 +12,12 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class ResultsView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "ResultsView";
     private final ResultsViewModel resultsViewModel;
+    private final Game selected = null;
 
     private final JPanel gamesPanel;
     private final JButton backButton;
@@ -64,8 +66,8 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     if (evt.getNewValue() instanceof ResultsState) {
         final ResultsState state = (ResultsState) evt.getNewValue();
         updateGamesDisplay(state);
+        }
     }
-}
 
     private void updateGamesDisplay(ResultsState state) {
         gamesPanel.removeAll();
@@ -81,21 +83,25 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         int cardHeight = 100;
         int columns = 3;
 
-        for (Game game : state.getGames()) {
-            JPanel gameCard = createGameCard(game);
-            gbc.gridx = col;
-            gbc.gridy = row;
-            gamesPanel.add(gameCard, gbc);
-            gameCard.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-            col++;
-            if (col >= columns) {
-                col = 0;
-                row++;
+        if (state.getGames().isEmpty()) {
+            JLabel errorLabel = new JLabel("No games found");
+            gamesPanel.add(errorLabel);
+        } else {
+            for (Game game : state.getGames()) {
+                JPanel gameCard = createGameCard(game);
+                gbc.gridx = col;
+                gbc.gridy = row;
+                gamesPanel.add(gameCard, gbc);
+                gameCard.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        
+                col++;
+                if (col >= columns) {
+                    col = 0;
+                    row++;
+                }
             }
         }
 
-        // Calculate the preferred size of the gamesPanel
         int panelWidth = columns * (cardWidth + gbc.insets.left + gbc.insets.right);
         int panelHeight = (row + 1) * (cardHeight + gbc.insets.top + gbc.insets.bottom);
         gamesPanel.setPreferredSize(new Dimension(panelWidth, panelHeight));

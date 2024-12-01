@@ -111,7 +111,7 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         } else if (evt.getSource() == searchByFiltersButton) {
             controller.searchByFilters();
         } else if (evt.getSource() == goToWishlistButton) {
-            controller.goToWishlist();
+            // controller.goToWishlist();
         }
     }
 
