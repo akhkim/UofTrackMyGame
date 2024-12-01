@@ -21,19 +21,19 @@ public class ResultsPresenter implements ResultsOutputBoundary {
 
     @Override
     public void prepareSuccessView(ResultsOutputData response) {
-        final GameState gameState = gameViewModel.getState();
-        gameState.setGame(response.getGame());
-        this.gameViewModel.setState(gameState);
-        this.gameViewModel.firePropertyChanged();
-
-        this.viewManagerModel.setState(gameViewModel.getViewName());
+//        final GameState gameState = gameViewModel.getState();
+//        gameState.setGame(response.getGame());
+//        this.gameViewModel.setState(gameState);
+//        this.gameViewModel.firePropertyChanged();
+//
+//        this.viewManagerModel.setState(gameViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void prepareFailView(String error) {
         final ResultsState resultsState = resultsViewModel.getState();
-        resultsState.setError(error);
+//        resultsState.setError(error);
         resultsViewModel.firePropertyChanged();
     }
 }

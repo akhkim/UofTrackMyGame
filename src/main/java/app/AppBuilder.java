@@ -34,6 +34,7 @@ public class AppBuilder {
     private GameSearchView gameSearchView;
     private GameSearchViewModel gameSearchViewModel;
     private ResultsViewModel resultsViewModel;
+
     private ResultsView resultsView;
     private WishlistView wishlistView;
     private WishlistViewModel wishlistViewModel;
@@ -58,6 +59,7 @@ public class AppBuilder {
         gameSearchView = new GameSearchView(gameSearchViewModel);
 
         GameSearchController controller = new GameSearchController(gameSearchView, interactor, viewManagerModel);
+        gameSearchView.setController(controller);
 
         cardPanel.add(gameSearchView, gameSearchView.getViewName());
         return this;
@@ -89,8 +91,8 @@ public class AppBuilder {
     }
 
     public AppBuilder addGamesView() {
-        gameView = new GameView(gameViewModel);
-        cardPanel.add(gameView, gameView.getViewName());
+//        gameView = new GameView(gameViewModel);
+//        cardPanel.add(gameView, gameView.getViewName());
         return this;
     }
 
