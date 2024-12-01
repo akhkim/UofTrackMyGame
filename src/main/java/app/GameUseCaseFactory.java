@@ -11,17 +11,12 @@ public class GameUseCaseFactory {
 
     public GameUseCaseFactory(GameState gameState) {
         this.gameState = gameState;
-        this.gameViewModel = new GameViewModel();
+        this.gameViewModel = new GameViewModel(gameState);
     }
 
     public GameController createGameController() {
-        // Create Presenter
         GamePresenter presenter = new GamePresenter(gameViewModel);
-
-        // Create Interactor
         GameInteractor interactor = new GameInteractor(presenter, gameState);
-
-        // Create Controller
         return new GameController(interactor);
     }
 
