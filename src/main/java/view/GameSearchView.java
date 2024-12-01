@@ -22,6 +22,7 @@ import java.awt.FlowLayout;
 import interface_adapter.search.GameSearchController;
 import entity.GameSearchState;
 import interface_adapter.search.GameSearchViewModel;
+import interface_adapter.wishlist.WishlistController;
 
 public class GameSearchView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "GameSearchView";
@@ -35,10 +36,12 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
     private final JComboBox<String> sortByComboBox;
     private final JToggleButton descToggleButton = new JToggleButton("▲");
     private GameSearchController controller;
+    private WishlistController wishlistController;
 
     private final JButton searchByTitleButton;
     private final JButton searchByFiltersButton;
     private final JButton feelingLuckyButton;
+    private final JButton showWishListButton;
 
     public GameSearchView(GameSearchViewModel viewModel) {
         this.viewModel = viewModel;
@@ -48,7 +51,7 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         Color textColor = new Color(230, 230, 230);
 
         this.setBackground(backgroundColor);
-        this.setLayout(new GridLayout(8, 2, 10, 10));
+        this.setLayout(new GridLayout(9, 2, 10, 10));
 
         final JLabel titleLabel = new JLabel("Title");
         titleLabel.setForeground(textColor);
@@ -69,6 +72,7 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         searchByTitleButton = new JButton("Search by Title");
         searchByFiltersButton = new JButton("Search by Filters");
         feelingLuckyButton = new JButton("Feeling Lucky!");
+        showWishListButton = new JButton("See My Wishlist");
 
         JPanel sortPanel = new JPanel();
         sortPanel.setBackground(backgroundColor);
@@ -93,11 +97,13 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         this.add(sortPanel);
         this.add(searchByFiltersButton);
         this.add(feelingLuckyButton);
+        this.add(showWishListButton);
 
         // Add listeners
         searchByTitleButton.addActionListener(this);
         searchByFiltersButton.addActionListener(this);
         feelingLuckyButton.addActionListener(this);
+        showWishListButton.addActionListener(this);
 
         addTitleListener();
         addUpperPriceListener();
@@ -227,6 +233,8 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
             controller.searchByFilters();
         } else if (evt.getSource() == feelingLuckyButton) {
             controller.feelingLucky();
+        } else if (evt.getSource() == showWishListButton) {
+            wishlistController.showWishListButton();
         }
     }
 

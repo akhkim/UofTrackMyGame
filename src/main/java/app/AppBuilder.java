@@ -65,7 +65,7 @@ public class AppBuilder {
         WishlistInteractor interactor = new WishlistInteractor(state, presenter); // No error now
         WishlistController controller = new WishlistController(interactor);
 
-        new WishlistView(viewModel, controller);
+        WishlistView wishlist = new WishlistView(viewModel, controller);
     }
 
 
