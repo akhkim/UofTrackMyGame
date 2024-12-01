@@ -98,6 +98,14 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addHomeUseCase(){
+        HomeOutputBoundary homePresenter = new HomePresenter(viewManagerModel);
+        HomeInputBoundary homeInteractor = new HomeInteractor(homePresenter);
+        HomeController homeController = new HomeController(homeInteractor);
+        resultsView.setHomeController(homeController);
+        return this;
+    }
+
     public JFrame build() {
         final JFrame application = new JFrame("Game Search Application");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
