@@ -20,6 +20,7 @@ public class Main {
                                     .addGameSearchView()
                                     .addResultsView()
                                     .addWishlistView()
+                                    .addGamesView()
                                     .build();
         application.pack();
         application.setVisible(true);

@@ -28,7 +28,6 @@ public class GamePresenter implements GameOutputBoundary {
         this.viewManagerModel.firePropertyChanged();
     }
 
-    @Override
     public void prepareFailView(String error) {
         final GameState gameState = gameViewModel.getState();
         gameState.setError(error);

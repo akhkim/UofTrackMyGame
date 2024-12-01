@@ -7,7 +7,7 @@ import java.beans.PropertyChangeSupport;
 import entity.Game;
 import interface_adapter.ViewModel;
 
-public class GameViewModel extends ViewModel<Game> implements PropertyChangeListener {
+public class GameViewModel extends ViewModel<GameState> implements PropertyChangeListener {
     private GameState state = new GameState();
     private Game game;
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);

@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.DataAccess;
+import interface_adapter.game.GameViewModel;
 import interface_adapter.search.GameSearchController;
 import interface_adapter.search.GameSearchPresenter;
 import interface_adapter.search.GameSearchState;
@@ -34,6 +35,7 @@ public class AppBuilder {
     private GameSearchView gameSearchView;
     private GameSearchViewModel gameSearchViewModel;
     private ResultsViewModel resultsViewModel;
+    private GameViewModel gameViewModel;
     private ResultsView resultsView;
     private WishlistView wishlistView;
     private WishlistViewModel wishlistViewModel;
@@ -89,7 +91,7 @@ public class AppBuilder {
     }
 
     public AppBuilder addGamesView() {
-        gameView = new GameView(gameViewModel);
+        GameView gameView = new GameView(gameViewModel);
         cardPanel.add(gameView, gameView.getViewName());
         return this;
     }

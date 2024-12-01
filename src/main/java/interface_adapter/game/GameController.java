@@ -10,7 +10,6 @@ public class GameController {
         this.interactor = interactor;
     }
 
-    // Method to show game details
     public void showGameDetails(String gameID) {
         GameInputData inputData = new GameInputData(gameID);
         interactor.fetchGameDetails(inputData);
