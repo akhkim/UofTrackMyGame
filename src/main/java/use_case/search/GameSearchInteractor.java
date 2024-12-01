@@ -26,7 +26,7 @@ public class GameSearchInteractor implements GameSearchInputBoundary {
             sortBy,
             desc ? "1" : "0"
         );
-        System.out.println(response);
+        // System.out.println(response);
         presenter.presentSearchResults(response);
     }
 } 
