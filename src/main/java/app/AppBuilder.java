@@ -11,6 +11,8 @@ import interface_adapter.search.GameSearchController;
 import interface_adapter.search.GameSearchPresenter;
 import interface_adapter.search.GameSearchState;
 import interface_adapter.search.GameSearchViewModel;
+import use_case.results.ResultsInputBoundary;
+import use_case.results.ResultsOutputBoundary;
 import use_case.search.GameSearchDataAccessInterface;
 import use_case.search.GameSearchInputBoundary; 
 import use_case.search.GameSearchInteractor;
@@ -21,10 +23,11 @@ import view.ResultsView;
 import view.ViewManager;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.results.ResultsViewModel;
+import interface_adapter.results.ResultsController;
+import interface_adapter.results.ResultsPresenter;
 import interface_adapter.results.ResultsState;
-import interface_adapter.wishlist.*;
-import use_case.wishlist.*;
-import view.WishlistView;
+import interface_adapter.game.GameViewModel;
+import use_case.results.ResultsInteractor;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -35,11 +38,9 @@ public class AppBuilder {
     private GameSearchView gameSearchView;
     private GameSearchViewModel gameSearchViewModel;
     private ResultsViewModel resultsViewModel;
+    private GameViewModel gameViewModel = new GameViewModel();
     private GameViewModel gameViewModel;
     private ResultsView resultsView;
-    private WishlistView wishlistView;
-    private WishlistViewModel wishlistViewModel;
-    private WishlistState wishlistState;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -59,7 +60,7 @@ public class AppBuilder {
 
         gameSearchView = new GameSearchView(gameSearchViewModel);
 
-        GameSearchController controller = new GameSearchController(gameSearchView, interactor, viewManagerModel);
+        GameSearchController controller = new GameSearchController(gameSearchView, interactor);
 
         cardPanel.add(gameSearchView, gameSearchView.getViewName());
         return this;
@@ -71,22 +72,12 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addWishlistView() {
-        wishlistState = new WishlistState();
-        wishlistViewModel = new WishlistViewModel(wishlistState);
+    public AppBuilder addResultsUseCase() {
+        final ResultsOutputBoundary resultsOutputBoundary = new ResultsPresenter(resultsViewModel, gameViewModel, viewManagerModel);
+        final ResultsInputBoundary resultsInteractor = new ResultsInteractor(resultsOutputBoundary);
 
-        WishlistDataAccessInterface dataAccess = new DataAccess();
-
-        WishlistOutputBoundary presenter = new WishlistPresenter(wishlistViewModel);
-
-        WishlistInputBoundary interactor = new WishlistInteractor(dataAccess, presenter);
-
-        WishlistController controller = new WishlistController(interactor);
-
-        wishlistView = new WishlistView(wishlistViewModel, controller);
-
-        cardPanel.add(wishlistView, wishlistViewModel.getViewName());
-        
+        final ResultsController resultsController = new ResultsController(resultsInteractor);
+        resultsView.setResultsController(resultsController);
         return this;
     }
 

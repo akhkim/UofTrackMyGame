@@ -5,4 +5,5 @@ import entity.Game;
 public interface FeelingLuckyOutputBoundary {
     void prepareSuccessView(Game game);
 
+    void prepareFailView(String errorMessage);
 }
