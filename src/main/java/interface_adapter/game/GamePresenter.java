@@ -1,9 +1,6 @@
 package interface_adapter.game;
 
-import entity.Game;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.results.ResultsState;
-import interface_adapter.results.ResultsViewModel;
 import use_case.game.GameOutputBoundary;
 import use_case.game.GameOutputData;
 

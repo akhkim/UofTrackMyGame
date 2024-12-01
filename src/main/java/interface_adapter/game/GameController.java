@@ -1,5 +1,6 @@
 package interface_adapter.game;
 
+import entity.Game;
 import use_case.game.GameInputBoundary;
 import use_case.game.GameInputData;
 
@@ -10,8 +11,8 @@ public class GameController {
         this.interactor = interactor;
     }
 
-    public void showGameDetails(String gameID) {
-        GameInputData inputData = new GameInputData(gameID);
+    public void showGameDetails(Game game) {
+        GameInputData inputData = new GameInputData(game);
         interactor.fetchGameDetails(inputData);
     }
 }

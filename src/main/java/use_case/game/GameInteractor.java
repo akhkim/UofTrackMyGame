@@ -15,7 +15,7 @@ public class GameInteractor implements GameInputBoundary {
     @Override
     public void fetchGameDetails(GameInputData inputData) {
         // Fetch the game object from GameState using gameID
-        Game game = gameState.getGameById(inputData.getGameID());
+        Game game = gameState.getGame();
 
         if (game != null) {
             // Prepare output data

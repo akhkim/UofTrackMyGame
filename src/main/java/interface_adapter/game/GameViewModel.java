@@ -12,7 +12,7 @@ public class GameViewModel extends ViewModel<GameState> implements PropertyChang
     private Game game;
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public GameViewModel(GameState state) {
+    public GameViewModel() {
         super("GameView");
         this.setState(state);
     }
