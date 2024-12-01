@@ -14,7 +14,7 @@ public class Game {
     private String thumb;
     private String gameID;
 
-    public Game(String gameID, String title, String salePrice, 
+    public Game(String gameID, String title, String salePrice,
                      String normalPrice, String isOnSale, String savings,
                      String metacriticScore, String steamRatingText, 
                      String steamRatingPercent, String steamRatingCount,
@@ -78,6 +78,6 @@ public class Game {
     }
 
     public String getGameID(){
-        return gameID; 
+        return gameID;
     }
 }
