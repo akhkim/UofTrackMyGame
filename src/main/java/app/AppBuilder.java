@@ -15,6 +15,7 @@ import use_case.search.GameSearchInputBoundary;
 import use_case.search.GameSearchInteractor;
 import use_case.search.GameSearchOutputBoundary;
 import view.GameSearchView;
+import view.GameView;
 import view.ResultsView;
 import view.ViewManager;
 import interface_adapter.ViewManagerModel;
@@ -46,7 +47,7 @@ public class AppBuilder {
         GameSearchState searchState = new GameSearchState();
         ResultsState resultsState = new ResultsState();
         gameSearchViewModel = new GameSearchViewModel(searchState);
-        resultsViewModel = new ResultsViewModel(resultsState);
+        resultsViewModel = new ResultsViewModel();
 
         GameSearchDataAccessInterface gateway = new DataAccess();
 
@@ -84,6 +85,12 @@ public class AppBuilder {
 
         cardPanel.add(wishlistView, wishlistViewModel.getViewName());
         
+        return this;
+    }
+
+    public AppBuilder addGamesView() {
+        gameView = new GameView(gameViewModel);
+        cardPanel.add(gameView, gameView.getViewName());
         return this;
     }
 

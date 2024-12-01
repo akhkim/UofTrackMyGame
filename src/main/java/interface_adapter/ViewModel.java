@@ -3,6 +3,13 @@ package interface_adapter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+/**
+ * The ViewModel for our CA implementation.
+ * This class delegates work to a PropertyChangeSupport object for
+ * managing the property change events.
+ *
+ * @param <T> The type of state object contained in the model.
+ */
 public class ViewModel<T> {
     private T state;
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
@@ -37,4 +44,4 @@ public class ViewModel<T> {
     public void firePropertyChanged() {
         support.firePropertyChange("state", null, state);
     }
-} 
+}
