@@ -1,6 +1,7 @@
 package view;
 
 import entity.Game;
+import interface_adapter.home.HomeController;
 import interface_adapter.results.ResultsController;
 import interface_adapter.results.ResultsState;
 import interface_adapter.results.ResultsViewModel;
@@ -21,6 +22,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     private final ResultsViewModel resultsViewModel;
     private final Game selected = null;
     private ResultsController resultsController;
+    private HomeController homeController;
 
     private final JPanel gamesPanel;
     private final JButton backButton;
@@ -60,7 +62,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         System.out.println("Click " + evt.getActionCommand());
         if (evt.getSource() == backButton) {
             // Switch to the search view
-            
+            homeController.execute();
         }
     }
 
@@ -173,5 +175,9 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
 
     public void setResultsController(ResultsController resultsController){
         this.resultsController = resultsController;
+    }
+
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
     }
 }
