@@ -1,6 +1,7 @@
 package view;
 
 import entity.Game;
+import interface_adapter.game.GameController;
 import interface_adapter.game.GameState;
 import interface_adapter.game.GameViewModel;
 
@@ -15,20 +16,18 @@ public class GameView extends JPanel implements PropertyChangeListener {
     private String viewName = "GameView";
     private final GameViewModel gameViewModel;
     private final JPanel panel;
+    private GameController controller;
 
-    private JFrame frame;
 
     public GameView(GameViewModel gameViewModel) {
         this.gameViewModel = gameViewModel;
         this.gameViewModel.addPropertyChangeListener(this);
 
-        JFrame frame = new JFrame("Game Details");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(500, 300);
-
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        add(panel, BorderLayout.CENTER);
     }
 
     @Override
@@ -40,6 +39,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
     }
 
     private void updateGameWindow(GameState state) {
+        panel.removeAll();
         Game game = state.getGame();
         JLabel titleLabel = new JLabel("Game Title: " + game.getTitle());
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -98,19 +98,23 @@ public class GameView extends JPanel implements PropertyChangeListener {
         notifyButton.addActionListener(e -> {
             String trackingPrice = trackingPriceField.getText();
             String email = emailField.getText();
-            JOptionPane.showMessageDialog(frame,
-                    "Notification set for price: $" + trackingPrice + " to email: " + email,
-                    "Notification Set",
-                    JOptionPane.INFORMATION_MESSAGE);
+//            JOptionPane.showMessageDialog(frame,
+//                    "Notification set for price: $" + trackingPrice + " to email: " + email,
+//                    "Notification Set",
+//                    JOptionPane.INFORMATION_MESSAGE);
         });
         panel.add(notifyButton);
 
         // Add the panel to the frame
-        frame.add(panel);
-        frame.setVisible(true);
+//        frame.add(panel);
+//        frame.setVisible(true);
     }
 
     public String getViewName(){
         return viewName;
+    }
+
+    public void setController(GameController controller) {
+        this.controller = controller;
     }
 }

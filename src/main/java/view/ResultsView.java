@@ -68,9 +68,9 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getNewValue() instanceof ResultsState) {
-        final ResultsState state = (ResultsState) evt.getNewValue();
-        updateGamesDisplay(state);
+        if (evt.getNewValue() instanceof ResultsState) {
+            final ResultsState state = (ResultsState) evt.getNewValue();
+            updateGamesDisplay(state);
         }
     }
 

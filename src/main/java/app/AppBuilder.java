@@ -6,12 +6,17 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.DataAccess;
+import interface_adapter.game.GameController;
+import interface_adapter.game.GamePresenter;
 import interface_adapter.home.HomeController;
 import interface_adapter.home.HomePresenter;
 import interface_adapter.search.GameSearchController;
 import interface_adapter.search.GameSearchPresenter;
 import interface_adapter.search.GameSearchState;
 import interface_adapter.search.GameSearchViewModel;
+import use_case.game.GameInputBoundary;
+import use_case.game.GameInteractor;
+import use_case.game.GameOutputBoundary;
 import use_case.home.HomeInputBoundary;
 import use_case.home.HomeInteractor;
 import use_case.home.HomeOutputBoundary;
@@ -65,7 +70,7 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addGamesView() {
+    public AppBuilder addGameView() {
         gameViewModel = new GameViewModel();
         gameView = new GameView(gameViewModel);
         cardPanel.add(gameView, gameView.getViewName());
@@ -103,6 +108,14 @@ public class AppBuilder {
         HomeInputBoundary homeInteractor = new HomeInteractor(homePresenter);
         HomeController homeController = new HomeController(homeInteractor);
         resultsView.setHomeController(homeController);
+        return this;
+    }
+
+    public AppBuilder addGameUseCase(){
+        GameOutputBoundary gamePresenter = new GamePresenter(gameViewModel, viewManagerModel);
+        GameInputBoundary gameInteractor = new GameInteractor(gamePresenter);
+        GameController gameController = new GameController(gameInteractor);
+        gameView.setController(gameController);
         return this;
     }
 
