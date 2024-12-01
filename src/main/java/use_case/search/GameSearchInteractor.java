@@ -2,19 +2,23 @@ package use_case.search;
 
 public class GameSearchInteractor implements GameSearchInputBoundary {
     private final GameSearchDataAccessInterface dataAccess;
+    private final GameSearchOutputBoundary presenter;
 
-    public GameSearchInteractor(GameSearchDataAccessInterface dataAccess) {
+    public GameSearchInteractor(GameSearchDataAccessInterface dataAccess, GameSearchOutputBoundary presenter) {
         this.dataAccess = dataAccess;
+        this.presenter = presenter;
     }
 
     @Override
-    public String searchByTitle(String title) {
-        return dataAccess.searchByTitle(title);
+    public void searchByTitle(String title) {
+        String response = dataAccess.searchByTitle(title);
+        // System.out.println(response);
+        presenter.presentSearchResults(response);
     }
 
     @Override
-    public String searchByFilters(String upperPrice, String lowerPrice, String metacritic, boolean onSale, String sortBy, boolean desc) {
-        return dataAccess.searchByFilters(
+    public void searchByFilters(String upperPrice, String lowerPrice, String metacritic, boolean onSale, String sortBy, boolean desc) {
+        String response = dataAccess.searchByFilters(
             upperPrice,
             lowerPrice,
             metacritic,
@@ -22,5 +26,7 @@ public class GameSearchInteractor implements GameSearchInputBoundary {
             sortBy,
             desc ? "1" : "0"
         );
+        System.out.println(response);
+        presenter.presentSearchResults(response);
     }
 } 

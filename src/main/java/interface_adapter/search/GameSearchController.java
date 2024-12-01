@@ -1,37 +1,32 @@
 package interface_adapter.search;
 
 import view.GameSearchView;
+import use_case.search.GameSearchInputBoundary;
 
 public class GameSearchController {
-    private final GameSearchViewModel viewModel;
     private final GameSearchView view;
+    private final GameSearchInputBoundary interactor;
 
-    public GameSearchController(GameSearchViewModel viewModel, GameSearchView view) {
-        this.viewModel = viewModel;
+    public GameSearchController(GameSearchView view, GameSearchInputBoundary interactor) {
         this.view = view;
         this.view.setController(this);
+        this.interactor = interactor;
+
     }
 
     public void searchByTitle() {
-        viewModel.updateTitle(view.getTitleField().getText());
-        String response = viewModel.searchByTitle();
-        view.displayResponse(response);
+        String title = view.getTitleField().getText();
+        interactor.searchByTitle(title);
     }
 
     public void searchByFilters() {
-        viewModel.updateUpperPrice(view.getUpperPriceField().getText());
-        viewModel.updateLowerPrice(view.getLowerPriceField().getText());
-        viewModel.updateMetacritic(view.getMetacriticField().getText());
-        viewModel.updateOnSale(view.getOnSaleCheckBox().isSelected());
-        viewModel.updateSortBy((String) view.getSortByComboBox().getSelectedItem());
-        viewModel.updateDesc(view.getDescToggleButton().isSelected());
-        
-        viewModel.searchByFilters();
-    }
-
-    public void feelingLucky() {
-        // Implement the logic for the "Feeling Lucky" feature
-        String response = viewModel.feelingLucky();
-        view.displayResponse(response);
+        interactor.searchByFilters(
+            view.getUpperPriceField().getText(),
+            view.getLowerPriceField().getText(),
+            view.getMetacriticField().getText(),
+            view.getOnSaleCheckBox().isSelected(),
+            (String) view.getSortByComboBox().getSelectedItem(),
+            view.getDescToggleButton().isSelected()
+        );
     }
 }

@@ -12,129 +12,163 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
-import java.awt.font.TextAttribute;
-import java.util.Map;
 
 public class ResultsView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "results";
+    private final String viewName = "ResultsView";
     private final ResultsViewModel resultsViewModel;
+
     private final JPanel gamesPanel;
     private final JButton backButton;
+    private final JScrollPane scrollPane;
 
     public ResultsView(ResultsViewModel resultsViewModel) {
         this.resultsViewModel = resultsViewModel;
         this.resultsViewModel.addPropertyChangeListener(this);
 
-        setLayout(new BorderLayout());
+        // Set layout to vertical box layout
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // Create a panel for the back button at the top
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        backButton = new JButton("Back");
-        backButton.addActionListener(this);
-        topPanel.add(backButton);
-        add(topPanel, BorderLayout.NORTH);
+        // Title
+        final JLabel title = new JLabel("Game Results");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(new Font("Arial", Font.BOLD, 20)); // Make title more prominent
+        this.add(title);
 
-        // Create a scrollable panel for games
+        // Back button panel
+        final JPanel buttonPanel = new JPanel();
+        backButton = new JButton("Show");
+        buttonPanel.add(backButton);
+        buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(buttonPanel);
+
+        // Games display panel with GridBagLayout
         gamesPanel = new JPanel();
-        gamesPanel.setLayout(new BoxLayout(gamesPanel, BoxLayout.Y_AXIS));
-        JScrollPane scrollPane = new JScrollPane(gamesPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        add(scrollPane, BorderLayout.CENTER);
+        gamesPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        // Create scroll pane with increased preferred size
+        scrollPane = new JScrollPane(gamesPanel);
+        scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Set preferred size to make the scroll pane taller
+        scrollPane.setPreferredSize(new Dimension(1000, 600)); // Width: 1000, Height: 600
+
+        // Ensure the scroll pane takes up more vertical space
+        scrollPane.setMinimumSize(new Dimension(1000, 500));
+        scrollPane.setMaximumSize(new Dimension(2000, 800));
+
+        // Remove horizontal scroll bar
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        this.add(scrollPane);
+
+        // Add action listener to back button
+        backButton.addActionListener(this);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == backButton) {
-            // Handle back button action
+    /**
+     * React to a button click that results in evt.
+     * @param evt the ActionEvent to react to
+     */
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println("Click " + evt.getActionCommand());
+        if (evt.getSource().equals(backButton)) {
+            resultsViewModel.firePropertyChanged();
         }
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("state".equals(evt.getPropertyName())) {
-            ResultsState state = (ResultsState) evt.getNewValue();
-            updateGamesDisplay(state);
-        }
+        final ResultsState state = (ResultsState) evt.getNewValue();
+        updateGamesDisplay(state);
     }
 
     private void updateGamesDisplay(ResultsState state) {
+        System.out.println(state.getGames());
+        // Clear existing games
         gamesPanel.removeAll();
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        int row = 0;
+        int col = 0;
+        int cardWidth = 200;
+        int cardHeight = 75;
+        int columns = 3;
 
         for (Game game : state.getGames()) {
             JPanel gameCard = createGameCard(game);
-            gamesPanel.add(gameCard);
-            gamesPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Spacing between cards
+            gbc.gridx = col;
+            gbc.gridy = row;
+            gamesPanel.add(gameCard, gbc);
+            gameCard.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+
+            col++;
+            if (col >= columns) {
+                col = 0;
+                row++;
+            }
         }
 
-        gamesPanel.revalidate();
-        gamesPanel.repaint();
+        // Calculate the preferred size of the gamesPanel
+        int panelWidth = columns * (cardWidth + gbc.insets.left + gbc.insets.right);
+        int panelHeight = (row + 1) * (cardHeight + gbc.insets.top + gbc.insets.bottom);
+        gamesPanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
+
+        // Adjust the parent container size if needed
+        gamesPanel.getParent().revalidate();
+        gamesPanel.getParent().repaint();
     }
 
     private JPanel createGameCard(Game game) {
-        JPanel card = new JPanel();
-        card.setLayout(new BorderLayout());
-        card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.GRAY),
-            new EmptyBorder(10, 10, 10, 10)
-        ));
+        JPanel gameCard = new JPanel();
+        gameCard.setLayout(new BoxLayout(gameCard, BoxLayout.Y_AXIS));
+        gameCard.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        // Left panel for image
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        // You would need to implement image loading ***********************************************************************
-        JLabel imageLabel = new JLabel("Game Image");
-        imageLabel.setPreferredSize(new Dimension(120, 120));
-        leftPanel.add(imageLabel, BorderLayout.CENTER);
-
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-
+        // Game title
         JLabel titleLabel = new JLabel(game.getTitle());
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Make game titles more prominent
+        gameCard.add(titleLabel);
 
-        JPanel pricePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        // Price information
+        JPanel pricePanel = new JPanel();
+        pricePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         if ("1".equals(game.getIsOnSale())) {
-            JLabel normalPriceLabel = new JLabel("$" + game.getNormalPrice());
-            normalPriceLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-            @SuppressWarnings("unchecked")
-            Map<TextAttribute, Object> attributes = (Map<TextAttribute, Object>) normalPriceLabel.getFont().getAttributes();
-            attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
-            normalPriceLabel.setFont(normalPriceLabel.getFont().deriveFont(attributes));
-            pricePanel.add(normalPriceLabel);
+            JLabel normalPriceLabel = new JLabel("Original: $" + game.getNormalPrice());
+            JLabel salePriceLabel = new JLabel("Sale: $" + game.getSalePrice());
             
-            JLabel salePriceLabel = new JLabel("$" + game.getSalePrice());
-            salePriceLabel.setFont(new Font("Arial", Font.BOLD, 14));
-            salePriceLabel.setForeground(Color.GREEN);
-            pricePanel.add(salePriceLabel);
-
             DecimalFormat df = new DecimalFormat("#.##");
             String savingsStr = df.format(Double.parseDouble(game.getSavings()));
-            JLabel savingsLabel = new JLabel(" (-" + savingsStr + "%)");
+            JLabel savingsLabel = new JLabel("Savings: " + savingsStr + "%");
+            
+            pricePanel.add(normalPriceLabel);
+            pricePanel.add(salePriceLabel);
             pricePanel.add(savingsLabel);
         } else {
-            JLabel priceLabel = new JLabel("$" + game.getNormalPrice());
-            pricePanel.add(priceLabel);
+            pricePanel.add(new JLabel("Price: $" + game.getNormalPrice()));
         }
+        gameCard.add(pricePanel);
 
-        JPanel ratingPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        // Ratings
+        JPanel ratingPanel = new JPanel();
+        ratingPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         ratingPanel.add(new JLabel("Steam Rating: " + game.getSteamRatingText() + 
-                                 " (" + game.getSteamRatingPercent() + "%) " +
-                                 "from " + game.getSteamRatingCount() + " reviews"));
-
+                                    " (" + game.getSteamRatingPercent() + "%)"));
+        
         if (!"0".equals(game.getMetacriticScore())) {
-            JLabel metacriticLabel = new JLabel("Metacritic: " + game.getMetacriticScore());
-            ratingPanel.add(metacriticLabel);
+            ratingPanel.add(new JLabel("Metacritic: " + game.getMetacriticScore()));
         }
+        gameCard.add(ratingPanel);
 
-        rightPanel.add(titleLabel);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        rightPanel.add(pricePanel);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        rightPanel.add(ratingPanel);
-
-        card.add(leftPanel, BorderLayout.WEST);
-        card.add(rightPanel, BorderLayout.CENTER);
-
-        return card;
+        return gameCard;
     }
 
     public String getViewName() {
