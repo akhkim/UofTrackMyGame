@@ -74,7 +74,7 @@ public class AppBuilder {
 
     public AppBuilder addGameSearchUseCase() {
         GameSearchOutputBoundary gameSearchPresenter = new GameSearchPresenter(
-                resultsViewModel,
+                new ResultsViewModel(),
                 viewManagerModel
         );
         GameSearchInputBoundary gameSearchInteractor = new GameSearchInteractor(
@@ -95,14 +95,6 @@ public class AppBuilder {
         final ResultsInputBoundary resultsInteractor = new ResultsInteractor(resultsPresenter);
         final ResultsController resultsController = new ResultsController(resultsInteractor);
         resultsView.setResultsController(resultsController);
-        return this;
-    }
-
-    public AppBuilder addHomeUseCase(){
-        HomeOutputBoundary homePresenter = new HomePresenter(viewManagerModel);
-        HomeInputBoundary homeInteractor = new HomeInteractor(homePresenter);
-        HomeController homeController = new HomeController(homeInteractor);
-        resultsView.setHomeController(homeController);
         return this;
     }
 

@@ -1,18 +1,53 @@
 package interface_adapter.game;
 
-public class GameViewModel {
-    private String title;
-    private String salePrice;
-    private String metacriticScore;
-    private String dealRating;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
-    public void updateGameDetails(String title, String salePrice, String metacriticScore, String dealRating) {
-        this.title = title;
-        this.salePrice = salePrice;
-        this.metacriticScore = metacriticScore;
-        this.dealRating = dealRating;
+import entity.Game;
+import interface_adapter.ViewModel;
 
-        // Display game details in GameView
-        new view.GameView(title, salePrice, metacriticScore, dealRating);
+public class GameViewModel extends ViewModel<GameState> implements PropertyChangeListener {
+    private GameState state = new GameState();
+    private Game game;
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+    public GameViewModel() {
+        super("GameView");
+        this.setState(state);
     }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        GameState updatedGame = (GameState) evt.getNewValue();
+        setGame(updatedGame.getGame());
+    }
+
+    public void setState(GameState gameState){
+        GameState oldState = this.state;
+        this.state = gameState;
+        support.firePropertyChange("state", oldState, state);
+    }
+
+    public void setGame(Game game) {
+        Game oldGame = this.game;
+        this.game = game;
+        support.firePropertyChange("game", oldGame, game);
+    }
+
+    @Override
+    public GameState getState() {
+        return state;
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
+    }
+
 }
