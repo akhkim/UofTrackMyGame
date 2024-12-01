@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import interface_adapter.wishlist.*;
-import use_case.wishlist.WishlistInteractor;
 
-public class WishlistView {
-    private JFrame frame;
+public class WishlistView extends JPanel {
+    private final String viewName = "wishlist";
     private JPanel listPanel;
+    private JFrame frame;
     private WishlistViewModel viewModel;
     private WishlistController controller;
 
@@ -20,21 +20,19 @@ public class WishlistView {
     }
 
     private void setupUI() {
-        frame = new JFrame("Wishlist");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        setLayout(new BorderLayout());
 
         // Title Label
         JLabel titleLabel = new JLabel("My Wishlist", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        frame.add(titleLabel, BorderLayout.NORTH);
+        add(titleLabel, BorderLayout.NORTH);
 
         // Panel for Game List
         listPanel = new JPanel();
         listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS)); // Vertical layout
 
         JScrollPane scrollPane = new JScrollPane(listPanel);
-        frame.add(scrollPane, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
 
         // Add Game Panel
         JPanel addPanel = new JPanel();
@@ -43,7 +41,7 @@ public class WishlistView {
 
         addPanel.add(gameInput);
         addPanel.add(addButton);
-        frame.add(addPanel, BorderLayout.SOUTH);
+        add(addPanel, BorderLayout.SOUTH);
 
         // Add Game Button Listener
         addButton.addActionListener(e -> {
@@ -54,8 +52,6 @@ public class WishlistView {
                 gameInput.setText(""); // Clear input field
             }
         });
-
-        frame.setVisible(true);
     }
 
     public void updateView() {
@@ -95,16 +91,8 @@ public class WishlistView {
         frame.repaint();
     }
 
-    public static void main(String[] args) {
-        // Example setup
-        WishlistState state = new WishlistState();
-        WishlistViewModel viewModel = new WishlistViewModel(state);
-        WishlistPresenter presenter = new WishlistPresenter(viewModel);
-        WishlistInteractor interactor = new WishlistInteractor(state, presenter); // No error now
-        WishlistController controller = new WishlistController(interactor);
-
-        // Launch UI
-        new WishlistView(viewModel, controller);
+    public String getViewName() {
+        return viewName;
     }
 
 
