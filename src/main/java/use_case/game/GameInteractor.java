@@ -1,38 +1,32 @@
 package use_case.game;
 
 import entity.Game;
-import entity.GameFactory;
+import interface_adapter.game.GameState;
 
-/**
- * The Game Interactor.
- */
-public class GameInteractor implements GameInputBoundary{
-    private final GameDataAccessInterface gameDataAccessObject;
-    private final GameOutputBoundary gamePresenter;
-    private final GameFactory gameFactory;
+public class GameInteractor implements GameInputBoundary {
+    private final GameOutputBoundary outputBoundary;
+    private final GameState gameState;
 
-    public GameInteractor(GameDataAccessInterface gameDataAccessObject,
-                          GameOutputBoundary gameOutputBoundary, GameFactory gameFactory) {
-        this.gameDataAccessObject = gameDataAccessObject;
-        this.gamePresenter = gameOutputBoundary;
-        this.gameFactory = gameFactory;
+    public GameInteractor(GameOutputBoundary outputBoundary, GameState gameState) {
+        this.outputBoundary = outputBoundary;
+        this.gameState = gameState;
     }
 
     @Override
-    public void gameWindow(GameInputData gameInputData) {
-        final Game game = gameFactory.create(gameInputData.getTitle(), gameInputData.getSalePrice(),
-                gameInputData.getNormalPrice(), gameInputData.getIsOnSale(), gameInputData.getSavings(),
-                gameInputData.getMetacriticScore(), gameInputData.getSteamRatingText(),
-                gameInputData.getSteamRatingPercent(), gameInputData.getSteamRatingCount(),
-                gameInputData.getDealRating(), gameInputData.getThumb(), gameInputData.getGameID());
-        gameDataAccessObject.save(game);
+    public void fetchGameDetails(GameInputData inputData) {
+        // Fetch the game object from GameState using gameID
+        Game game = gameState.getGameById(inputData.getGameID());
 
-        final GameOutputData gameOutputData = new GameOutputData(game.getTitle());
-        gamePresenter.prepareSuccessView(gameOutputData);
-    }
+        if (game != null) {
+            // Prepare output data
+            GameOutputData outputData = new GameOutputData(
+                    game.getTitle(),
+                    game.getSalePrice(),
+                    game.getMetacriticScore(),
+                    game.getDealRating()
+            );
 
-    @Override
-    public void addToWishlist(GameInputData gameInputData, String email, String thresholdPrice){
-        gamePresenter.switchToWishlistView();
+            outputBoundary.presentGameDetails(outputData);
+        }
     }
 }

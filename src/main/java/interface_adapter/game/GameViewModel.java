@@ -1,19 +1,18 @@
 package interface_adapter.game;
 
-import interface_adapter.ViewModel;
+public class GameViewModel {
+    private String title;
+    private String salePrice;
+    private String metacriticScore;
+    private String dealRating;
 
-/**
- * The ViewModel for the Game Window View.
- */
-public class GameViewModel extends ViewModel<GameState> {
+    public void updateGameDetails(String title, String salePrice, String metacriticScore, String dealRating) {
+        this.title = title;
+        this.salePrice = salePrice;
+        this.metacriticScore = metacriticScore;
+        this.dealRating = dealRating;
 
-    public static final String TITLE_LABEL = "Game View";
-    public static final String THRESHOLD_PRICE_LABEL = "Enter Price:";
-    public static final String EMAIL_LABEL = "Enter email:";
-
-    public GameViewModel() {
-        super("game");
-        setState(new GameState());
+        // Display game details in GameView
+        new view.GameView(title, salePrice, metacriticScore, dealRating);
     }
-
 }
