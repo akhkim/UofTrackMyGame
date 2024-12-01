@@ -8,6 +8,7 @@ public class Main {
         final JFrame application = appBuilder
                                     .addGameSearchView()
                                     .addResultsView()
+                                    .addWishlistView()
                                     .build();
 
         application.pack();
