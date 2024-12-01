@@ -69,7 +69,7 @@ public class AppBuilder {
 
     public AppBuilder addGameSearchUseCase() {
         GameSearchOutputBoundary gameSearchPresenter = new GameSearchPresenter(
-                new ResultsViewModel(),
+                resultsViewModel,
                 viewManagerModel
         );
         GameSearchInputBoundary gameSearchInteractor = new GameSearchInteractor(
