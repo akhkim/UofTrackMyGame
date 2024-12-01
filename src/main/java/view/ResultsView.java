@@ -25,49 +25,26 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         this.resultsViewModel = resultsViewModel;
         this.resultsViewModel.addPropertyChangeListener(this);
 
-        // Set layout to vertical box layout
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
 
-        // Title
-        final JLabel title = new JLabel("Game Results");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setFont(new Font("Arial", Font.BOLD, 20)); // Make title more prominent
-        this.add(title);
-
-        // Back button panel
-        final JPanel buttonPanel = new JPanel();
-        backButton = new JButton("Show");
-        buttonPanel.add(backButton);
-        buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(buttonPanel);
-
-        // Games display panel with GridBagLayout
         gamesPanel = new JPanel();
-        gamesPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gamesPanel.setLayout(new GridLayout(0, 3, 10, 10)); // 0 rows, 3 columns, with 10px gaps
 
-        // Create scroll pane with increased preferred size
         scrollPane = new JScrollPane(gamesPanel);
-        scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        // Set preferred size to make the scroll pane taller
-        scrollPane.setPreferredSize(new Dimension(1000, 600)); // Width: 1000, Height: 600
-
-        // Ensure the scroll pane takes up more vertical space
-        scrollPane.setMinimumSize(new Dimension(1000, 500));
-        scrollPane.setMaximumSize(new Dimension(2000, 800));
-
-        // Remove horizontal scroll bar
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        this.add(scrollPane);
-
-        // Add action listener to back button
+        backButton = new JButton("Back");
         backButton.addActionListener(this);
+
+        add(scrollPane, BorderLayout.CENTER);
+        add(backButton, BorderLayout.SOUTH);
+
+        // Set preferred size to fit three games perfectly
+        setPreferredSize(new Dimension(1000, 700)); // Adjust dimensions as needed
+
+        // Set minimum size to ensure the window is not resized below a certain size
+        setMinimumSize(new Dimension(900, 600)); // Adjust dimensions as needed
     }
 
     /**
@@ -76,20 +53,21 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
      */
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
-        if (evt.getSource().equals(backButton)) {
-            resultsViewModel.firePropertyChanged();
+        if (evt.getSource() == backButton) {
+            // Switch to the search view
+            
         }
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+    if (evt.getNewValue() instanceof ResultsState) {
         final ResultsState state = (ResultsState) evt.getNewValue();
         updateGamesDisplay(state);
     }
+}
 
     private void updateGamesDisplay(ResultsState state) {
-        System.out.println(state.getGames());
-        // Clear existing games
         gamesPanel.removeAll();
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -100,7 +78,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         int row = 0;
         int col = 0;
         int cardWidth = 200;
-        int cardHeight = 75;
+        int cardHeight = 100;
         int columns = 3;
 
         for (Game game : state.getGames()) {
@@ -130,7 +108,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     private JPanel createGameCard(Game game) {
         JPanel gameCard = new JPanel();
         gameCard.setLayout(new BoxLayout(gameCard, BoxLayout.Y_AXIS));
-        gameCard.setBorder(new EmptyBorder(10, 10, 10, 10));
+        gameCard.setBorder(new EmptyBorder(15, 15, 15, 15)); // Increase padding for larger cards
 
         // Game title
         JLabel titleLabel = new JLabel(game.getTitle());
@@ -144,11 +122,11 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         if ("1".equals(game.getIsOnSale())) {
             JLabel normalPriceLabel = new JLabel("Original: $" + game.getNormalPrice());
             JLabel salePriceLabel = new JLabel("Sale: $" + game.getSalePrice());
-            
+
             DecimalFormat df = new DecimalFormat("#.##");
             String savingsStr = df.format(Double.parseDouble(game.getSavings()));
             JLabel savingsLabel = new JLabel("Savings: " + savingsStr + "%");
-            
+
             pricePanel.add(normalPriceLabel);
             pricePanel.add(salePriceLabel);
             pricePanel.add(savingsLabel);
@@ -162,7 +140,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         ratingPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         ratingPanel.add(new JLabel("Steam Rating: " + game.getSteamRatingText() + 
                                     " (" + game.getSteamRatingPercent() + "%)"));
-        
+
         if (!"0".equals(game.getMetacriticScore())) {
             ratingPanel.add(new JLabel("Metacritic: " + game.getMetacriticScore()));
         }

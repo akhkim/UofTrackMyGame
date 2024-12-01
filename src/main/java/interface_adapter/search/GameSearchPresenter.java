@@ -49,10 +49,10 @@ public class GameSearchPresenter implements GameSearchOutputBoundary {
             ResultsState resultsState = resultViewModel.getState();
             resultsState.setGames(games);  
             resultViewModel.setState(resultsState);
-            this.viewManagerModel.firePropertyChanged();
 
             // Switch to results view
             this.viewManagerModel.switchView(this.resultViewModel.getViewName());
+            resultViewModel.firePropertyChanged();
             
         } catch (Exception e) {
             // Handle any JSON parsing errors
