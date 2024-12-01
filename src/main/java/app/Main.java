@@ -15,10 +15,12 @@ import view.ViewManager;
 
 public class Main {
     public static void main(String[] args) {
-        Game game = new Game("gameID", "title","salePrice","normalPrice",
-                "isOnSale", "savings","metacriticScore","steamRatingText",
-                "steamRatingPercent","steamRatingCount","dealRating",
-                "thumb");
-        new GameView(game.getTitle(), game.getSalePrice(), game.getMetacriticScore(), game.getDealRating());
+        final AppBuilder appBuilder = new AppBuilder();
+        final JFrame application = appBuilder
+                                    .addGameSearchView()
+                                    .addResultsView()
+                                    .build();
+        application.pack();
+        application.setVisible(true);
     }
 }
