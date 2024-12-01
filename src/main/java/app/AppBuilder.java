@@ -13,7 +13,7 @@ import interface_adapter.search.GameSearchViewModel;
 import use_case.results.ResultsInputBoundary;
 import use_case.results.ResultsOutputBoundary;
 import use_case.search.GameSearchDataAccessInterface;
-import use_case.search.GameSearchInputBoundary; 
+import use_case.search.GameSearchInputBoundary;
 import use_case.search.GameSearchInteractor;
 import use_case.search.GameSearchOutputBoundary;
 import view.GameSearchView;
@@ -36,52 +36,60 @@ public class AppBuilder {
 
     private GameSearchView gameSearchView;
     private GameSearchViewModel gameSearchViewModel;
-    private ResultsViewModel resultsViewModel;
-    private GameViewModel gameViewModel = new GameViewModel();
     private ResultsView resultsView;
+    private ResultsViewModel resultsViewModel;
+    private GameView gameView;
+    private GameViewModel gameViewModel;
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
 
     public AppBuilder addGameSearchView() {
-        GameSearchState searchState = new GameSearchState();
-        ResultsState resultsState = new ResultsState();
-        gameSearchViewModel = new GameSearchViewModel(searchState);
-        resultsViewModel = new ResultsViewModel();
-
-        GameSearchDataAccessInterface gateway = new DataAccess();
-
-        GameSearchOutputBoundary presenter = new GameSearchPresenter(resultsViewModel, viewManagerModel);
-
-        GameSearchInputBoundary interactor = new GameSearchInteractor(gateway, presenter);
-
+        gameSearchViewModel = new GameSearchViewModel();
         gameSearchView = new GameSearchView(gameSearchViewModel);
-
-        GameSearchController controller = new GameSearchController(gameSearchView, interactor);
-
         cardPanel.add(gameSearchView, gameSearchView.getViewName());
         return this;
     }
 
     public AppBuilder addResultsView() {
+        resultsViewModel = new ResultsViewModel();
         resultsView = new ResultsView(resultsViewModel);
         cardPanel.add(resultsView, resultsView.getViewName());
         return this;
     }
 
-    public AppBuilder addResultsUseCase() {
-        final ResultsOutputBoundary resultsOutputBoundary = new ResultsPresenter(resultsViewModel, gameViewModel, viewManagerModel);
-        final ResultsInputBoundary resultsInteractor = new ResultsInteractor(resultsOutputBoundary);
-    
-        final ResultsController resultsController = new ResultsController(resultsInteractor);
-        resultsView.setResultsController(resultsController);
+    public AppBuilder addGamesView() {
+        gameViewModel = new GameViewModel();
+        gameView = new GameView(gameViewModel);
+        cardPanel.add(gameView, gameView.getViewName());
         return this;
     }
 
-    public AppBuilder addGamesView() {
-        gameView = new GameView(gameViewModel);
-        cardPanel.add(gameView, gameView.getViewName());
+    public AppBuilder addGameSearchUseCase() {
+        GameSearchOutputBoundary gameSearchPresenter = new GameSearchPresenter(
+                new ResultsViewModel(),
+                viewManagerModel
+        );
+        GameSearchInputBoundary gameSearchInteractor = new GameSearchInteractor(
+                new DataAccess(),
+                gameSearchPresenter
+        );
+        GameSearchController controller = new GameSearchController(
+                gameSearchView,
+                gameSearchInteractor,
+                viewManagerModel
+        );
+        gameSearchView.setController(controller);
+        return this;
+    }
+
+    public AppBuilder addResultsUseCase() {
+        final ResultsOutputBoundary resultsPresenter = new ResultsPresenter(resultsViewModel, gameViewModel, viewManagerModel);
+        final ResultsInputBoundary resultsInteractor = new ResultsInteractor(resultsPresenter);
+        final ResultsController resultsController = new ResultsController(resultsInteractor);
+        resultsView.setResultsController(resultsController);
         return this;
     }
 
