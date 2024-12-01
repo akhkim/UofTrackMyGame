@@ -7,6 +7,9 @@ import use_case.home.HomeOutputBoundary;
 public class HomePresenter implements HomeOutputBoundary {
     ViewManagerModel viewManagerModel;
 
+    public HomePresenter(ViewManagerModel viewManagerModel) {
+        this.viewManagerModel = viewManagerModel;
+    }
 
     @Override
     public void prepareSuccessView() {

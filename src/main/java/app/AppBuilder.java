@@ -6,10 +6,15 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.DataAccess;
+import interface_adapter.home.HomeController;
+import interface_adapter.home.HomePresenter;
 import interface_adapter.search.GameSearchController;
 import interface_adapter.search.GameSearchPresenter;
 import interface_adapter.search.GameSearchState;
 import interface_adapter.search.GameSearchViewModel;
+import use_case.home.HomeInputBoundary;
+import use_case.home.HomeInteractor;
+import use_case.home.HomeOutputBoundary;
 import use_case.results.ResultsInputBoundary;
 import use_case.results.ResultsOutputBoundary;
 import use_case.search.GameSearchDataAccessInterface;
@@ -90,6 +95,14 @@ public class AppBuilder {
         final ResultsInputBoundary resultsInteractor = new ResultsInteractor(resultsPresenter);
         final ResultsController resultsController = new ResultsController(resultsInteractor);
         resultsView.setResultsController(resultsController);
+        return this;
+    }
+
+    public AppBuilder addHomeUseCase(){
+        HomeOutputBoundary homePresenter = new HomePresenter(viewManagerModel);
+        HomeInputBoundary homeInteractor = new HomeInteractor(homePresenter);
+        HomeController homeController = new HomeController(homeInteractor);
+        resultsView.setHomeController(homeController);
         return this;
     }
 

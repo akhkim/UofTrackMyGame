@@ -10,6 +10,7 @@ public class Main {
                                     .addResultsView()
                                     .addGameSearchUseCase()
                                     .addResultsUseCase()
+                                    .addHomeUseCase()
                                     .build();
 
         application.pack();
