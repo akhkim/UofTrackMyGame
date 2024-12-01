@@ -24,13 +24,51 @@ import use_case.wishlist.WishlistDataAccessInterface;
 public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAccessInterface {
 
     private static final String WISHLIST_PATH = "../data/wishlist.json";
+    private static final Map<String, String> storeMap = new HashMap<String, String>() {{
+        put("1", "Steam");
+        put("2", "GamersGate");
+        put("3", "GreenManGaming");
+        put("4", "Amazon");
+        put("5", "GameStop");
+        put("6", "Direct2Drive");
+        put("7", "GOG");
+        put("8", "Origin");
+        put("9", "Get Games");
+        put("10", "Shiny Loot");
+        put("11", "Humble Store");
+        put("12", "Desura");
+        put("13", "Uplay");
+        put("14", "IndieGameStand");
+        put("15", "Fanatical");
+        put("16", "Gamesrocket");
+        put("17", "Games Republic");
+        put("18", "SilaGames");
+        put("19", "Playfield");
+        put("20", "ImperialGames");
+        put("21", "WinGameStore");
+        put("22", "FunStockDigital");
+        put("23", "GameBillet");
+        put("24", "Voidu");
+        put("25", "Epic Games Store");
+        put("26", "Razer Game Store");
+        put("27", "Gamesplanet");
+        put("28", "Gamesload");
+        put("29", "2Game");
+        put("30", "IndieGala");
+        put("31", "Blizzard Shop");
+        put("32", "AllYouPlay");
+        put("33", "DLGamer");
+        put("34", "Noctre");
+        put("35", "DreamGame");
+    }};
 
     public String searchByTitle(String title) {
         System.out.println("Searching by title: " + title);
         String baseUrl = "https://www.cheapshark.com/api/1.0/deals";
         Map<String, String> params = new HashMap<>();
         params.put("title", title);
-        return executeRequest(baseUrl, params);
+        String response = executeRequest(baseUrl, params);
+        return addStoreNamesToResponse(response);
     }
 
     public String searchByFilters(String upperPrice, String lowerPrice, String metacritic, String onSale, String sortBy, String desc) {
@@ -42,7 +80,8 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
         params.put("onSale", onSale);
         params.put("sortBy", sortBy);
         params.put("desc", desc);
-        return executeRequest(baseUrl, params);
+        String response = executeRequest(baseUrl, params);
+        return addStoreNamesToResponse(response);
     }
 
     private String executeRequest(String baseUrl, Map<String, String> params) {
@@ -87,6 +126,21 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private String addStoreNamesToResponse(String jsonResponse) {
+        try {
+            JSONArray games = new JSONArray(jsonResponse);
+            for (int i = 0; i < games.length(); i++) {
+                JSONObject game = games.getJSONObject(i);
+                String storeID = game.getString("storeID");
+                game.put("storeName", storeMap.getOrDefault(storeID, "Unknown Store"));
+            }
+            return games.toString();
+        } catch (Exception e) {
+            System.err.println("Error processing JSON response: " + e.getMessage());
+            return jsonResponse;
         }
     }
 
