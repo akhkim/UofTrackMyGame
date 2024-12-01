@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,8 @@ import use_case.search.GameSearchDataAccessInterface;
 import use_case.wishlist.WishlistDataAccessInterface;
 
 public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAccessInterface {
+
+    private static final String WISHLIST_PATH = "../data/wishlist.json";
 
     public String searchByTitle(String title) {
         System.out.println("Searching by title: " + title);
@@ -107,8 +110,12 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
             gamesArray.put(gameJSON);
         }
 
-        try (FileWriter file = new FileWriter("wishlist.json")) {
-            file.write(gamesArray.toString(4));
+        try {
+            // Create directories if they don't exist
+            Files.createDirectories(Paths.get("data"));
+            try (FileWriter file = new FileWriter(WISHLIST_PATH)) {
+                file.write(gamesArray.toString(4));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,13 +126,15 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
         ArrayList<Game> gamesArray = new ArrayList<>();
         GameFactory gameFactory = new GameFactory();
         try {
-            String stringJSON = new String(Files.readAllBytes(Paths.get("wishlist.json")));
+            String stringJSON = new String(Files.readAllBytes(Paths.get(WISHLIST_PATH)));
             JSONArray gamesJSON = new JSONArray(stringJSON);
             for (int i = 0; i < gamesJSON.length(); i++){
                 gamesArray.add(gameFactory.create(gamesJSON.getJSONObject(i)));
             }
+        } catch (NoSuchFileException e) {
+            System.err.println("Wishlist file not found: " + WISHLIST_PATH);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error reading the wishlist: " + e.getMessage());
         }
         return gamesArray;
     }

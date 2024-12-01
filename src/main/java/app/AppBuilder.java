@@ -20,6 +20,9 @@ import view.ViewManager;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.results.ResultsViewModel;
 import interface_adapter.results.ResultsState;
+import interface_adapter.wishlist.*;
+import use_case.wishlist.*;
+import view.WishlistView;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -31,6 +34,9 @@ public class AppBuilder {
     private GameSearchViewModel gameSearchViewModel;
     private ResultsViewModel resultsViewModel;
     private ResultsView resultsView;
+    private WishlistView wishlistView;
+    private WishlistViewModel wishlistViewModel;
+    private WishlistState wishlistState;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -50,7 +56,7 @@ public class AppBuilder {
 
         gameSearchView = new GameSearchView(gameSearchViewModel);
 
-        GameSearchController controller = new GameSearchController(gameSearchView, interactor);
+        GameSearchController controller = new GameSearchController(gameSearchView, interactor, viewManagerModel);
 
         cardPanel.add(gameSearchView, gameSearchView.getViewName());
         return this;
@@ -59,6 +65,25 @@ public class AppBuilder {
     public AppBuilder addResultsView() {
         resultsView = new ResultsView(resultsViewModel);
         cardPanel.add(resultsView, resultsView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addWishlistView() {
+        wishlistState = new WishlistState();
+        wishlistViewModel = new WishlistViewModel(wishlistState);
+
+        WishlistDataAccessInterface dataAccess = new DataAccess();
+
+        WishlistOutputBoundary presenter = new WishlistPresenter(wishlistViewModel);
+
+        WishlistInputBoundary interactor = new WishlistInteractor(dataAccess, presenter);
+
+        WishlistController controller = new WishlistController(interactor);
+
+        wishlistView = new WishlistView(wishlistViewModel, controller);
+
+        cardPanel.add(wishlistView, wishlistViewModel.getViewName());
+        
         return this;
     }
 
