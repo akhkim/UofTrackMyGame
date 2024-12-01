@@ -6,7 +6,8 @@ public class Main {
     public static void main(String[] args) {
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
-                                    .addGamesView()
+                                    .addGameView()
+                                    .addGameUseCase()
                                     .addGameSearchView()
                                     .addResultsView()
                                     .addGameSearchUseCase()

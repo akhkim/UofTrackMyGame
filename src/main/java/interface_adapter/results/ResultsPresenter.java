@@ -27,12 +27,10 @@ public class ResultsPresenter implements ResultsOutputBoundary {
         this.gameViewModel.setState(gameState);
         this.gameViewModel.firePropertyChanged();
 
-        new GameView(
-            response.getGame().getTitle(),
-            response.getGame().getSalePrice(),
-            response.getGame().getMetacriticScore(),
-            response.getGame().getDealRating()
-        );
+
+        this.viewManagerModel.setState(gameViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
+
     }
 
     @Override

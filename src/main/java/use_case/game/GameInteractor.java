@@ -5,17 +5,15 @@ import interface_adapter.game.GameState;
 
 public class GameInteractor implements GameInputBoundary {
     private final GameOutputBoundary outputBoundary;
-    private final GameState gameState;
 
-    public GameInteractor(GameOutputBoundary outputBoundary, GameState gameState) {
+    public GameInteractor(GameOutputBoundary outputBoundary) {
         this.outputBoundary = outputBoundary;
-        this.gameState = gameState;
     }
 
     @Override
     public void fetchGameDetails(GameInputData inputData) {
         // Fetch the game object from GameState using gameID
-        Game game = gameState.getGame();
+        Game game = inputData.getGame();
 
         if (game != null) {
             // Prepare output data
