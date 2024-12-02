@@ -36,7 +36,7 @@ public class RecommendationInteractor implements RecommendationInputBoundary {
                     "1"
             );
             arrayJSON = new JSONArray(results);
-            thresholdRange += 0.1;
+            thresholdRange += 0.01;
         } while (arrayJSON.length() < 9);
 
         ArrayList<Game> games = new ArrayList<>();
