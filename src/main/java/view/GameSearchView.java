@@ -48,11 +48,11 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
 
         final JLabel titleLabel = new JLabel("Title");
         titleLabel.setForeground(textColor);
-        final JLabel upperPriceLabel = new JLabel("Upper Price");
+        final JLabel upperPriceLabel = new JLabel("Upper Price (in $)");
         upperPriceLabel.setForeground(textColor);
-        final JLabel lowerPriceLabel = new JLabel("Lower Price");
+        final JLabel lowerPriceLabel = new JLabel("Lower Price (in $)");
         lowerPriceLabel.setForeground(textColor);
-        final JLabel metacriticLabel = new JLabel("Metacritic");
+        final JLabel metacriticLabel = new JLabel("Metacritic (Professional Review Score, 0-100)");
         metacriticLabel.setForeground(textColor);
         final JLabel onSaleLabel = new JLabel("On Sale");
         onSaleLabel.setForeground(textColor);
