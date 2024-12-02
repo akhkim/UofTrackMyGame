@@ -1,6 +1,8 @@
 package view;
 
 import entity.Game;
+import interface_adapter.home.HomeController;
+import interface_adapter.results.ResultsController;
 import interface_adapter.results.ResultsState;
 import interface_adapter.results.ResultsViewModel;
 
@@ -9,6 +11,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
@@ -16,6 +20,8 @@ import java.text.DecimalFormat;
 public class ResultsView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "ResultsView";
     private final ResultsViewModel resultsViewModel;
+    private ResultsController resultsController;
+    private HomeController homeController;
 
     private final JPanel gamesPanel;
     private final JButton backButton;
@@ -55,17 +61,17 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         System.out.println("Click " + evt.getActionCommand());
         if (evt.getSource() == backButton) {
             // Switch to the search view
-            
+            homeController.execute();
         }
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getNewValue() instanceof ResultsState) {
-        final ResultsState state = (ResultsState) evt.getNewValue();
-        updateGamesDisplay(state);
+        if (evt.getNewValue() instanceof ResultsState) {
+            final ResultsState state = (ResultsState) evt.getNewValue();
+            updateGamesDisplay(state);
+        }
     }
-}
 
     private void updateGamesDisplay(ResultsState state) {
         gamesPanel.removeAll();
@@ -81,21 +87,25 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         int cardHeight = 100;
         int columns = 3;
 
-        for (Game game : state.getGames()) {
-            JPanel gameCard = createGameCard(game);
-            gbc.gridx = col;
-            gbc.gridy = row;
-            gamesPanel.add(gameCard, gbc);
-            gameCard.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-            col++;
-            if (col >= columns) {
-                col = 0;
-                row++;
+        if (state.getGames().isEmpty()) {
+            JLabel errorLabel = new JLabel("No games found");
+            gamesPanel.add(errorLabel);
+        } else {
+            for (Game game : state.getGames()) {
+                JPanel gameCard = createGameCard(game);
+                gbc.gridx = col;
+                gbc.gridy = row;
+                gamesPanel.add(gameCard, gbc);
+                gameCard.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        
+                col++;
+                if (col >= columns) {
+                    col = 0;
+                    row++;
+                }
             }
         }
 
-        // Calculate the preferred size of the gamesPanel
         int panelWidth = columns * (cardWidth + gbc.insets.left + gbc.insets.right);
         int panelHeight = (row + 1) * (cardHeight + gbc.insets.top + gbc.insets.bottom);
         gamesPanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
@@ -108,13 +118,19 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     private JPanel createGameCard(Game game) {
         JPanel gameCard = new JPanel();
         gameCard.setLayout(new BoxLayout(gameCard, BoxLayout.Y_AXIS));
-        gameCard.setBorder(new EmptyBorder(15, 15, 15, 15)); // Increase padding for larger cards
+        gameCard.setBorder(new EmptyBorder(15, 15, 15, 15));
 
         // Game title
         JLabel titleLabel = new JLabel(game.getTitle());
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Make game titles more prominent
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
         gameCard.add(titleLabel);
+
+        // Store name
+        JLabel storeLabel = new JLabel("Store: " + game.getStoreName());
+        storeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        storeLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+        gameCard.add(storeLabel);
 
         // Price information
         JPanel pricePanel = new JPanel();
@@ -146,10 +162,27 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         }
         gameCard.add(ratingPanel);
 
+        gameCard.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                // Handle mouse release event
+                System.out.println("Mouse released on game card: " + game.getTitle());
+                resultsController.execute(game);
+            }
+        });
+
         return gameCard;
     }
 
     public String getViewName() {
         return viewName;
+    }
+
+    public void setResultsController(ResultsController resultsController){
+        this.resultsController = resultsController;
+    }
+
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
     }
 }
