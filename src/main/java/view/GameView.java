@@ -4,20 +4,26 @@ import entity.Game;
 import interface_adapter.game.GameController;
 import interface_adapter.game.GameState;
 import interface_adapter.game.GameViewModel;
+import interface_adapter.recommendation.RecommendationController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GameView extends JPanel implements PropertyChangeListener {
     private String viewName = "GameView";
     private final GameViewModel gameViewModel;
     private final JPanel panel;
-    private GameController controller;
-
+    private GameController gameController;
+    private RecommendationController recommendationController;
 
     public GameView(GameViewModel gameViewModel) {
         this.gameViewModel = gameViewModel;
@@ -62,6 +68,26 @@ public class GameView extends JPanel implements PropertyChangeListener {
         } catch (MalformedURLException e) {
             System.err.println("Invalid thumbnail URL: " + e.getMessage());
         }
+
+        // Store Name
+        String storeUrl = game.getStoreName();
+        JLabel storeLabel = new JLabel("<html><a href='" + storeUrl + "'>Store: " + game.getStoreName() + "</a></html>");
+        storeLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        storeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        storeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        storeLabel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+        storeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Desktop.getDesktop().browse(new URI(storeUrl));
+                } catch (IOException | URISyntaxException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        panel.add(storeLabel);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         // Sale Price
         JLabel priceLabel = new JLabel("Price: $" + game.getSalePrice());
@@ -120,13 +146,28 @@ public class GameView extends JPanel implements PropertyChangeListener {
                     JOptionPane.INFORMATION_MESSAGE);
         });
         panel.add(notifyButton);
+
+
+        // Recommendation Button
+        JButton recommendationButton = new JButton("Find Similar Games");
+        recommendationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        recommendationButton.addActionListener(e -> {
+            recommendationController.execute(game);
+        });
+        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some spacing
+        panel.add(recommendationButton);
+
     }
 
     public String getViewName(){
         return viewName;
     }
 
-    public void setController(GameController controller) {
-        this.controller = controller;
+    public void setGameController(GameController controller) {
+        gameController = controller;
+    }
+
+    public void setRecommendationController(RecommendationController controller) {
+        recommendationController = controller;
     }
 }
