@@ -12,6 +12,7 @@ import interface_adapter.home.HomeController;
 import interface_adapter.home.HomePresenter;
 import interface_adapter.search.GameSearchController;
 import interface_adapter.search.GameSearchPresenter;
+import interface_adapter.search.GameSearchState;
 import interface_adapter.search.GameSearchViewModel;
 import use_case.game.GameInputBoundary;
 import use_case.game.GameInteractor;
@@ -21,16 +22,19 @@ import use_case.home.HomeInteractor;
 import use_case.home.HomeOutputBoundary;
 import use_case.results.ResultsInputBoundary;
 import use_case.results.ResultsOutputBoundary;
+import use_case.search.GameSearchDataAccessInterface;
 import use_case.search.GameSearchInputBoundary;
 import use_case.search.GameSearchInteractor;
 import use_case.search.GameSearchOutputBoundary;
 import view.GameSearchView;
 import view.GameView;
 import view.ResultsView;
+import view.ViewManager;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.results.ResultsViewModel;
 import interface_adapter.results.ResultsController;
 import interface_adapter.results.ResultsPresenter;
+import interface_adapter.results.ResultsState;
 import interface_adapter.game.GameViewModel;
 import use_case.results.ResultsInteractor;
 
@@ -38,7 +42,8 @@ public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
-   
+    private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
+
     private GameSearchView gameSearchView;
     private GameSearchViewModel gameSearchViewModel;
     private ResultsView resultsView;
