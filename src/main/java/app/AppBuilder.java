@@ -134,7 +134,7 @@ public class AppBuilder {
     }
 
     public JFrame build() {
-        final JFrame application = new JFrame("Game Search Application");
+        final JFrame application = new JFrame("UofTrackMyGame");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         application.add(cardPanel);
 
