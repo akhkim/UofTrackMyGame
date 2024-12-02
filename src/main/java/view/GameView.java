@@ -7,10 +7,10 @@ import interface_adapter.game.GameViewModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class GameView extends JPanel implements PropertyChangeListener {
     private String viewName = "GameView";
@@ -46,6 +46,22 @@ public class GameView extends JPanel implements PropertyChangeListener {
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(titleLabel);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        // Thumbnail of the game
+        try {
+            URL thumbUrl = new URL(game.getThumb());
+            ImageIcon thumbIcon = new ImageIcon(thumbUrl);
+            Image image = thumbIcon.getImage();
+            int width = thumbIcon.getIconWidth();
+            int height = thumbIcon.getIconHeight();
+            Image newimg = image.getScaledInstance(width * 2, height * 2, java.awt.Image.SCALE_SMOOTH);
+            thumbIcon = new ImageIcon(newimg);
+            JLabel thumbLabel = new JLabel(thumbIcon);
+            thumbLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            panel.add(thumbLabel);
+        } catch (MalformedURLException e) {
+            System.err.println("Invalid thumbnail URL: " + e.getMessage());
+        }
 
         // Sale Price
         JLabel priceLabel = new JLabel("Price: $" + game.getSalePrice());
@@ -104,10 +120,6 @@ public class GameView extends JPanel implements PropertyChangeListener {
                     JOptionPane.INFORMATION_MESSAGE);
         });
         panel.add(notifyButton);
-
-//        // REMOVED
-//        panel.add(panel);
-//        panel.setVisible(true);
     }
 
     public String getViewName(){
