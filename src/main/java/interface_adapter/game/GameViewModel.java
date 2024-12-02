@@ -1,18 +1,16 @@
 package interface_adapter.game;
 
-public class GameViewModel {
-    private String title;
-    private String salePrice;
-    private String metacriticScore;
-    private String dealRating;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
-    public void updateGameDetails(String title, String salePrice, String metacriticScore, String dealRating) {
-        this.title = title;
-        this.salePrice = salePrice;
-        this.metacriticScore = metacriticScore;
-        this.dealRating = dealRating;
+import entity.Game;
+import interface_adapter.ViewModel;
 
-        // Display game details in GameView
-        new view.GameView(title, salePrice, metacriticScore, dealRating);
+public class GameViewModel extends ViewModel<GameState> {
+
+    public GameViewModel() {
+        super("GameView");
+        this.setState(new GameState());
     }
 }

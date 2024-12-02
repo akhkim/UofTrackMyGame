@@ -80,15 +80,15 @@ public class WishlistView extends JPanel {
             gamePanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    JOptionPane.showMessageDialog(frame, "Clicked on: " + title);
+//                    JOptionPane.showMessageDialog(frame, "Clicked on: " + title);
                 }
             });
 
             listPanel.add(gamePanel);
         }
 
-        frame.revalidate();
-        frame.repaint();
+//        frame.revalidate();
+//        frame.repaint();
     }
 
     public String getViewName() {

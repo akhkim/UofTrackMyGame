@@ -19,7 +19,8 @@ public class GameFactory {
             jsonGame.getString("steamRatingPercent"),
             jsonGame.getString("steamRatingCount"),
             jsonGame.getString("dealRating"),
-            jsonGame.getString("thumb")
+            jsonGame.getString("thumb"),
+            jsonGame.getString("storeName")
         );
     }
 }

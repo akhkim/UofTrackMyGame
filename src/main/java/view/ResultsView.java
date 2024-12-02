@@ -1,6 +1,7 @@
 package view;
 
 import entity.Game;
+import interface_adapter.home.HomeController;
 import interface_adapter.results.ResultsController;
 import interface_adapter.results.ResultsState;
 import interface_adapter.results.ResultsViewModel;
@@ -21,6 +22,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     private final ResultsViewModel resultsViewModel;
     private final Game selected = null;
     private ResultsController resultsController;
+    private HomeController homeController;
 
     private final JPanel gamesPanel;
     private final JButton backButton;
@@ -60,15 +62,15 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         System.out.println("Click " + evt.getActionCommand());
         if (evt.getSource() == backButton) {
             // Switch to the search view
-            
+            homeController.execute();
         }
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getNewValue() instanceof ResultsState) {
-        final ResultsState state = (ResultsState) evt.getNewValue();
-        updateGamesDisplay(state);
+        if (evt.getNewValue() instanceof ResultsState) {
+            final ResultsState state = (ResultsState) evt.getNewValue();
+            updateGamesDisplay(state);
         }
     }
 
@@ -117,13 +119,19 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     private JPanel createGameCard(Game game) {
         JPanel gameCard = new JPanel();
         gameCard.setLayout(new BoxLayout(gameCard, BoxLayout.Y_AXIS));
-        gameCard.setBorder(new EmptyBorder(15, 15, 15, 15)); // Increase padding for larger cards
+        gameCard.setBorder(new EmptyBorder(15, 15, 15, 15));
 
         // Game title
         JLabel titleLabel = new JLabel(game.getTitle());
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Make game titles more prominent
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
         gameCard.add(titleLabel);
+
+        // Store name
+        JLabel storeLabel = new JLabel("Store: " + game.getStoreName());
+        storeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        storeLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+        gameCard.add(storeLabel);
 
         // Price information
         JPanel pricePanel = new JPanel();
@@ -173,5 +181,9 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
 
     public void setResultsController(ResultsController resultsController){
         this.resultsController = resultsController;
+    }
+
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
     }
 }
