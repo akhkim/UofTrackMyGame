@@ -1,6 +1,5 @@
 package use_case.feeling_lucky;
 
-import entity.Game;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

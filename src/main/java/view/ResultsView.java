@@ -20,7 +20,6 @@ import java.text.DecimalFormat;
 public class ResultsView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "ResultsView";
     private final ResultsViewModel resultsViewModel;
-    private final Game selected = null;
     private ResultsController resultsController;
     private HomeController homeController;
 

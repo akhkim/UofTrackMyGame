@@ -1,7 +1,6 @@
 package use_case.game;
 
 import entity.Game;
-import interface_adapter.game.GameState;
 
 public class GameInteractor implements GameInputBoundary {
     private final GameOutputBoundary outputBoundary;
