@@ -1,6 +1,5 @@
 package interface_adapter.game;
 
-import entity.Game;
 import use_case.game.GameInputBoundary;
 
 public class GameController {
