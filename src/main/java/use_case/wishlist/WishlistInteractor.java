@@ -3,6 +3,7 @@ package use_case.wishlist;
 import entity.Game;
 import entity.Wishlist;
 import java.util.ArrayList;
+import data_access.DataAccess;
 
 public class WishlistInteractor implements WishlistInputBoundary {
     private final WishlistDataAccessInterface dataAccess;
@@ -17,24 +18,10 @@ public class WishlistInteractor implements WishlistInputBoundary {
     }
 
     @Override
-    public WishlistOutputData addGameToWishlist(WishlistInputData inputData) {
-        String gameTitle = inputData.getGameTitle();
-        Game game = new Game(gameTitle, "", "", "", "", "", "", "", "", "", "", "", "" );
-        wishlist.addGame(game);
-
-        // Save the updated wishlist to the data layer
-        dataAccess.saveWishlist(wishlist.getGames());
-
-        // Return output data via the presenter
-        return presenter.presentSuccess("Game added: " + gameTitle);
-    }
-
-    @Override
     public WishlistOutputData removeGameFromWishlist(WishlistInputData inputData) {
         String gameTitle = inputData.getGameTitle();
         Game gameToRemove = null;
 
-        // Find the game in the wishlist
         for (Game game : wishlist.getGames()) {
             if (game.getTitle().equals(gameTitle)) {
                 gameToRemove = game;

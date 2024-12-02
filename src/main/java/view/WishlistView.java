@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import interface_adapter.wishlist.*;
-import use_case.wishlist.WishlistInteractor;
 
 public class WishlistView extends JPanel {
     private final String viewName = "wishlist";
     private JPanel listPanel;
+    private JFrame frame;
     private WishlistViewModel viewModel;
     private WishlistController controller;
 
@@ -21,7 +21,7 @@ public class WishlistView extends JPanel {
 
     private void setupUI() {
         setLayout(new BorderLayout());
-        
+
         // Title Label
         JLabel titleLabel = new JLabel("My Wishlist", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -80,31 +80,21 @@ public class WishlistView extends JPanel {
             gamePanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-//                    JOptionPane.showMessageDialog(frame, "Clicked on: " + title);
+                    JOptionPane.showMessageDialog(null, "Clicked on: " + title);
                 }
             });
 
             listPanel.add(gamePanel);
         }
 
-//        frame.revalidate();
-//        frame.repaint();
+        // Use this to revalidate and repaint the current panel
+        revalidate();
+        repaint();
     }
+
 
     public String getViewName() {
         return viewName;
-    }
-
-    public static void main(String[] args) {
-        // Example setup
-        WishlistState state = new WishlistState();
-        WishlistViewModel viewModel = new WishlistViewModel(state);
-        WishlistPresenter presenter = new WishlistPresenter(viewModel);
-        WishlistInteractor interactor = new WishlistInteractor(state, presenter); // No error now
-        WishlistController controller = new WishlistController(interactor);
-
-        // Launch UI
-        new WishlistView(viewModel, controller);
     }
 
 

@@ -29,4 +29,4 @@ public class GameSearchInteractor implements GameSearchInputBoundary {
         // System.out.println(response);
         presenter.presentSearchResults(response);
     }
-} 
+}
