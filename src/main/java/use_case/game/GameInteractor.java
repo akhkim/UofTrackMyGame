@@ -1,24 +1,31 @@
 package use_case.game;
 
+import use_case.wishlist.WishlistDataAccessInterface;
 import entity.Game;
 
-public class GameInteractor implements GameInputBoundary {
-    private final GameOutputBoundary outputBoundary;
+import java.util.ArrayList;
+import java.util.Collections;
 
-    public GameInteractor(GameOutputBoundary outputBoundary) {
-        this.outputBoundary = outputBoundary;
+public class GameInteractor implements GameInputBoundary {
+    private final WishlistDataAccessInterface dataAccessInterface;
+
+    public GameInteractor(WishlistDataAccessInterface dataAccessInterface) {
+        this.dataAccessInterface = dataAccessInterface;
     }
 
     @Override
-    public void fetchGameDetails(GameInputData inputData) {
-        // Fetch the game object from GameState using gameID
-        Game game = inputData.getGame();
+    public void addToWishlist(String gameID, String title, String salePrice,
+                              String normalPrice, String isOnSale, String savings,
+                              String metacriticScore, String steamRatingText,
+                              String steamRatingPercent, String steamRatingCount,
+                              String dealRating, String thumb, String storeName) {
 
-        if (game != null) {
-            // Prepare output data
-            GameOutputData outputData = new GameOutputData(game);
+        Game game = new Game(gameID, title, salePrice, normalPrice, isOnSale, savings, metacriticScore, steamRatingText,
+                 steamRatingPercent, steamRatingCount, dealRating, thumb, storeName);
+        ArrayList<Game> gameList = new ArrayList<>();
+        gameList.add(game);
+        dataAccessInterface.saveWishlist(gameList);
 
-            outputBoundary.presentGameDetails(outputData);
-        }
+
     }
 }

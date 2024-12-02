@@ -157,6 +157,17 @@ public class GameView extends JPanel implements PropertyChangeListener {
         panel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some spacing
         panel.add(recommendationButton);
 
+        // Add to Wishlist Button
+        JButton addToWishlistButton = new JButton("Add To Wishlist");
+        addToWishlistButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addToWishlistButton.addActionListener(e -> {
+            gameController.addToWishlist(game.getTitle(), game.getSalePrice(), game.getNormalPrice(),
+                    game.getIsOnSale(), game.getSavings(), game.getMetacriticScore(), game.getSteamRatingText(),
+                    game.getSteamRatingPercent(), game.getSteamRatingCount(), game.getDealRating(), game.getThumb(),
+                    game.getGameID(), game.getStoreName());
+        });
+        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some spacing
+        panel.add(addToWishlistButton);
     }
 
     public String getViewName(){
