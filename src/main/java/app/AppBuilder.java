@@ -10,8 +10,6 @@ import interface_adapter.game.GameController;
 import interface_adapter.game.GamePresenter;
 import interface_adapter.home.HomeController;
 import interface_adapter.home.HomePresenter;
-import interface_adapter.recommendation.RecommendationController;
-import interface_adapter.recommendation.RecommendationPresenter;
 import interface_adapter.search.GameSearchController;
 import interface_adapter.search.GameSearchPresenter;
 import interface_adapter.search.GameSearchViewModel;
@@ -21,9 +19,6 @@ import use_case.game.GameOutputBoundary;
 import use_case.home.HomeInputBoundary;
 import use_case.home.HomeInteractor;
 import use_case.home.HomeOutputBoundary;
-import use_case.recommendation.RecommendationInputBoundary;
-import use_case.recommendation.RecommendationInteractor;
-import use_case.recommendation.RecommendationOutputBoundary;
 import use_case.results.ResultsInputBoundary;
 import use_case.results.ResultsOutputBoundary;
 import use_case.search.GameSearchInputBoundary;
@@ -115,19 +110,7 @@ public class AppBuilder {
         GameOutputBoundary gamePresenter = new GamePresenter(gameViewModel, viewManagerModel);
         GameInputBoundary gameInteractor = new GameInteractor(gamePresenter);
         GameController gameController = new GameController(gameInteractor);
-        gameView.setGameController(gameController);
-        return this;
-    }
-
-    public AppBuilder addRecommendationUseCase(){
-        RecommendationOutputBoundary recommendationPresenter = new RecommendationPresenter(resultsViewModel, viewManagerModel);
-        RecommendationInputBoundary recommendationInteractor = new RecommendationInteractor(
-                recommendationPresenter,
-                new DataAccess()
-        );
-        RecommendationController controller = new RecommendationController(recommendationInteractor);
-        gameView.setRecommendationController(controller);
-
+        gameView.setController(gameController);
         return this;
     }
 

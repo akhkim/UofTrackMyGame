@@ -4,7 +4,6 @@ import entity.Game;
 import interface_adapter.game.GameController;
 import interface_adapter.game.GameState;
 import interface_adapter.game.GameViewModel;
-import interface_adapter.recommendation.RecommendationController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,9 +16,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
     private String viewName = "GameView";
     private final GameViewModel gameViewModel;
     private final JPanel panel;
-    private GameController gameController;
-    private RecommendationController recommendationController;
-
+    private GameController controller;
 
 
     public GameView(GameViewModel gameViewModel) {
@@ -123,28 +120,13 @@ public class GameView extends JPanel implements PropertyChangeListener {
                     JOptionPane.INFORMATION_MESSAGE);
         });
         panel.add(notifyButton);
-
-
-        // Recommendation Button
-        JButton recommendationButton = new JButton("Find Similar Games");
-        recommendationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        recommendationButton.addActionListener(e -> {
-            recommendationController.execute(game);
-        });
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some spacing
-        panel.add(recommendationButton);
-
     }
 
     public String getViewName(){
         return viewName;
     }
 
-    public void setGameController(GameController controller) {
-        gameController = controller;
-    }
-
-    public void setRecommendationController(RecommendationController controller) {
-        recommendationController = controller;
+    public void setController(GameController controller) {
+        this.controller = controller;
     }
 }
