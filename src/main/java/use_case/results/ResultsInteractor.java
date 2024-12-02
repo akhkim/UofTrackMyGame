@@ -9,15 +9,23 @@ public class ResultsInteractor implements ResultsInputBoundary {
         this.resultsPresenter = resultsPresenter;
     }
 
-    // src/main/java/use_case/results/ResultsInteractor.java
     @Override
     public void execute(ResultsInputData resultsInputData) {
-        try {
-            Game game = resultsInputData.getGame();
-            ResultsOutputData resultsOutputData = new ResultsOutputData(game);
-            resultsPresenter.prepareSuccessView(resultsOutputData);
-        } catch (Exception e) {
-            resultsPresenter.prepareFailView("Error processing game results: " + e.getMessage());
+        Game game = resultsInputData.getGame();
+        
+        if (game.getGameID() == null || game.getGameID().isEmpty() ||
+            game.getTitle() == null || game.getTitle().isEmpty() ||
+            game.getSalePrice() == null || game.getSalePrice().isEmpty() ||
+            game.getNormalPrice() == null || game.getNormalPrice().isEmpty() ||
+            game.getIsOnSale() == null || game.getIsOnSale().isEmpty() ||
+            game.getSavings() == null || game.getSavings().isEmpty() ||
+            game.getDealRating() == null || game.getDealRating().isEmpty() ||
+            game.getStoreName() == null || game.getStoreName().isEmpty()) {
+            resultsPresenter.prepareFailView("Missing required game parameters");
+            return;
         }
-    }   
+        
+        ResultsOutputData resultsOutputData = new ResultsOutputData(game);
+        resultsPresenter.prepareSuccessView(resultsOutputData);
+    }
 }
