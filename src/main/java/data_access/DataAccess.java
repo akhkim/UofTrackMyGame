@@ -23,14 +23,52 @@ import use_case.wishlist.WishlistDataAccessInterface;
 
 public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAccessInterface {
 
-    private static final String WISHLIST_PATH = "src/main/java/data/wishlist.json";
+    private static final String WISHLIST_PATH = "../data/wishlist.json";
+    private static final Map<String, String> storeMap = new HashMap<String, String>() {{
+        put("1", "https://store.steampowered.com");
+        put("2", "https://www.gamersgate.com");
+        put("3", "https://www.greenmangaming.com/");
+        put("4", "https://www.amazongames.com");
+        put("5", "https://www.gamestop.ca");
+        put("6", "https://www.direct2drive.com");
+        put("7", "https://www.gog.com");
+        put("8", "https://www.ea.com");
+        put("9", "Get Games");
+        put("10", "Shiny Loot");
+        put("11", "https://www.humblebundle.com");
+        put("12", "https://www.desura.games");
+        put("13", "https://store.ubisoft.com");
+        put("14", "http://indiegamestand.com");
+        put("15", "https://www.fanatical.com");
+        put("16", "https://www.strictlylimitedgames.com");
+        put("17", "https://gamesrepublic.com");
+        put("18", "https://store.silagames.com");
+        put("19", "Playfield");
+        put("20", "https://imperial.games");
+        put("21", "https://www.wingamestore.com");
+        put("22", "FunStockDigital");
+        put("23", "https://www.gamebillet.com");
+        put("24", "https://www.voidu.com");
+        put("25", "https://store.epicgames.com");
+        put("26", "Razer Game Store");
+        put("27", "https://us.gamesplanet.com");
+        put("28", "https://www.gamesload.com");
+        put("29", "https://2game.com");
+        put("30", "https://www.indiegala.com");
+        put("31", "https://us.shop.battle.net");
+        put("32", "https://allyouplay.com");
+        put("33", "https://www.dlgamer.com");
+        put("34", "https://www.noctre.com");
+        put("35", "https://www.dreamgame.com");
+    }};
 
     public String searchByTitle(String title) {
         System.out.println("Searching by title: " + title);
         String baseUrl = "https://www.cheapshark.com/api/1.0/deals";
         Map<String, String> params = new HashMap<>();
         params.put("title", title);
-        return executeRequest(baseUrl, params);
+        String response = executeRequest(baseUrl, params);
+        return addStoreNamesToResponse(response);
     }
 
     public String searchByFilters(String upperPrice, String lowerPrice, String metacritic, String onSale, String sortBy, String desc) {
@@ -42,7 +80,8 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
         params.put("onSale", onSale);
         params.put("sortBy", sortBy);
         params.put("desc", desc);
-        return executeRequest(baseUrl, params);
+        String response = executeRequest(baseUrl, params);
+        return addStoreNamesToResponse(response);
     }
 
     private String executeRequest(String baseUrl, Map<String, String> params) {
@@ -87,6 +126,21 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private String addStoreNamesToResponse(String jsonResponse) {
+        try {
+            JSONArray games = new JSONArray(jsonResponse);
+            for (int i = 0; i < games.length(); i++) {
+                JSONObject game = games.getJSONObject(i);
+                String storeID = game.getString("storeID");
+                game.put("storeName", storeMap.getOrDefault(storeID, "Unknown Store"));
+            }
+            return games.toString();
+        } catch (Exception e) {
+            System.err.println("Error processing JSON response: " + e.getMessage());
+            return jsonResponse;
         }
     }
 
