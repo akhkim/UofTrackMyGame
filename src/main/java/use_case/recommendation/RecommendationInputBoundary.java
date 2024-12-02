@@ -1,5 +1,7 @@
 package use_case.recommendation;
 
+import entity.Game;
+
 public interface RecommendationInputBoundary {
-    void execute();
+    void execute(RecommendationInputData inputData);
 }

@@ -1,22 +1,32 @@
 package interface_adapter.recommendation;
 
+import interface_adapter.ViewManagerModel;
+import interface_adapter.results.ResultsState;
+import interface_adapter.results.ResultsViewModel;
 import use_case.recommendation.RecommendationOutputBoundary;
 import use_case.recommendation.RecommendationOutputData;
 
 public class RecommendationPresenter implements RecommendationOutputBoundary {
-    private RecommendationViewModel recommendationViewModel;
-    private RecommendationState recommendationState;
+    private ResultsViewModel resultsViewModel;
+    private ViewManagerModel viewManagerModel;
 
-    public RecommendationPresenter(RecommendationViewModel recommendationViewModel) {
-        this.recommendationViewModel = recommendationViewModel;
+    public RecommendationPresenter(
+            ResultsViewModel gameViewModel,
+            ViewManagerModel viewManagerModel
+    ) {
+        this.resultsViewModel = gameViewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override
     public void prepareSuccessView(RecommendationOutputData outputData) {
-        recommendationState.setGames(outputData.getGames());
-        recommendationViewModel.firePropertyChanged();
+        ResultsState resultsState = new ResultsState();
+        resultsState.setGames(outputData.getGames());
+        resultsViewModel.setState(resultsState);
+        resultsViewModel.firePropertyChanged();
 
-        // does not change ViewManagerModel since view does not change
+        viewManagerModel.switchView(resultsViewModel.getViewName());
+        resultsViewModel.firePropertyChanged();
     }
 }
 
