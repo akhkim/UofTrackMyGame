@@ -4,8 +4,8 @@ import interface_adapter.ViewModel;
 
 public class GameSearchViewModel extends ViewModel<GameSearchState> {
 
-    public GameSearchViewModel() {
+    public GameSearchViewModel(GameSearchState state) {
         super("GameSearchView");
-        this.setState(new GameSearchState());
+        this.setState(state);
     }
 }

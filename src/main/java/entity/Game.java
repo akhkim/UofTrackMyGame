@@ -13,13 +13,12 @@ public class Game {
     private String dealRating;
     private String thumb;
     private String gameID;
-    private String storeName;
 
     public Game(String gameID, String title, String salePrice,
                      String normalPrice, String isOnSale, String savings,
                      String metacriticScore, String steamRatingText, 
                      String steamRatingPercent, String steamRatingCount,
-                     String dealRating, String thumb, String storeName) {
+                     String dealRating, String thumb) {
         this.title = title;
         this.salePrice = salePrice;
         this.normalPrice = normalPrice;
@@ -32,7 +31,6 @@ public class Game {
         this.dealRating = dealRating;
         this.thumb = thumb;
         this.gameID = gameID;
-        this.storeName = storeName;
     }
 
     public String getTitle(){
@@ -81,9 +79,5 @@ public class Game {
 
     public String getGameID(){
         return gameID;
-    }
-
-    public String getStoreName(){
-        return storeName;
     }
 }

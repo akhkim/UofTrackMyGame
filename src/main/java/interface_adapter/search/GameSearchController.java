@@ -11,6 +11,7 @@ public class GameSearchController {
 
     public GameSearchController(GameSearchView view, GameSearchInputBoundary interactor, ViewManagerModel viewManagerModel) {
         this.view = view;
+        this.view.setController(this);
         this.interactor = interactor;
         this.viewManagerModel = viewManagerModel;
     }

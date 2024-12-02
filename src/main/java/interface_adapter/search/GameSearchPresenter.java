@@ -39,8 +39,7 @@ public class GameSearchPresenter implements GameSearchOutputBoundary {
                     jsonGame.optString("steamRatingPercent", "0").equals("0") ? "unavailable" : jsonGame.optString("steamRatingPercent"),
                     jsonGame.optString("steamRatingCount", "0").equals("0") ? "unavailable" : jsonGame.optString("steamRatingCount"),
                     jsonGame.optString("dealRating", "0").equals("0") ? "unavailable" : jsonGame.optString("dealRating"),
-                    jsonGame.optString("thumb", "0").equals("0") ? "unavailable" : jsonGame.optString("thumb"),
-                    jsonGame.optString("storeName", "0").equals("0") ? "unavailable" : jsonGame.optString("storeName")
+                    jsonGame.optString("thumb", "0").equals("0") ? "unavailable" : jsonGame.optString("thumb")
                 );
                 games.add(game);
                 System.out.println(game.getTitle()); //Outputs all the titles of the games correctly

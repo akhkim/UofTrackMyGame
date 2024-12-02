@@ -1,15 +1,13 @@
 package use_case.game;
 
-import entity.Game;
-
 public class GameInputData {
-    private final Game game;
+    private final String gameID;
 
-    public GameInputData(Game game) {
-        this.game = game;
+    public GameInputData(String gameID) {
+        this.gameID = gameID;
     }
 
-    public Game getGame() {
-        return game;
+    public String getGameID() {
+        return gameID;
     }
 }

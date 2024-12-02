@@ -1,11 +1,18 @@
 package interface_adapter.game;
 
-import interface_adapter.ViewModel;
+public class GameViewModel {
+    private String title;
+    private String salePrice;
+    private String metacriticScore;
+    private String dealRating;
 
-public class GameViewModel extends ViewModel<GameState> {
+    public void updateGameDetails(String title, String salePrice, String metacriticScore, String dealRating) {
+        this.title = title;
+        this.salePrice = salePrice;
+        this.metacriticScore = metacriticScore;
+        this.dealRating = dealRating;
 
-    public GameViewModel() {
-        super("GameView");
-        this.setState(new GameState());
+        // Display game details in GameView
+        new view.GameView(title, salePrice, metacriticScore, dealRating);
     }
 }
