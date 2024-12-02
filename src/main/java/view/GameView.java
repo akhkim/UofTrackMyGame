@@ -19,7 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class GameView extends JPanel implements PropertyChangeListener {
-    private String viewName = "GameView";
+    private String viewName = "ResultsView";
     private final GameViewModel gameViewModel;
     private final JPanel panel;
     private GameController gameController;
@@ -33,7 +33,13 @@ public class GameView extends JPanel implements PropertyChangeListener {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        add(panel, BorderLayout.CENTER);
+        // Wrap the panel in a JScrollPane
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        setLayout(new BorderLayout());
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     @Override
@@ -157,6 +163,14 @@ public class GameView extends JPanel implements PropertyChangeListener {
         panel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some spacing
         panel.add(recommendationButton);
 
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        JFrame frame = new JFrame(game.getTitle());
+        frame.getContentPane().add(scrollPane);
+        frame.pack();
+        frame.setVisible(true);
     }
 
     public String getViewName(){
