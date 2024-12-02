@@ -22,7 +22,7 @@ import interface_adapter.search.GameSearchViewModel;
 public class GameSearchView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "GameSearchView";
     private final GameSearchViewModel viewModel;
-
+    
     private final JTextField titleField = new JTextField(15);
     private final JTextField upperPriceField = new JTextField(15);
     private final JTextField lowerPriceField = new JTextField(15);
@@ -34,7 +34,6 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
 
     private final JButton searchByTitleButton;
     private final JButton searchByFiltersButton;
-    private final JButton feelingLuckyButton;
     private final JButton goToWishlistButton;
 
     public GameSearchView(GameSearchViewModel viewModel) {
@@ -45,7 +44,7 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         Color textColor = new Color(230, 230, 230);
 
         this.setBackground(backgroundColor);
-        this.setLayout(new GridLayout(9, 2, 10, 10));
+        this.setLayout(new GridLayout(8, 2, 10, 10));
 
         final JLabel titleLabel = new JLabel("Title");
         titleLabel.setForeground(textColor);
@@ -65,7 +64,6 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
 
         searchByTitleButton = new JButton("Search by Title");
         searchByFiltersButton = new JButton("Search by Filters");
-        feelingLuckyButton = new JButton("Feeling Lucky!");
         goToWishlistButton = new JButton("Go to Wishlist");
 
         JPanel sortPanel = new JPanel();
@@ -90,7 +88,6 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         this.add(sortByLabel);
         this.add(sortPanel);
         this.add(searchByFiltersButton);
-        this.add(feelingLuckyButton);
         this.add(goToWishlistButton);
 
         // Add listeners
@@ -114,7 +111,7 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         } else if (evt.getSource() == searchByFiltersButton) {
             controller.searchByFilters();
         } else if (evt.getSource() == goToWishlistButton) {
-            controller.goToWishlist();
+            // controller.goToWishlist();
         }
     }
 
