@@ -32,6 +32,7 @@ import use_case.search.GameSearchOutputBoundary;
 import view.GameSearchView;
 import view.GameView;
 import view.ResultsView;
+import view.ViewManager;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.results.ResultsViewModel;
 import interface_adapter.results.ResultsController;
@@ -43,7 +44,8 @@ public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
-   
+    private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
+
     private GameSearchView gameSearchView;
     private GameSearchViewModel gameSearchViewModel;
     private ResultsView resultsView;
