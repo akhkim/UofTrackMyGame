@@ -1,31 +1,31 @@
 package use_case.game;
 
-public class GameOutputData {
-    private final String title;
-    private final String salePrice;
-    private final String metacriticScore;
-    private final String dealRating;
+import entity.Game;
 
-    public GameOutputData(String title, String salePrice, String metacriticScore, String dealRating) {
-        this.title = title;
-        this.salePrice = salePrice;
-        this.metacriticScore = metacriticScore;
-        this.dealRating = dealRating;
+public class GameOutputData {
+    private final Game game;
+
+    public GameOutputData(Game game) {
+        this.game = game;
+    }
+
+    public Game getGame(){
+        return game;
     }
 
     public String getTitle() {
-        return title;
+        return game.getTitle();
     }
 
     public String getSalePrice() {
-        return salePrice;
+        return game.getSalePrice();
     }
 
     public String getMetacriticScore() {
-        return metacriticScore;
+        return game.getMetacriticScore();
     }
 
     public String getDealRating() {
-        return dealRating;
+        return game.getDealRating();
     }
 }
