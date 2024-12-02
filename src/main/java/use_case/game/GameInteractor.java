@@ -20,12 +20,8 @@ public class GameInteractor implements GameInputBoundary {
                               String steamRatingPercent, String steamRatingCount,
                               String dealRating, String thumb, String storeName) {
 
-        Game game = new Game(gameID, title, salePrice, normalPrice, isOnSale, savings, metacriticScore, steamRatingText,
-                 steamRatingPercent, steamRatingCount, dealRating, thumb, storeName);
-        ArrayList<Game> gameList = new ArrayList<>();
-        gameList.add(game);
-        dataAccessInterface.saveWishlist(gameList);
-
+        dataAccessInterface.saveToWishlist(gameID, title, salePrice, normalPrice, isOnSale, savings, metacriticScore,
+                steamRatingText, steamRatingPercent, steamRatingCount, dealRating, thumb, storeName);
 
     }
 }

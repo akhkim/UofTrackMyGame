@@ -18,6 +18,11 @@ public class WishlistState implements WishlistDataAccessInterface {
     }
 
     @Override
+    public void saveToWishlist(String gameID, String title, String salePrice, String normalPrice, String isOnSale, String savings, String metacriticScore, String steamRatingText, String steamRatingPercent, String steamRatingCount, String dealRating, String thumb, String storeName) {
+
+    }
+
+    @Override
     public void saveWishlist(ArrayList<Game> games) {
         // Update the internal list with the provided games
         this.games = games;
