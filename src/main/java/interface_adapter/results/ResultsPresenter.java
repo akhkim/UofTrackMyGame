@@ -5,7 +5,6 @@ import interface_adapter.game.GameViewModel;
 import interface_adapter.game.GameState;
 import use_case.results.ResultsOutputBoundary;
 import use_case.results.ResultsOutputData;
-import view.GameView;
 
 public class ResultsPresenter implements ResultsOutputBoundary {
     private final ResultsViewModel resultsViewModel;
@@ -36,7 +35,7 @@ public class ResultsPresenter implements ResultsOutputBoundary {
     @Override
     public void prepareFailView(String error) {
         final ResultsState resultsState = resultsViewModel.getState();
-//        resultsState.setError(error);
+        resultsState.setError(error);
         resultsViewModel.firePropertyChanged();
     }
 }

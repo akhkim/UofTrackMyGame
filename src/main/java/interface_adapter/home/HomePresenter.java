@@ -1,7 +1,6 @@
 package interface_adapter.home;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.search.GameSearchViewModel;
 import use_case.home.HomeOutputBoundary;
 
 public class HomePresenter implements HomeOutputBoundary {
