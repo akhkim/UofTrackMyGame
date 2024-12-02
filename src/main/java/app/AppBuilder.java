@@ -44,6 +44,8 @@ public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
+
+    // DO NOT DELETE viewManager – it listens to property change events fired by viewManagerModel
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     private GameSearchView gameSearchView;
