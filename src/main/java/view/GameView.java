@@ -187,3 +187,4 @@ public class GameView extends JPanel implements PropertyChangeListener {
         recommendationController = controller;
     }
 }
+

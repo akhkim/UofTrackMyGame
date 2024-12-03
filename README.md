@@ -1,5 +1,5 @@
 # UofTrackMyGame
-Final Project for CSC2087 at the University of Toronto
+Final Project for CSC207 at the University of Toronto
 
 ## Table of Contents
 
@@ -33,7 +33,6 @@ UofTrackMyGame not only provides the best currently available price for the game
   - Metacritic Score
   - On Sale
   - Sort By Deal Rating, Title, Savings, Price, Metacritic Score
-- Feeling Lucky (Random game suggestion)
 - Game Recommendation
 - Track the Game
   - Sends you email when the game goes below a desired price
@@ -84,3 +83,4 @@ Before working on any changes, try to sync the forked repository to keep it up-t
 9. Merge in your change and move on to a new issue or the second step of your current issue.
 
 ## License
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
