@@ -1,0 +1,47 @@
+{"games": [
+  {
+    "gameID": "Valfaris",
+    "metacriticScore": "Very Positive",
+    "salePrice": "24.99",
+    "thumb": "204911",
+    "steamRatingCount": "9.2",
+    "title": "2.49",
+    "steamRatingPercent": "1472",
+    "dealRating": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/600130/capsule_sm_120.jpg?t=1692211097",
+    "normalPrice": "1",
+    "storeName": "https://store.steampowered.com",
+    "savings": "86",
+    "isOnSale": "90.036014",
+    "steamRatingText": "87"
+  },
+  {
+    "gameID": "Far Lands",
+    "metacriticScore": "Mixed",
+    "salePrice": "24.99",
+    "thumb": "244218",
+    "steamRatingCount": "9.1",
+    "title": "3.74",
+    "steamRatingPercent": "142",
+    "dealRating": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1500940/capsule_sm_120.jpg?t=1724248907",
+    "normalPrice": "1",
+    "storeName": "https://store.steampowered.com",
+    "savings": "unavailable",
+    "isOnSale": "85.034014",
+    "steamRatingText": "66"
+  },
+  {
+    "gameID": "Far Cry New Dawn Complete",
+    "metacriticScore": "unavailable",
+    "salePrice": "99.99",
+    "thumb": "262793",
+    "steamRatingCount": "8.8",
+    "title": "14.99",
+    "steamRatingPercent": "unavailable",
+    "dealRating": "https://cdn1.epicgames.com/offer/aa7b6599b4144f348d1ffec80615ac0d/FCNewDawn-Complete_StorePortrait_1200x1600_1200x1600-116ec1ea13ac79e51a93a82dbc868614",
+    "normalPrice": "1",
+    "storeName": "https://store.epicgames.com",
+    "savings": "unavailable",
+    "isOnSale": "85.008501",
+    "steamRatingText": "unavailable"
+  }
+]}

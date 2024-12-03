@@ -9,11 +9,6 @@ public class WishlistController {
         this.interactor = interactor;
     }
 
-    public void addGame(String gameTitle) {
-        WishlistInputData inputData = new WishlistInputData(gameTitle);
-//        interactor.addGameToWishlist(inputData);
-    }
-
     public void removeGame(String gameTitle) {
         WishlistInputData inputData = new WishlistInputData(gameTitle);
         interactor.removeGameFromWishlist(inputData);
