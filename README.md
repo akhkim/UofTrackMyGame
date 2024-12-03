@@ -86,7 +86,8 @@ The Game Screen displays the thumbnail of the game, as well as other information
 email and click "Notify Me" to be notified when the price of the game drops below their specified price.
 ![image](https://github.com/user-attachments/assets/63c362eb-81da-4d94-b45d-4550c39da3ff)  
 
-Lastly, users can view their wishlist by navigating to the Search Screen and click "Go to Wishlist".  
+Lastly, users can view their wishlist by navigating to the Search Screen and click "Go to Wishlist". To remove
+entries from the wishlist, navigate to ```src/main/java/data/wishlist.json``` and delete the entries. 
 ![image](https://github.com/user-attachments/assets/b90a0559-e74d-4368-8f86-ee6979e0a415)  
 
 
