@@ -22,29 +22,22 @@ UofTrackMyGame is a video game price searching application where users can searc
 compares the prices across various platforms to display the best available deal at that moment.
 
 This project was initially created to provide better access to gaming for all, especially those who find it financially
-burdening to pay the full price for a game. Overall, UofTrackMyGame aims to allow people to 
-save as much as possible on games. 
-
-UofTrackMyGame not only provides the best prices across various video game platforms, but also allows users to search by
-various filters, including the availability of sale and metacritic score. Furthermore, the application has a feature to 
-"Track the game", where users can set a desired price for a game and input their email. Then, when that game goes below 
-the set desired price, the application will send an email notification, preventing the user from having to constantly 
-check the price of the game. Finally, users can also keep track of multiple games via a wishlist, or find similar games 
-through the "Find Similar Games" feature.
-
+burdening to pay the full price for a game. In particular, we wanted users to be able to search across various filters,
+such as Metacritic score; get notified by email when the price of a game is decreased; and save games for later 
+reference through a Wishlist. Overall, UofTrackMyGame aims to allow people to save as much as possible on games. 
 
 ## Features
 - <b>Search Game by Title</b> 
-  - Users can search for games by Title. Results are sorted by descending Deal Rating (Deal Rating is a score out of 10
-  on how 'good' a deal is) 
-- <b>Search Game by Filter and Sorting </b>
+  - Users can search for games by Title. 
+- <b>Search Game by Filter </b>
   - Users can search for games with the following filters:
     - Upper Bound for Price
     - Lower Bound for Price
     - Metacritic Score (rating out of 100 on how good the game is)
     - On Sale or Full Price
+- <b> Sorting Results</b>
   - When searching by filter, users can choose to sort the results (ascending or descending) by the following filters:
-    - Deal Rating 
+    - Deal Rating (rating out of 10 on how good the deal is)
     - Title 
     - Savings (percent of original price that the game is on sale for)
     - Price
