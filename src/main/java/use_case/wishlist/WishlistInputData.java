@@ -1,13 +1,13 @@
 package use_case.wishlist;
 
 public class WishlistInputData {
-    private final String gameTitle;
+    private final String gameID;
 
-    public WishlistInputData(String gameTitle) {
-        this.gameTitle = gameTitle;
+    public WishlistInputData(String gameID) {
+        this.gameID = gameID;
     }
 
-    public String getGameTitle() {
-        return gameTitle;
+    public String getGameID() {
+        return gameID;
     }
 }

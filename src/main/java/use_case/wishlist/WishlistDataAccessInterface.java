@@ -6,4 +6,5 @@ import java.util.ArrayList;
 public interface WishlistDataAccessInterface {
     void saveWishlist(ArrayList<Game> games);
     ArrayList<Game> loadWishlist();
+    void removeGameFromWishlist(String gameTitle);
 }
