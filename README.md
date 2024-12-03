@@ -33,7 +33,6 @@ UofTrackMyGame not only provides the best currently available price for the game
   - Metacritic Score
   - On Sale
   - Sort By Deal Rating, Title, Savings, Price, Metacritic Score
-- Feeling Lucky (Random game suggestion)
 - Game Recommendation
 - Track the Game
   - Sends you email when the game goes below a desired price
