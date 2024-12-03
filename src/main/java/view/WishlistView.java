@@ -3,23 +3,28 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
+import entity.Game;
 import interface_adapter.home.HomeController;
+import interface_adapter.results.ResultsState;
 import interface_adapter.wishlist.*;
 
-public class WishlistView extends JPanel implements ActionListener {
+public class WishlistView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "wishlist";
     private JPanel listPanel;
-    private WishlistViewModel viewModel;
+    private WishlistViewModel wishlistViewModel;
     private JButton backButton;
     private WishlistController wishlistController;
     private HomeController homeController;
 
-    public WishlistView(WishlistViewModel viewModel, WishlistController controller) {
-        this.viewModel = viewModel;
-        this.wishlistController = controller;
+    public WishlistView(WishlistViewModel wishlistViewModel) {
+        this.wishlistViewModel = wishlistViewModel;
+        this.wishlistViewModel.addPropertyChangeListener(this);
         setupUI();
-        updateView();  // Initial view setup
+        // Initial view setup
     }
 
     private void setupUI() {
@@ -42,12 +47,11 @@ public class WishlistView extends JPanel implements ActionListener {
         add(backButton, BorderLayout.SOUTH);
     }
 
-    public void updateView() {
+    public void updateView(WishlistState wishlistState) {
         SwingUtilities.invokeLater(() -> {
             listPanel.removeAll();  // Clear the existing game list
 
-            // Retrieve game data from ViewModel
-            java.util.ArrayList<String> gameTitles = viewModel.getGameTitles();
+            java.util.ArrayList<String> gameTitles = wishlistState.getGameTitles();
 
             // Create new UI components based on the updated list
             for (String title : gameTitles) {
@@ -61,7 +65,6 @@ public class WishlistView extends JPanel implements ActionListener {
                 JButton removeButton = new JButton("Remove");
                 removeButton.addActionListener(e -> {
                     wishlistController.removeGame(title);  // Remove the game from wishlist
-                    updateView();  // Refresh UI after removing
                 });
 
                 gamePanel.add(titleLabel, BorderLayout.WEST);
@@ -83,6 +86,14 @@ public class WishlistView extends JPanel implements ActionListener {
         });
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getNewValue() instanceof WishlistState) {
+            final WishlistState state = (WishlistState) evt.getNewValue();
+            updateView(state);
+        }
+    }
+
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
         if (evt.getSource() == backButton) {
@@ -92,6 +103,10 @@ public class WishlistView extends JPanel implements ActionListener {
 
     public String getViewName() {
         return viewName;
+    }
+
+    public void setWishlistController(WishlistController wishlistController) {
+        this.wishlistController = wishlistController;
     }
 
     public void setHomeController(HomeController homeController) {
