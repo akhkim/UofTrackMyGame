@@ -1,8 +1,9 @@
+
 package interface_adapter.results;
 
+import entity.Game;
 import use_case.results.ResultsInputBoundary;
 import use_case.results.ResultsInputData;
-import entity.Game;
 
 /**
  * The controller for the Results Use Case.
@@ -17,7 +18,7 @@ public class ResultsController {
 
     /**
      * Executes the Results Use Case.
-     * @param gameTitles the list of game titles to process
+     * @param game the list of game titles to process
      */
     public void execute(Game game) {
         final ResultsInputData resultsInputData = new ResultsInputData(game);

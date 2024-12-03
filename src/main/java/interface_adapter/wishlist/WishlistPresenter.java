@@ -1,3 +1,6 @@
+
+package interface_adapter.wishlist;
+
 package interface_adapter.wishlist;
 
 import entity.Game;
@@ -6,6 +9,10 @@ import use_case.wishlist.*;
 
 import java.util.ArrayList;
 
+/**
+ * The WishlistPresenter class is responsible for presenting the state of the wishlist to the view layer.
+ * It interacts with the `WishlistViewModel` and `ViewManagerModel` to update the view with the relevant data.
+ */
 public class WishlistPresenter implements WishlistOutputBoundary {
     private final WishlistViewModel wishlistViewModel;
     private final ViewManagerModel viewManagerModel;

@@ -1,5 +1,5 @@
+
 package interface_adapter;
-// import interface_adapter.ViewModel;
 
 /**
  * Model for the View Manager. Its state is the name of the View which
@@ -7,12 +7,18 @@ package interface_adapter;
  */
 public class ViewManagerModel extends ViewModel<String> {
 
-    public ViewManagerModel(){
+    public ViewManagerModel() {
         super("view manager");
         this.setState("");
     }
 
-    // Method to switch views
+    /**
+     * Switches to the specified view and updates the state of the view manager.
+     * This method changes the current view to the given `viewName` and notifies any listeners
+     * of the state change to reflect the new view.
+     *
+     * @param viewName The name of the view to switch to.
+     */
     public void switchView(String viewName) {
         System.out.println("Switching to view: " + viewName);
         this.setState(viewName);

@@ -29,11 +29,13 @@ public class WishlistInteractor implements WishlistInputBoundary {
 
     public void getWishlistGames() {
         try {
-            ArrayList<Game> games = dataAccess.loadWishlist(); // Delegate retrieval
+            ArrayList<Game> games = dataAccess.loadWishlist();
             System.out.println("Retrieved " + games.size() + " games from the wishlist.");
             presenter.presentSuccess(games);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             presenter.presentError("Error loading wishlist: " + e.getMessage());
+
         }
     }
 }

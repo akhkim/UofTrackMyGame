@@ -1,9 +1,13 @@
+
 package interface_adapter.wishlist;
 
-import entity.Game;
 import interface_adapter.ViewModel;
-import java.util.ArrayList;
 
+/**
+ * The WishlistViewModel class represents the ViewModel for managing the state and presentation of the wishlist.
+ * It extends the ViewModel class and provides methods to retrieve game titles from the wishlist,
+ * and manage success messages and status.
+ */
 public class WishlistViewModel extends ViewModel<WishlistState> {
 
     public WishlistViewModel() {

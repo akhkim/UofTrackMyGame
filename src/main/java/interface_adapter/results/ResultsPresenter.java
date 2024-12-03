@@ -1,11 +1,17 @@
+
 package interface_adapter.results;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.game.GameViewModel;
 import interface_adapter.game.GameState;
+import interface_adapter.game.GameViewModel;
 import use_case.results.ResultsOutputBoundary;
 import use_case.results.ResultsOutputData;
 
+/**
+ * The {@code RecommendationPresenter} class is responsible for preparing and presenting the results of the
+ * recommendation use case. It communicates the processed recommendation data to the view layer and updates
+ * the state of the view as necessary.
+ */
 public class ResultsPresenter implements ResultsOutputBoundary {
     private final ResultsViewModel resultsViewModel;
     private final GameViewModel gameViewModel;
@@ -25,7 +31,6 @@ public class ResultsPresenter implements ResultsOutputBoundary {
         gameState.setGame(response.getGame());
         this.gameViewModel.setState(gameState);
         this.gameViewModel.firePropertyChanged();
-
 
         this.viewManagerModel.setState(gameViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();

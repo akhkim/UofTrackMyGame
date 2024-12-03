@@ -1,9 +1,8 @@
 package use_case.wishlist;
 
-import entity.Game;
-import entity.Wishlist;
-
 import java.util.ArrayList;
+
+import entity.Game;
 
 public interface WishlistDataAccessInterface {
     ArrayList<Game> loadWishlist();

@@ -1,7 +1,13 @@
+
 package use_case.results;
 
 import entity.Game;
 
+/**
+ * The ResultsInteractor class implements the ResultsInputBoundary interface and is responsible
+ * for processing the results of a game search and passing the results to the output boundary (ResultsOutputBoundary).
+ * This class handles the logic for verifying if the game information is complete and valid before presenting the results.
+ */
 public class ResultsInteractor implements ResultsInputBoundary {
     private final ResultsOutputBoundary resultsPresenter;
 

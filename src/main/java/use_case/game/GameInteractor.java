@@ -1,11 +1,12 @@
+
 package use_case.game;
 
-import use_case.game.GameDataAccessInterface;
-import entity.Game;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
+/**
+ * The GameInteractor class implements the GameInputBoundary interface and handles
+ * the business logic related to game interactions, such as adding games to the wishlist
+ * and setting price alerts. It delegates the actual data persistence tasks to the
+ * GameDataAccessInterface.
+ */
 public class GameInteractor implements GameInputBoundary {
     private final GameDataAccessInterface dataAccessInterface;
 
