@@ -27,6 +27,9 @@ public class WishlistView extends JPanel implements ActionListener, PropertyChan
     private void setupUI() {
         setLayout(new BorderLayout());
 
+        Color buttonColor = new Color(242, 243, 245);
+        Font buttonFont = new Font("Arial", Font.PLAIN, 16);
+
         listPanel = new JPanel();
         listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
         listPanel.setBackground(new Color(40, 40, 40));  // Set background color for listPanel
@@ -37,6 +40,12 @@ public class WishlistView extends JPanel implements ActionListener, PropertyChan
         scrollPane.setPreferredSize(new Dimension(800, 600));  // Adjust the size as needed
 
         add(scrollPane, BorderLayout.CENTER);
+
+        backButton = new JButton("Back");
+        backButton.setFont(buttonFont);
+        backButton.setBackground(buttonColor);
+        backButton.addActionListener(this);
+        add(backButton, BorderLayout.SOUTH);
     }
 
     public void updateView(WishlistState wishlistState) {
