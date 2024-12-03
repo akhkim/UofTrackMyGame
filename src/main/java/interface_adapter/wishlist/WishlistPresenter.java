@@ -1,8 +1,6 @@
 
 package interface_adapter.wishlist;
 
-package interface_adapter.wishlist;
-
 import entity.Game;
 import interface_adapter.ViewManagerModel;
 import use_case.wishlist.*;
