@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import interface_adapter.search.GameSearchController;
 import interface_adapter.search.GameSearchViewModel;
+import interface_adapter.wishlist.WishlistController;
 
 public class GameSearchView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "GameSearchView";
@@ -22,7 +23,8 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
     private final JCheckBox onSaleCheckBox = new JCheckBox();
     private final JComboBox<String> sortByComboBox;
     private final JToggleButton descToggleButton = new JToggleButton("▲");
-    private GameSearchController controller;
+    private GameSearchController gameSearchController;
+    private WishlistController wishlistController;
 
     private final JButton searchByTitleButton;
     private final JButton searchByFiltersButton;
@@ -176,11 +178,11 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
     @Override
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == searchByTitleButton) {
-            controller.searchByTitle();
+            gameSearchController.searchByTitle();
         } else if (evt.getSource() == searchByFiltersButton) {
-            controller.searchByFilters();
+            gameSearchController.searchByFilters();
         } else if (evt.getSource() == goToWishlistButton) {
-            controller.goToWishlist();
+            wishlistController.getGamesFromWishlist();
         }
     }
 
@@ -193,8 +195,12 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         return viewName;
     }
 
-    public void setController(GameSearchController controller) {
-        this.controller = controller;
+    public void setGameSearchController(GameSearchController controller) {
+        gameSearchController = controller;
+    }
+
+    public void setWishlistController(WishlistController controller) {
+        wishlistController = controller;
     }
 
     public JTextField getTitleField() {

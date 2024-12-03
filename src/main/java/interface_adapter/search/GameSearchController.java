@@ -16,12 +16,10 @@ import view.GameSearchView;
 public class GameSearchController {
     private final GameSearchView view;
     private final GameSearchInputBoundary interactor;
-    private final ViewManagerModel viewManagerModel;
 
-    public GameSearchController(GameSearchView view, GameSearchInputBoundary interactor, ViewManagerModel viewManagerModel) {
+    public GameSearchController(GameSearchView view, GameSearchInputBoundary interactor) {
         this.view = view;
         this.interactor = interactor;
-        this.viewManagerModel = viewManagerModel;
     }
 
     /**
@@ -48,11 +46,4 @@ public class GameSearchController {
         );
     }
 
-    /**
-     * Navigates to the wishlist view.
-     * This method triggers the view manager to switch to the wishlist view.
-     */
-    public void goToWishlist() {
-        viewManagerModel.switchView("wishlist");
-    }
 }

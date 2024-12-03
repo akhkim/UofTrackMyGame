@@ -16,6 +16,10 @@ public class WishlistController {
         this.interactor = interactor;
     }
 
+    public void getGamesFromWishlist() {
+        interactor.getWishlistGames();
+    }
+
     /**
      * Removes a game from the user's wishlist by invoking the remove game use case logic.
      *

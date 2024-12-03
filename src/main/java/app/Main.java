@@ -29,6 +29,7 @@ public class Main {
                 .addResultsUseCase()
                 .addHomeUseCase()
                 .addRecommendationUseCase()
+                .addWishlistUseCase()
                 .build();
 
         application.pack();

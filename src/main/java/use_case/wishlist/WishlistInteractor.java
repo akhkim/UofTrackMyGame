@@ -21,23 +21,21 @@ public class WishlistInteractor implements WishlistInputBoundary {
     }
 
     @Override
-    public WishlistOutputData removeGameFromWishlist(WishlistInputData inputData) {
+    public void removeGameFromWishlist(WishlistInputData inputData) {
+        String gameID = inputData.getGameID(); // Correct method to get gameID
+        dataAccess.removeGameFromWishlist(gameID); // Remove game by ID
+        getWishlistGames();
+    }
 
-        String gameID = inputData.getGameID();
-        dataAccess.removeGameFromWishlist(gameID);
-        return presenter.presentSuccess("Game removed: " + gameID);
-
-        }
-
-    public ArrayList<Game> getWishlistGames() {
+    public void getWishlistGames() {
         try {
             ArrayList<Game> games = dataAccess.loadWishlist();
             System.out.println("Retrieved " + games.size() + " games from the wishlist.");
-            return games;
+            presenter.presentSuccess(games);
         }
         catch (Exception e) {
             presenter.presentError("Error loading wishlist: " + e.getMessage());
-            return new ArrayList<>();
+
         }
     }
 }
