@@ -7,12 +7,10 @@ import interface_adapter.ViewManagerModel;
 public class GameSearchController {
     private final GameSearchView view;
     private final GameSearchInputBoundary interactor;
-    private final ViewManagerModel viewManagerModel;
 
-    public GameSearchController(GameSearchView view, GameSearchInputBoundary interactor, ViewManagerModel viewManagerModel) {
+    public GameSearchController(GameSearchView view, GameSearchInputBoundary interactor) {
         this.view = view;
         this.interactor = interactor;
-        this.viewManagerModel = viewManagerModel;
     }
 
     public void searchByTitle() {
@@ -29,9 +27,5 @@ public class GameSearchController {
             (String) view.getSortByComboBox().getSelectedItem(),
             view.getDescToggleButton().isSelected()
         );
-    }
-
-    public void goToWishlist() {
-        viewManagerModel.switchView("wishlist");
     }
 }
