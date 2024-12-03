@@ -71,7 +71,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
             int width = thumbIcon.getIconWidth();
             int height = thumbIcon.getIconHeight();
             
-            if (width > 1000 || height > 1000) {
+            if (width > 750 || height > 750) {
                 width *= 0.3;
                 height *= 0.3;
             } else {
@@ -90,7 +90,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
         // Store Name
         String storeUrl = game.getStoreName();
-        JLabel storeLabel = new JLabel("<html><a href='" + storeUrl + "' style='color: #FF0000;'>Store: " + game.getStoreName() + "</a></html>");
+        JLabel storeLabel = new JLabel("<html><a href='" + storeUrl + "' style='color: #FF0000;'>Store: " + game.getStoreName() + "</a></html>"); // Change #FF0000 to your desired color
         storeLabel.setFont(secondaryFont);
         storeLabel.setForeground(textColor);
         storeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
