@@ -26,11 +26,11 @@ public class WishlistInteractorTest {
 
     @Test
     void testRemoveGameFromWishlist() {
-        interactor.removeGameFromWishlist(new WishlistInputData("1"));
+        interactor.removeGameFromWishlist(new WishlistInputData("1")); // Remove game with ID "1"
 
-        ArrayList<Game> games = testDataAccess.loadWishlist();
-        assertEquals(1, games.size());
-        assertEquals("Test Game 2", games.get(0).getTitle());
+        ArrayList<Game> games = testDataAccess.loadWishlist(); // Load the updated wishlist
+        assertEquals(1, games.size()); // Verify only one game remains
+        assertEquals("Test Game 2", games.get(0).getTitle()); // Verify the remaining game is "Test Game 2"
     }
 
 
@@ -82,8 +82,5 @@ public class WishlistInteractorTest {
             return new WishlistOutputData(false, message);
         }
 
-        public String getLastMessage() {
-            return lastMessage;
-        }
     }
 }

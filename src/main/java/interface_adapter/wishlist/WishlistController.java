@@ -13,5 +13,4 @@ public class WishlistController {
         WishlistInputData inputData = new WishlistInputData(gameTitle);
         interactor.removeGameFromWishlist(inputData);
     }
-
 }

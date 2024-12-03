@@ -116,33 +116,16 @@ public class AppBuilder {
     }
 
     public AppBuilder addWishlistView() {
-        // Initialize the ViewManagerModel (no dependency issues here)
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-
-        // Step 1: Initialize WishlistState with the temporary interactor (we won't use the presenter yet)
-        WishlistInputBoundary interactor = new WishlistInteractor(new DataAccess(), null);  // Presenter is set to null for now
-        WishlistState wishlistState = new WishlistState(interactor);  // Initialize WishlistState
-
-        // Step 2: Initialize WishlistViewModel with WishlistState
-        WishlistViewModel wishlistViewModel = new WishlistViewModel(wishlistState);  // Now we can initialize WishlistViewModel
-
-        // Step 3: Now that WishlistViewModel is available, initialize WishlistPresenter with the ViewModel
+        WishlistInputBoundary interactor;
         WishlistPresenter presenter = new WishlistPresenter(wishlistViewModel, viewManagerModel);
-
-        // Step 4: Update the interactor to use the presenter (set it properly now that it's initialized)
-        interactor = new WishlistInteractor(new DataAccess(), presenter);  // Set the real presenter here
-
-        // Step 5: Initialize WishlistController with the correct interactor
+        interactor = new WishlistInteractor(new DataAccess(), presenter);
         WishlistController controller = new WishlistController(interactor);
-
-        // Step 6: Create the WishlistView with the initialized WishlistViewModel and WishlistController
-        wishlistView = new WishlistView(wishlistViewModel, controller);
-
-        // Step 7: Add the wishlist view to the card panel
+        ResultsController resultsController = new ResultsController();
+        wishlistView = new WishlistView(wishlistViewModel, controller, resultsController);
         cardPanel.add(wishlistView, wishlistViewModel.getViewName());
-
-        return this; // Return the AppBuilder instance for method chaining
+        return this;
     }
+
 
 
     public AppBuilder addHomeUseCase(){

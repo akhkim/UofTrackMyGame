@@ -14,15 +14,10 @@ public class WishlistViewModel extends ViewModel<WishlistState> {
         this.state = state;
     }
 
-    public ArrayList<String> getGameTitles() {
-        ArrayList<String> titles = new ArrayList<>();
-        for (Game game : state.getGames()) {
-            String title = game.getGameID();
-            titles.add(title);
-            System.out.println("Game Title: " + title);  // Debugging line to print titles
-        }
-        return titles;
+    public ArrayList<Game> getGames() {
+        return new ArrayList<>(state.getGames()); // Assuming state.getGames() returns a collection of Game objects
     }
+
 
     public void setMessage(String message) {
         this.message = message;

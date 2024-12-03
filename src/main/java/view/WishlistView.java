@@ -3,17 +3,22 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import interface_adapter.wishlist.*;
+import interface_adapter.results.*;
+import entity.Game;
 
 public class WishlistView extends JPanel {
     private final String viewName = "wishlist";
     private JPanel listPanel;
     private WishlistViewModel viewModel;
     private WishlistController controller;
+    private ResultsController resultsController;
 
-    public WishlistView(WishlistViewModel viewModel, WishlistController controller) {
+    public WishlistView(WishlistViewModel viewModel, WishlistController controller, ResultsController resultsController) {
         this.viewModel = viewModel;
         this.controller = controller;
+        this.resultsController = resultsController;
         setupUI();
         updateView();  // Initial view setup
     }
@@ -39,20 +44,20 @@ public class WishlistView extends JPanel {
             listPanel.removeAll();  // Clear the existing game list
 
             // Retrieve game data from ViewModel
-            java.util.ArrayList<String> gameTitles = viewModel.getGameTitles();
+            ArrayList<Game> games = viewModel.getGames();
 
             // Create new UI components based on the updated list
-            for (String title : gameTitles) {
+            for (Game game : games) {
                 JPanel gamePanel = new JPanel();
                 gamePanel.setLayout(new BorderLayout());
                 gamePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
                 gamePanel.setPreferredSize(new Dimension(350, 50));
 
-                JLabel titleLabel = new JLabel(title);
+                JLabel titleLabel = new JLabel(game.getTitle());
 
                 JButton removeButton = new JButton("Remove");
                 removeButton.addActionListener(e -> {
-                    controller.removeGame(title);  // Remove the game from wishlist
+                    controller.removeGame(game.getGameID());  // Remove the game from wishlist
                     updateView();  // Refresh UI after removing
                 });
 
@@ -62,7 +67,8 @@ public class WishlistView extends JPanel {
                 gamePanel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        JOptionPane.showMessageDialog(null, "Clicked on: " + title);
+                        // Navigate to the game page using ResultsController
+                        resultsController.execute(game);
                     }
                 });
 
@@ -74,6 +80,7 @@ public class WishlistView extends JPanel {
             repaint();
         });
     }
+
 
     public String getViewName() {
         return viewName;
