@@ -36,6 +36,7 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         Color buttonColor = new Color(242, 243, 245);
         Color textColor = new Color(224, 224, 224);
         Font labelFont = new Font("Arial", Font.BOLD, 18);
+        Font secondaryFont = new Font("Arial", Font.BOLD, 16);
         Font buttonFont = new Font("Arial", Font.PLAIN, 16);
 
         this.setBackground(backgroundColor);
@@ -44,58 +45,108 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         // 1. Panel for "Search by Title"
         JPanel titlePanel = new JPanel();
         titlePanel.setBackground(backgroundColor);
-        titlePanel.setLayout(new GridLayout(2, 2, 5, 5));
+        titlePanel.setLayout(new BorderLayout(10, 10));
         titlePanel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.LIGHT_GRAY), "Search by Title", 0, 0, labelFont, textColor));
 
+        JPanel titleLeftPanel = new JPanel();
+        titleLeftPanel.setBackground(backgroundColor);
+        titleLeftPanel.setLayout(new GridLayout(2, 2, 5, 5));
+
         JLabel titleLabel = new JLabel("Title", SwingConstants.RIGHT);
         titleLabel.setForeground(textColor);
-        titleLabel.setFont(labelFont);
+        titleLabel.setFont(secondaryFont);
 
-        titlePanel.add(titleLabel);
-        titlePanel.add(titleField);
-        titlePanel.add(new JLabel()); // Spacer
-        titlePanel.add(createStyledButton(searchByTitleButton = new JButton("Search by Title"), buttonFont));
+        titleLeftPanel.add(titleLabel);
+        titleLeftPanel.add(titleField);
+        titleLeftPanel.add(new JLabel()); // Spacer
+        titleLeftPanel.add(createStyledButton(searchByTitleButton = new JButton("Search by Title"), buttonFont));
+
+        // Right-side Panel for the "Title" Section
+        JPanel titleRightPanel = new JPanel();
+        titleRightPanel.setBackground(backgroundColor);
+        titleRightPanel.setPreferredSize(new Dimension(200, 0)); // Adjust width as needed
+
+        titlePanel.add(titleLeftPanel, BorderLayout.CENTER);
+        titlePanel.add(titleRightPanel, BorderLayout.EAST);
 
         // 2. Panel for "Search by Filters"
         JPanel filterPanel = new JPanel();
         filterPanel.setBackground(backgroundColor);
-        filterPanel.setLayout(new GridLayout(5, 2, 5, 5));
+        filterPanel.setLayout(new BorderLayout(10, 10));
         filterPanel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.LIGHT_GRAY), "Search by Filters", 0, 0, labelFont, textColor));
 
-        JLabel upperPriceLabel = createStyledLabel("Upper Price (in $)", textColor, labelFont);
-        JLabel lowerPriceLabel = createStyledLabel("Lower Price (in $)", textColor, labelFont);
-        JLabel metacriticLabel = createStyledLabel("Metacritic (0-100)", textColor, labelFont);
-        JLabel onSaleLabel = createStyledLabel("On Sale", textColor, labelFont);
+        JPanel filterLeftPanel = new JPanel();
+        filterLeftPanel.setBackground(backgroundColor);
+        filterLeftPanel.setLayout(new GridLayout(5, 2, 5, 5));
 
-        filterPanel.add(upperPriceLabel);
-        filterPanel.add(upperPriceField);
-        filterPanel.add(lowerPriceLabel);
-        filterPanel.add(lowerPriceField);
-        filterPanel.add(metacriticLabel);
-        filterPanel.add(metacriticField);
-        filterPanel.add(onSaleLabel);
-        filterPanel.add(onSaleCheckBox);
-        filterPanel.add(new JLabel()); // Spacer
-        filterPanel.add(createStyledButton(searchByFiltersButton = new JButton("Search by Filters"), buttonFont));
+        JLabel upperPriceLabel = createStyledLabel("Upper Price (in $)", textColor, secondaryFont);
+        JLabel lowerPriceLabel = createStyledLabel("Lower Price (in $)", textColor, secondaryFont);
+        JLabel metacriticLabel = createStyledLabel("Metacritic (0-100)", textColor, secondaryFont);
+        JLabel onSaleLabel = createStyledLabel("On Sale", textColor, secondaryFont);
+
+        filterLeftPanel.add(upperPriceLabel);
+        filterLeftPanel.add(upperPriceField);
+        filterLeftPanel.add(lowerPriceLabel);
+        filterLeftPanel.add(lowerPriceField);
+        filterLeftPanel.add(metacriticLabel);
+        filterLeftPanel.add(metacriticField);
+        filterLeftPanel.add(onSaleLabel);
+        filterLeftPanel.add(onSaleCheckBox);
+        filterLeftPanel.add(new JLabel()); // Spacer
+        filterLeftPanel.add(createStyledButton(searchByFiltersButton = new JButton("Search by Filters"), buttonFont));
+
+        // Right-side Panel for the "Filters" Section
+        JPanel filterRightPanel = new JPanel();
+        filterRightPanel.setBackground(backgroundColor);
+        filterRightPanel.setPreferredSize(new Dimension(200, 0)); // Adjust width as needed
+
+        filterPanel.add(filterLeftPanel, BorderLayout.CENTER);
+        filterPanel.add(filterRightPanel, BorderLayout.EAST);
 
         // 3. Panel for Sorting
         JPanel sortingPanel = new JPanel();
         sortingPanel.setBackground(backgroundColor);
-        sortingPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        sortingPanel.setLayout(new GridBagLayout());
         sortingPanel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.LIGHT_GRAY), "Sorting", 0, 0, labelFont, textColor));
 
-        JLabel sortByLabel = createStyledLabel("Sort By", textColor, labelFont);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);  // Add some padding around components
+        gbc.anchor = GridBagConstraints.CENTER;  // Center all components
+
+        // Sort By Label
+        JLabel sortByLabel = createStyledLabel("Sort By", textColor, secondaryFont);
+        gbc.gridx = 0;  // Column 0
+        gbc.gridy = 0;  // Row 0
+        sortingPanel.add(sortByLabel, gbc);
+
+        // Panel for the ComboBox and Toggle Button (to align horizontally)
+        JPanel sortOptionsPanel = new JPanel();
+        sortOptionsPanel.setBackground(backgroundColor);
+        sortOptionsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));  // Center align with spacing
+
+        // Sort By ComboBox
         String[] sortByOptions = {"DealRating", "Title", "Savings", "Price", "Metacritic"};
         sortByComboBox = new JComboBox<>(sortByOptions);
         sortByComboBox.setFont(buttonFont);
 
-        sortingPanel.add(sortByLabel);
-        sortingPanel.add(sortByComboBox);
-        sortingPanel.add(descToggleButton);
+        // Sort Direction Toggle Button
+        descToggleButton.setFont(buttonFont);
         descToggleButton.setBackground(buttonColor);
+
+        // Add ComboBox and Toggle Button to the sortOptionsPanel
+        sortOptionsPanel.add(sortByComboBox);
+        sortOptionsPanel.add(descToggleButton);
+
+        // Add the sortOptionsPanel to the sortingPanel
+        gbc.gridx = 0;  // Column 0
+        gbc.gridy = 1;  // Row 1
+        sortingPanel.add(sortOptionsPanel, gbc);
+
+        // Add sorting panel to the main layout
+        this.add(sortingPanel, BorderLayout.CENTER);
 
         // Add panels to the main layout
         JPanel centerPanel = new JPanel();
