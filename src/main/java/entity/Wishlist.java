@@ -12,5 +12,5 @@ public class Wishlist {
     public static Wishlist create() {
         return new Wishlist();
     }
-    
+
 }

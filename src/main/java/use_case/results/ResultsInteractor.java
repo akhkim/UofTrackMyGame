@@ -5,8 +5,7 @@ import entity.Game;
 public class ResultsInteractor implements ResultsInputBoundary {
     private final ResultsOutputBoundary resultsPresenter;
 
-    public ResultsInteractor(ResultsDataAccessInterface resultsDataAccessObject,
-                           ResultsOutputBoundary resultsPresenter) {
+    public ResultsInteractor(ResultsOutputBoundary resultsPresenter) {
         this.resultsPresenter = resultsPresenter;
     }
 

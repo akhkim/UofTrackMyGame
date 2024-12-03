@@ -22,26 +22,26 @@ public class WishlistInteractor implements WishlistInputBoundary {
         String gameTitle = inputData.getGameTitle();
         Game gameToRemove = null;
 
-        for (Game game : wishlist.getGames()) {
-            if (game.getTitle().equals(gameTitle)) {
-                gameToRemove = game;
-                break;
-            }
-        }
-
-        if (gameToRemove != null) {
-            wishlist.removeGame(gameToRemove);
-            dataAccess.saveWishlist(wishlist.getGames());
-            return presenter.presentSuccess("Game removed: " + gameTitle);
-        }
+//        for (Game game : wishlist.getGames()) {
+//            if (game.getTitle().equals(gameTitle)) {
+//                gameToRemove = game;
+//                break;
+//            }
+//        }
+//
+//        if (gameToRemove != null) {
+//            wishlist.removeGame(gameToRemove);
+//            dataAccess.saveWishlist(wishlist.getGames());
+//            return presenter.presentSuccess("Game removed: " + gameTitle);
+//        }
 
         return presenter.presentError("Game not found: " + gameTitle);
     }
 
     private void loadWishlistFromDataAccess() {
         ArrayList<Game> savedGames = dataAccess.loadWishlist();
-        if (savedGames != null) {
-            wishlist.setGames(savedGames);
-        }
+//        if (savedGames != null) {
+//            wishlist.setGames(savedGames);
+//        }
     }
 }
