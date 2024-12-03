@@ -1,8 +1,13 @@
 package use_case.game;
 
 /**
- * Input Boundary for actions which are related to signing up.
+ * Input Boundary for adding game to wishlist.
  */
 public interface GameInputBoundary {
-    void fetchGameDetails(GameInputData inputData);
+    void addToWishlist(String gameID, String title, String salePrice,
+                       String normalPrice, String isOnSale, String savings,
+                       String metacriticScore, String steamRatingText,
+                       String steamRatingPercent, String steamRatingCount,
+                       String dealRating, String thumb, String storeName);
+    void setPriceAlert(String email, String gameID, String price);
 }

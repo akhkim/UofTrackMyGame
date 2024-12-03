@@ -8,7 +8,7 @@ public class WishlistFactory {
         Wishlist wishlist = Wishlist.create();
         for (int i = 0; i < jsonWishlist.length(); i++) {
             JSONObject gameJson = jsonWishlist.getJSONObject(i);
-            wishlist.addGame(new GameFactory().create(gameJson));
+//            wishlist.addGame(new GameFactory().create(gameJson));
         }
         return wishlist;
     }

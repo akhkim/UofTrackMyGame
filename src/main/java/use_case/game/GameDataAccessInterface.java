@@ -7,8 +7,16 @@ import entity.Game;
  */
 public interface GameDataAccessInterface {
     /**
-     * Saves the game.
-     * @param game the user to save
+     * Saves a game to the wishlist with all its details.
      */
-    void save(Game game);
+    void saveToWishlist(String gameID, String title, String salePrice,
+                       String normalPrice, String isOnSale, String savings,
+                       String metacriticScore, String steamRatingText,
+                       String steamRatingPercent, String steamRatingCount,
+                       String dealRating, String thumb, String storeName);
+
+    /**
+     * Sets a price alert for a specific game.
+     */
+    void setPriceAlert(String email, String gameID, String price);
 }

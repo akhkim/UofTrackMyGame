@@ -5,9 +5,9 @@ import entity.Game;
 public class ResultsInteractor implements ResultsInputBoundary {
     private final ResultsOutputBoundary resultsPresenter;
 
-    public ResultsInteractor(ResultsOutputBoundary resultsPresenter) {
-        this.resultsPresenter = resultsPresenter;
-    }
+    public ResultsInteractor(ResultsOutputBoundary resultsPresenter) { 
+        this.resultsPresenter = resultsPresenter; 
+    } 
 
     @Override
     public void execute(ResultsInputData resultsInputData) {
