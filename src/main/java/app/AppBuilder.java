@@ -150,6 +150,7 @@ public class AppBuilder {
         HomeInputBoundary homeInteractor = new HomeInteractor(homePresenter);
         HomeController homeController = new HomeController(homeInteractor);
         resultsView.setHomeController(homeController);
+        wishlistView.setHomeController(homeController);
         return this;
     }
 
