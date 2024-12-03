@@ -115,7 +115,6 @@ public class AppBuilder {
     }
 
     public AppBuilder addGameUseCase(){
-//        GameOutputBoundary gamePresenter = new GamePresenter(gameViewModel, viewManagerModel);
         GameDataAccessInterface gameDataAccess = new DataAccess();
         GameInputBoundary gameInteractor = new GameInteractor(gameDataAccess);
         GameController gameController = new GameController(gameInteractor);

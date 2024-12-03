@@ -1,20 +1,12 @@
 package view;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
+import javax.swing.*;
 
 import interface_adapter.search.GameSearchController;
 import interface_adapter.search.GameSearchViewModel;
@@ -22,7 +14,7 @@ import interface_adapter.search.GameSearchViewModel;
 public class GameSearchView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "GameSearchView";
     private final GameSearchViewModel viewModel;
-    
+
     private final JTextField titleField = new JTextField(15);
     private final JTextField upperPriceField = new JTextField(15);
     private final JTextField lowerPriceField = new JTextField(15);
@@ -40,55 +32,81 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         this.viewModel = viewModel;
         viewModel.addPropertyChangeListener(this);
 
-        Color backgroundColor = new Color(45, 45, 45);
-        Color textColor = new Color(230, 230, 230);
+        Color backgroundColor = new Color(18, 18, 18);
+        Color buttonColor = new Color(242, 243, 245);
+        Color textColor = new Color(224, 224, 224);
+        Font labelFont = new Font("Arial", Font.BOLD, 18);
+        Font buttonFont = new Font("Arial", Font.PLAIN, 16);
 
         this.setBackground(backgroundColor);
-        this.setLayout(new GridLayout(8, 2, 10, 10));
+        this.setLayout(new BorderLayout(10, 10));
 
-        final JLabel titleLabel = new JLabel("Title");
+        // 1. Panel for "Search by Title"
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(backgroundColor);
+        titlePanel.setLayout(new GridLayout(2, 2, 5, 5));
+        titlePanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.LIGHT_GRAY), "Search by Title", 0, 0, labelFont, textColor));
+
+        JLabel titleLabel = new JLabel("Title", SwingConstants.RIGHT);
         titleLabel.setForeground(textColor);
-        final JLabel upperPriceLabel = new JLabel("Upper Price (in $)");
-        upperPriceLabel.setForeground(textColor);
-        final JLabel lowerPriceLabel = new JLabel("Lower Price (in $)");
-        lowerPriceLabel.setForeground(textColor);
-        final JLabel metacriticLabel = new JLabel("Metacritic (Professional Review Score, 0-100)");
-        metacriticLabel.setForeground(textColor);
-        final JLabel onSaleLabel = new JLabel("On Sale");
-        onSaleLabel.setForeground(textColor);
-        final JLabel sortByLabel = new JLabel("Sort By");
-        sortByLabel.setForeground(textColor);
+        titleLabel.setFont(labelFont);
 
+        titlePanel.add(titleLabel);
+        titlePanel.add(titleField);
+        titlePanel.add(new JLabel()); // Spacer
+        titlePanel.add(createStyledButton(searchByTitleButton = new JButton("Search by Title"), buttonFont));
+
+        // 2. Panel for "Search by Filters"
+        JPanel filterPanel = new JPanel();
+        filterPanel.setBackground(backgroundColor);
+        filterPanel.setLayout(new GridLayout(5, 2, 5, 5));
+        filterPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.LIGHT_GRAY), "Search by Filters", 0, 0, labelFont, textColor));
+
+        JLabel upperPriceLabel = createStyledLabel("Upper Price (in $)", textColor, labelFont);
+        JLabel lowerPriceLabel = createStyledLabel("Lower Price (in $)", textColor, labelFont);
+        JLabel metacriticLabel = createStyledLabel("Metacritic (0-100)", textColor, labelFont);
+        JLabel onSaleLabel = createStyledLabel("On Sale", textColor, labelFont);
+
+        filterPanel.add(upperPriceLabel);
+        filterPanel.add(upperPriceField);
+        filterPanel.add(lowerPriceLabel);
+        filterPanel.add(lowerPriceField);
+        filterPanel.add(metacriticLabel);
+        filterPanel.add(metacriticField);
+        filterPanel.add(onSaleLabel);
+        filterPanel.add(onSaleCheckBox);
+        filterPanel.add(new JLabel()); // Spacer
+        filterPanel.add(createStyledButton(searchByFiltersButton = new JButton("Search by Filters"), buttonFont));
+
+        // 3. Panel for Sorting
+        JPanel sortingPanel = new JPanel();
+        sortingPanel.setBackground(backgroundColor);
+        sortingPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        sortingPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.LIGHT_GRAY), "Sorting", 0, 0, labelFont, textColor));
+
+        JLabel sortByLabel = createStyledLabel("Sort By", textColor, labelFont);
         String[] sortByOptions = {"DealRating", "Title", "Savings", "Price", "Metacritic"};
         sortByComboBox = new JComboBox<>(sortByOptions);
+        sortByComboBox.setFont(buttonFont);
 
-        searchByTitleButton = new JButton("Search by Title");
-        searchByFiltersButton = new JButton("Search by Filters");
-        goToWishlistButton = new JButton("Go to Wishlist");
+        sortingPanel.add(sortByLabel);
+        sortingPanel.add(sortByComboBox);
+        sortingPanel.add(descToggleButton);
+        descToggleButton.setBackground(buttonColor);
 
-        JPanel sortPanel = new JPanel();
-        sortPanel.setBackground(backgroundColor);
-        sortPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        sortPanel.add(sortByComboBox);
-        sortPanel.add(descToggleButton);
+        // Add panels to the main layout
+        JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(backgroundColor);
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.add(titlePanel);
+        centerPanel.add(filterPanel);
+        centerPanel.add(sortingPanel);
 
-        // Add components in the desired order
-        this.add(titleLabel);
-        this.add(titleField);
-        this.add(new JLabel());  // Empty space
-        this.add(searchByTitleButton);
-        this.add(upperPriceLabel);
-        this.add(upperPriceField);
-        this.add(lowerPriceLabel);
-        this.add(lowerPriceField);
-        this.add(metacriticLabel);
-        this.add(metacriticField);
-        this.add(onSaleLabel);
-        this.add(onSaleCheckBox);
-        this.add(sortByLabel);
-        this.add(sortPanel);
-        this.add(searchByFiltersButton);
-        this.add(goToWishlistButton);
+        this.add(centerPanel, BorderLayout.CENTER);
+        this.add(createStyledButton(goToWishlistButton = new JButton("Go to Wishlist"), buttonFont), BorderLayout.SOUTH);
 
         // Add listeners
         searchByTitleButton.addActionListener(this);
@@ -111,7 +129,7 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         } else if (evt.getSource() == searchByFiltersButton) {
             controller.searchByFilters();
         } else if (evt.getSource() == goToWishlistButton) {
-            // controller.goToWishlist();
+            controller.goToWishlist();
         }
     }
 
@@ -154,5 +172,19 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
 
     public JToggleButton getDescToggleButton() {
         return descToggleButton;
+    }
+
+    private JLabel createStyledLabel(String text, Color textColor, Font font) {
+        JLabel label = new JLabel(text, SwingConstants.RIGHT);
+        label.setForeground(textColor);
+        label.setFont(font);
+        return label;
+    }
+
+    private JButton createStyledButton(JButton button, Font font) {
+        button.setFont(font);
+        Color buttonColor = new Color(242, 243, 245);
+        button.setBackground(buttonColor);
+        return button;
     }
 }
