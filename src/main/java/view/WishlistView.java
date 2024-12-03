@@ -3,99 +3,101 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import interface_adapter.home.HomeController;
 import interface_adapter.wishlist.*;
 
-public class WishlistView extends JPanel {
+public class WishlistView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "wishlist";
     private JPanel listPanel;
-    private JFrame frame;
-    private WishlistViewModel viewModel;
-    private WishlistController controller;
+    private WishlistViewModel wishlistViewModel;
+    private JButton backButton;
+    private WishlistController wishlistController;
+    private HomeController homeController;
 
-    public WishlistView(WishlistViewModel viewModel, WishlistController controller) {
-        this.viewModel = viewModel;
-        this.controller = controller;
+    public WishlistView(WishlistViewModel wishlistViewModel) {
+        this.wishlistViewModel = wishlistViewModel;
+        this.wishlistViewModel.addPropertyChangeListener(this);
         setupUI();
-        updateView();
+        // Initial view setup
     }
 
     private void setupUI() {
         setLayout(new BorderLayout());
 
-        // Title Label
-        JLabel titleLabel = new JLabel("My Wishlist", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        add(titleLabel, BorderLayout.NORTH);
-
-        // Panel for Game List
         listPanel = new JPanel();
-        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS)); // Vertical layout
+        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+        listPanel.setBackground(new Color(40, 40, 40));  // Set background color for listPanel
 
         JScrollPane scrollPane = new JScrollPane(listPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(800, 600));  // Adjust the size as needed
+
         add(scrollPane, BorderLayout.CENTER);
+    }
 
-        // Add Game Panel
-        JPanel addPanel = new JPanel();
-        JTextField gameInput = new JTextField(20);
-        JButton addButton = new JButton("Add Game");
+    public void updateView(WishlistState wishlistState) {
+        SwingUtilities.invokeLater(() -> {
+            listPanel.removeAll();  // Clear the existing game list
 
-        addPanel.add(gameInput);
-        addPanel.add(addButton);
-        add(addPanel, BorderLayout.SOUTH);
+            java.util.ArrayList<String> gameTitles = wishlistState.getGameTitles();
 
-        // Add Game Button Listener
-        addButton.addActionListener(e -> {
-            String gameTitle = gameInput.getText().trim();
-            if (!gameTitle.isEmpty()) {
-                controller.addGame(gameTitle);
-                updateView();
-                gameInput.setText(""); // Clear input field
+            // Create new UI components based on the updated list
+            for (String title : gameTitles) {
+                JPanel gamePanel = new JPanel();
+                gamePanel.setLayout(new BorderLayout());
+                gamePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+                gamePanel.setPreferredSize(new Dimension(listPanel.getWidth(), 70));  // Set fixed height for each game panel
+                gamePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));    // Ensure the width is flexible and height is constant
+                gamePanel.setBackground(new Color(40, 40, 40));  // Set background color for gamePanel
+
+                JLabel titleLabel = new JLabel(title);
+                titleLabel.setForeground(Color.WHITE);
+
+                JButton removeButton = new JButton("Remove");
+                removeButton.setForeground(Color.GRAY);
+                removeButton.addActionListener(e -> {
+                    wishlistController.removeGame(title);  // Remove the game from wishlist
+                });
+
+                gamePanel.add(titleLabel, BorderLayout.WEST);
+                gamePanel.add(removeButton, BorderLayout.EAST);
+
+                listPanel.add(gamePanel);
             }
+
+            listPanel.revalidate();
+            listPanel.repaint();
         });
     }
 
-    public void updateView() {
-        listPanel.removeAll();
-
-        // Retrieve game data from ViewModel
-        java.util.ArrayList<String> gameTitles = viewModel.getGameTitles();
-
-        for (String title : gameTitles) {
-            JPanel gamePanel = new JPanel();
-            gamePanel.setLayout(new BorderLayout());
-            gamePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-            gamePanel.setPreferredSize(new Dimension(350, 50));
-
-            JLabel titleLabel = new JLabel(title);
-
-            JButton removeButton = new JButton("Remove");
-            removeButton.addActionListener(e -> {
-                controller.removeGame(title);
-                updateView(); // Refresh UI
-            });
-
-            gamePanel.add(titleLabel, BorderLayout.WEST);
-            gamePanel.add(removeButton, BorderLayout.EAST);
-
-            gamePanel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    JOptionPane.showMessageDialog(null, "Clicked on: " + title);
-                }
-            });
-
-            listPanel.add(gamePanel);
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getNewValue() instanceof WishlistState) {
+            final WishlistState state = (WishlistState) evt.getNewValue();
+            updateView(state);
         }
-
-        // Use this to revalidate and repaint the current panel
-        revalidate();
-        repaint();
     }
 
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println("Click " + evt.getActionCommand());
+        if (evt.getSource() == backButton) {
+            homeController.execute();
+        }
+    }
 
     public String getViewName() {
         return viewName;
     }
 
+    public void setWishlistController(WishlistController wishlistController) {
+        this.wishlistController = wishlistController;
+    }
 
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
 }
