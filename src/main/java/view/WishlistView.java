@@ -3,17 +3,21 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
+import interface_adapter.home.HomeController;
 import interface_adapter.wishlist.*;
 
-public class WishlistView extends JPanel {
+public class WishlistView extends JPanel implements ActionListener {
     private final String viewName = "wishlist";
     private JPanel listPanel;
     private WishlistViewModel viewModel;
-    private WishlistController controller;
+    private JButton backButton;
+    private WishlistController wishlistController;
+    private HomeController homeController;
 
     public WishlistView(WishlistViewModel viewModel, WishlistController controller) {
         this.viewModel = viewModel;
-        this.controller = controller;
+        this.wishlistController = controller;
         setupUI();
         updateView();  // Initial view setup
     }
@@ -32,6 +36,10 @@ public class WishlistView extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(listPanel);
         add(scrollPane, BorderLayout.CENTER);
+
+        backButton = new JButton("Back");
+        backButton.addActionListener(this);
+        add(backButton, BorderLayout.SOUTH);
     }
 
     public void updateView() {
@@ -52,7 +60,7 @@ public class WishlistView extends JPanel {
 
                 JButton removeButton = new JButton("Remove");
                 removeButton.addActionListener(e -> {
-                    controller.removeGame(title);  // Remove the game from wishlist
+                    wishlistController.removeGame(title);  // Remove the game from wishlist
                     updateView();  // Refresh UI after removing
                 });
 
@@ -75,7 +83,18 @@ public class WishlistView extends JPanel {
         });
     }
 
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println("Click " + evt.getActionCommand());
+        if (evt.getSource() == backButton) {
+            homeController.execute();
+        }
+    }
+
     public String getViewName() {
         return viewName;
+    }
+
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
     }
 }
