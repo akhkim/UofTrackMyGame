@@ -1,14 +1,23 @@
+
 package interface_adapter.search;
 
-import use_case.search.GameSearchOutputBoundary;
-import interface_adapter.results.ResultsViewModel;
-import interface_adapter.ViewManagerModel;
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import java.util.ArrayList;
-import entity.Game;
-import interface_adapter.results.ResultsState;
 
+import entity.Game;
+import interface_adapter.ViewManagerModel;
+import interface_adapter.results.ResultsState;
+import interface_adapter.results.ResultsViewModel;
+import use_case.search.GameSearchOutputBoundary;
+
+/**
+ * The {@code GameSearchPresenter} class is responsible for presenting the results of
+ * a game search to the view. It receives search results, parses the data into game entities,
+ * updates the {@code ResultsViewModel} with the results, and manages the transition
+ * to the results view.
+ */
 public class GameSearchPresenter implements GameSearchOutputBoundary {
     private ResultsViewModel resultViewModel;
     private ViewManagerModel viewManagerModel;
@@ -43,7 +52,7 @@ public class GameSearchPresenter implements GameSearchOutputBoundary {
                     jsonGame.optString("storeName", "0").equals("0") ? "unavailable" : jsonGame.optString("storeName")
                 );
                 games.add(game);
-                System.out.println(game.getTitle()); //Outputs all the titles of the games correctly
+                System.out.println(game.getTitle());
             }
 
             // Update ResultsViewModel with the new games
@@ -55,9 +64,10 @@ public class GameSearchPresenter implements GameSearchOutputBoundary {
             this.viewManagerModel.switchView(this.resultViewModel.getViewName());
             resultViewModel.firePropertyChanged();
             
-        } catch (Exception e) {
+        }
+        catch (Exception exception) {
             // Handle any JSON parsing errors
-            System.err.println("Error parsing game results: " + e.getMessage());
+            System.err.println("Error parsing game results: " + exception.getMessage());
         }
     }
 }
