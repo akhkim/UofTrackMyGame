@@ -26,12 +26,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
     private RecommendationController recommendationController;
 
     public GameView(GameViewModel gameViewModel) {
-        Color backgroundColor = new Color(18, 18, 18);
-        Color buttonColor = new Color(242, 243, 245);
-        Color textColor = new Color(224, 224, 224);
-        Font labelFont = new Font("Arial", Font.BOLD, 18);
-        Font secondaryFont = new Font("Arial", Font.BOLD, 16);
-        Font buttonFont = new Font("Arial", Font.PLAIN, 16);
+        Color backgroundColor = new Color(40, 40, 40);
 
         this.gameViewModel = gameViewModel;
         this.gameViewModel.addPropertyChangeListener(this);
@@ -95,7 +90,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
         // Store Name
         String storeUrl = game.getStoreName();
-        JLabel storeLabel = new JLabel("<html><a href='" + storeUrl + "'>Store: " + game.getStoreName() + "</a></html>");
+        JLabel storeLabel = new JLabel("<html><a href='" + storeUrl + "' style='color: #FF0000;'>Store: " + game.getStoreName() + "</a></html>");
         storeLabel.setFont(secondaryFont);
         storeLabel.setForeground(textColor);
         storeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -31,7 +31,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         this.resultsViewModel = resultsViewModel;
         this.resultsViewModel.addPropertyChangeListener(this);
 
-        Color backgroundColor = new Color(18, 18, 18);
+        Color backgroundColor = new Color(40, 40, 40);
         Color buttonColor = new Color(242, 243, 245);
         Font buttonFont = new Font("Arial", Font.PLAIN, 16);
 
@@ -121,10 +121,8 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     }
 
     private JPanel createGameCard(Game game) {
-        Color backgroundColor = new Color(18, 18, 18);
+        Color backgroundColor = new Color(40, 40, 40);
         Color textColor = new Color(224, 224, 224);
-        Font labelFont = new Font("Arial", Font.BOLD, 18);
-        Font secondaryFont = new Font("Arial", Font.BOLD, 16);
 
         JPanel gameCard = new JPanel();
         gameCard.setLayout(new BoxLayout(gameCard, BoxLayout.Y_AXIS));

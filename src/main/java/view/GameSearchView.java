@@ -34,7 +34,7 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         this.viewModel = viewModel;
         viewModel.addPropertyChangeListener(this);
 
-        Color backgroundColor = new Color(18, 18, 18);
+        Color backgroundColor = new Color(40, 40, 40);
         Color buttonColor = new Color(242, 243, 245);
         Color textColor = new Color(224, 224, 224);
         Font labelFont = new Font("Arial", Font.BOLD, 18);

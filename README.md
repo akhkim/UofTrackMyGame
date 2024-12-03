@@ -91,7 +91,6 @@ entries from the wishlist, navigate to ```src/main/java/data/wishlist.json``` an
 ![image](https://github.com/user-attachments/assets/b90a0559-e74d-4368-8f86-ee6979e0a415)  
 
 
-
 ## Feedbacks
 Make sure to read the following text on the qualities of good feedback first, then submit your feedback [here](https://forms.gle/hCCgtfJsUAzHo5sq5)!
 
