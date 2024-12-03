@@ -1,5 +1,5 @@
 # UofTrackMyGame
-Final Project for CSC2087 at the University of Toronto
+Final Project for CSC207 at the University of Toronto
 
 ## Table of Contents
 
