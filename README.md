@@ -71,25 +71,24 @@ git clone https://github.com/akhkim/UofTrackMyGame.git
 <b>Searching and Sorting Results</b>  
 Running ```Main.java``` will open the Search screen. From here, users can choose to search by title or search by
 filters. The results can be sorted by a variety of filters.  
-![image](https://github.com/user-attachments/assets/eac72b3f-2d62-4944-a4d5-288d4606ac1f)
+![image](https://github.com/user-attachments/assets/e7fce931-a23d-41e8-8641-648f3b16f443)  
 
-After clicking "Search by Title" or "Search by Filters", the Results screen will open.  
-![image](https://github.com/user-attachments/assets/4d1ee5ac-01d5-4ddd-ae67-eb88cceaec3f)
+After clicking "Search by Title" or "Search by Filters", the Results screen will open. To switch between screens,
+use the "Back" button at the bottom of the screen.  
+![image](https://github.com/user-attachments/assets/d0989797-14f5-4891-acfc-3adea27ca7ae)  
 
 Each panel of the Results screen can be clicked open to a Game Popup Screen.  The Game Screen displays the
 thumbnail of the game, as well as other information. Users can also click "Find Similar Games" to find similarly
 priced games. Finally, users can add the game to their wishlist with the "Add To Wishlist" button.  
-![image](https://github.com/user-attachments/assets/5ea004f0-207b-4c30-8d7c-6a75ef703513)
+![image](https://github.com/user-attachments/assets/b0db4559-a46c-49f0-9b4e-119ddfe84b37)  
 
 The Game Screen displays the thumbnail of the game, as well as other information. Users can enter a price and their
 email and click "Notify Me" to be notified when the price of the game drops below their specified price.
-![image](https://github.com/user-attachments/assets/619534a7-d0cb-4f33-a162-71fce3d79f05)
-
-To switch between screens, users can click "Back" to be directed to the home screen.  
-![image](https://github.com/user-attachments/assets/9cc3a321-ae03-497d-ab92-87e2b1aa3248)
+![image](https://github.com/user-attachments/assets/63c362eb-81da-4d94-b45d-4550c39da3ff)  
 
 Lastly, users can view their wishlist by navigating to the Search Screen and click "Go to Wishlist".  
-[TODO: INSERT PHOTOS]:
+![image](https://github.com/user-attachments/assets/b90a0559-e74d-4368-8f86-ee6979e0a415)  
+
 
 
 ## Feedbacks
