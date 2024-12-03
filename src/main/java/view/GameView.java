@@ -182,6 +182,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
         });
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
         panel.add(addToWishlistButton);
+        SwingUtilities.getWindowAncestor(panel).pack();
     }
 
     public String getViewName(){
