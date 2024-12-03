@@ -1,16 +1,23 @@
+
 package app;
 
 import java.awt.CardLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.DataAccess;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.game.GameController;
+import interface_adapter.game.GameViewModel;
 import interface_adapter.home.HomeController;
 import interface_adapter.home.HomePresenter;
 import interface_adapter.recommendation.RecommendationController;
 import interface_adapter.recommendation.RecommendationPresenter;
+import interface_adapter.results.ResultsController;
+import interface_adapter.results.ResultsPresenter;
+import interface_adapter.results.ResultsViewModel;
 import interface_adapter.search.GameSearchController;
 import interface_adapter.search.GameSearchPresenter;
 import interface_adapter.search.GameSearchViewModel;
@@ -18,6 +25,7 @@ import interface_adapter.wishlist.WishlistController;
 import interface_adapter.wishlist.WishlistPresenter;
 import interface_adapter.wishlist.WishlistState;
 import interface_adapter.wishlist.WishlistViewModel;
+import use_case.game.GameDataAccessInterface;
 import use_case.game.GameInputBoundary;
 import use_case.game.GameInteractor;
 import use_case.home.HomeInputBoundary;
@@ -27,24 +35,24 @@ import use_case.recommendation.RecommendationInputBoundary;
 import use_case.recommendation.RecommendationInteractor;
 import use_case.recommendation.RecommendationOutputBoundary;
 import use_case.results.ResultsInputBoundary;
+import use_case.results.ResultsInteractor;
 import use_case.results.ResultsOutputBoundary;
 import use_case.search.GameSearchInputBoundary;
 import use_case.search.GameSearchInteractor;
 import use_case.search.GameSearchOutputBoundary;
-import use_case.wishlist.WishlistDataAccessInterface;
 import use_case.wishlist.WishlistInputBoundary;
 import use_case.wishlist.WishlistInteractor;
-import use_case.wishlist.WishlistOutputBoundary;
-import view.*;
-import interface_adapter.ViewManagerModel;
-import interface_adapter.results.ResultsViewModel;
-import interface_adapter.results.ResultsController;
-import interface_adapter.results.ResultsPresenter;
-import interface_adapter.game.GameViewModel;
-import use_case.results.ResultsInteractor;
+import view.GameSearchView;
+import view.GameView;
+import view.ResultsView;
 import view.ViewManager;
-import use_case.game.GameDataAccessInterface;
+import view.WishlistView;
 
+/**
+ * The AppBuilder class constructs and configures the various views, use cases, and controllers
+ * for the UofTrackMyGame application. It adds views to the card panel and wires them with
+ * their respective models, presenters, and controllers.
+ */
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
@@ -63,11 +71,15 @@ public class AppBuilder {
     private WishlistViewModel wishlistViewModel;
     private WishlistState wishlistState;
 
-
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
 
+    /**
+     * Adds the GameSearchView to the application and sets up its model.
+     *
+     * @return this AppBuilder instance for method chaining
+     */
     public AppBuilder addGameSearchView() {
         gameSearchViewModel = new GameSearchViewModel();
         gameSearchView = new GameSearchView(gameSearchViewModel);
@@ -75,6 +87,11 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the ResultsView to the application and sets up its model.
+     *
+     * @return this AppBuilder instance for method chaining
+     */
     public AppBuilder addResultsView() {
         resultsViewModel = new ResultsViewModel();
         resultsView = new ResultsView(resultsViewModel);
@@ -82,6 +99,11 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the GameView to the application and sets up its model.
+     *
+     * @return this AppBuilder instance for method chaining
+     */
     public AppBuilder addGameView() {
         gameViewModel = new GameViewModel();
         gameView = new GameView(gameViewModel);
@@ -89,6 +111,11 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Sets up the GameSearch use case with its input boundary, presenter, and controller.
+     *
+     * @return this AppBuilder instance for method chaining
+     */
     public AppBuilder addGameSearchUseCase() {
         GameSearchOutputBoundary gameSearchPresenter = new GameSearchPresenter(
                 resultsViewModel,
@@ -107,45 +134,60 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Sets up the Results use case with its input boundary, presenter, and controller.
+     *
+     * @return this AppBuilder instance for method chaining
+     */
     public AppBuilder addResultsUseCase() {
-        final ResultsOutputBoundary resultsPresenter = new ResultsPresenter(resultsViewModel, gameViewModel, viewManagerModel);
+        final ResultsOutputBoundary resultsPresenter = new ResultsPresenter(resultsViewModel, gameViewModel,
+                viewManagerModel);
         final ResultsInputBoundary resultsInteractor = new ResultsInteractor(resultsPresenter);
         final ResultsController resultsController = new ResultsController(resultsInteractor);
         resultsView.setResultsController(resultsController);
         return this;
     }
 
+    /**
+     * Adds the WishlistView to the application and sets up its model, state, and controller.
+     *
+     * @return this AppBuilder instance for method chaining
+     */
     public AppBuilder addWishlistView() {
         // Initialize the ViewManagerModel (no dependency issues here)
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        ViewManagerModel vManagerModel = new ViewManagerModel();
 
         // Step 1: Initialize WishlistState with the temporary interactor (we won't use the presenter yet)
-        WishlistInputBoundary interactor = new WishlistInteractor(new DataAccess(), null);  // Presenter is set to null for now
-        WishlistState wishlistState = new WishlistState(interactor);  // Initialize WishlistState
+        WishlistInputBoundary interactor = new WishlistInteractor(new DataAccess(), null);
+        WishlistState state = new WishlistState(interactor);
 
         // Step 2: Initialize WishlistViewModel with WishlistState
-        WishlistViewModel wishlistViewModel = new WishlistViewModel(wishlistState);  // Now we can initialize WishlistViewModel
+        WishlistViewModel viewModel = new WishlistViewModel(state);
 
         // Step 3: Now that WishlistViewModel is available, initialize WishlistPresenter with the ViewModel
-        WishlistPresenter presenter = new WishlistPresenter(wishlistViewModel, viewManagerModel);
+        WishlistPresenter presenter = new WishlistPresenter(viewModel, vManagerModel);
 
         // Step 4: Update the interactor to use the presenter (set it properly now that it's initialized)
-        interactor = new WishlistInteractor(new DataAccess(), presenter);  // Set the real presenter here
+        interactor = new WishlistInteractor(new DataAccess(), presenter);
 
         // Step 5: Initialize WishlistController with the correct interactor
         WishlistController controller = new WishlistController(interactor);
 
         // Step 6: Create the WishlistView with the initialized WishlistViewModel and WishlistController
-        wishlistView = new WishlistView(wishlistViewModel, controller);
+        wishlistView = new WishlistView(viewModel, controller);
 
         // Step 7: Add the wishlist view to the card panel
-        cardPanel.add(wishlistView, wishlistViewModel.getViewName());
+        cardPanel.add(wishlistView, viewModel.getViewName());
 
-        return this; // Return the AppBuilder instance for method chaining
+        return this;
     }
 
-
-    public AppBuilder addHomeUseCase(){
+    /**
+     * Sets up the Home use case with its input boundary, presenter, and controller.
+     *
+     * @return this AppBuilder instance for method chaining
+     */
+    public AppBuilder addHomeUseCase() {
         HomeOutputBoundary homePresenter = new HomePresenter(viewManagerModel);
         HomeInputBoundary homeInteractor = new HomeInteractor(homePresenter);
         HomeController homeController = new HomeController(homeInteractor);
@@ -154,7 +196,12 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addGameUseCase(){
+    /**
+     * Sets up the Game use case with its input boundary, interactor, and controller.
+     *
+     * @return this AppBuilder instance for method chaining
+     */
+    public AppBuilder addGameUseCase() {
         GameDataAccessInterface gameDataAccess = new DataAccess();
         GameInputBoundary gameInteractor = new GameInteractor(gameDataAccess);
         GameController gameController = new GameController(gameInteractor);
@@ -162,8 +209,14 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addRecommendationUseCase(){
-        RecommendationOutputBoundary recommendationPresenter = new RecommendationPresenter(resultsViewModel, viewManagerModel);
+    /**
+     * Sets up the Recommendation use case with its input boundary, presenter, and controller.
+     *
+     * @return this AppBuilder instance for method chaining
+     */
+    public AppBuilder addRecommendationUseCase() {
+        RecommendationOutputBoundary recommendationPresenter = new RecommendationPresenter(resultsViewModel,
+                viewManagerModel);
         RecommendationInputBoundary recommendationInteractor = new RecommendationInteractor(
                 recommendationPresenter,
                 new DataAccess()
@@ -174,6 +227,11 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Builds the main application JFrame and sets up the view management.
+     *
+     * @return the JFrame for the application
+     */
     public JFrame build() {
         final JFrame application = new JFrame("UofTrackMyGame");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
