@@ -201,36 +201,6 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
         }
      }
 
-    @Override
-    public void saveWishlist(ArrayList<Game> games) {
-        JSONArray gamesArray = new JSONArray();
-        for (Game game : games) {
-            JSONObject gameJSON = new JSONObject();
-            gameJSON.put("title", game.getTitle());
-            gameJSON.put("salePrice", game.getSalePrice());
-            gameJSON.put("normalPrice", game.getNormalPrice());
-            gameJSON.put("isOnSale", game.getIsOnSale());
-            gameJSON.put("savings", game.getSavings());
-            gameJSON.put("metacriticScore", game.getMetacriticScore());
-            gameJSON.put("steamRatingText", game.getSteamRatingText());
-            gameJSON.put("steamRatingPercent", game.getSteamRatingPercent());
-            gameJSON.put("steamRatingCount", game.getSteamRatingCount());
-            gameJSON.put("dealRating", game.getDealRating());
-            gameJSON.put("thumb", game.getThumb());
-            gameJSON.put("gameID", game.getGameID());
-            gamesArray.put(gameJSON);
-        }
-
-        try {
-            // Create directories if they don't exist
-            Files.createDirectories(Paths.get("data"));
-            try (FileWriter file = new FileWriter(WISHLIST_PATH)) {
-                file.write(gamesArray.toString(4));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public ArrayList<Game> loadWishlist() {
