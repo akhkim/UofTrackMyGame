@@ -1,8 +1,5 @@
 package data_access;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -22,8 +19,7 @@ import use_case.search.GameSearchDataAccessInterface;
 import use_case.wishlist.WishlistDataAccessInterface;
 
 public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAccessInterface {
-
-    private static final String WISHLIST_PATH = "../data/wishlist.json";
+    private static final String WISHLIST_PATH = "src/main/java/data/wishlist.json";
     private static final Map<String, String> storeMap = new HashMap<String, String>() {{
         put("1", "https://store.steampowered.com");
         put("2", "https://www.gamersgate.com");
@@ -143,6 +139,64 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
             return jsonResponse;
         }
     }
+
+    @Override
+     public void saveToWishlist(String gameID, String title, String salePrice,
+                                String normalPrice, String isOnSale, String savings,
+                                String metacriticScore, String steamRatingText,
+                                String steamRatingPercent, String steamRatingCount,
+                                String dealRating, String thumb, String storeName){
+        JSONObject jsonObject;
+        JSONArray gamesArray;
+
+        // Check if file exists and has content
+        File file = new File(WISHLIST_PATH);
+        if (file.exists() && file.length() > 0) {
+            try {
+                String content = new String(Files.readAllBytes(Paths.get(WISHLIST_PATH)));
+                jsonObject = new JSONObject(content);
+                gamesArray = jsonObject.optJSONArray("games");
+                if (gamesArray == null) {
+                    gamesArray = new JSONArray();
+                    jsonObject.put("games", gamesArray);
+                }
+            } catch (Exception e) {
+                jsonObject = new JSONObject();
+                gamesArray = new JSONArray();
+                jsonObject.put("games", gamesArray);
+            }
+        } else {
+            jsonObject = new JSONObject();
+            gamesArray = new JSONArray();
+            jsonObject.put("games", gamesArray);
+        }
+
+        // Create a new JSON object for this game
+        JSONObject gameObject = new JSONObject();
+        gameObject.put("gameID", gameID);
+        gameObject.put("title", title);
+        gameObject.put("salePrice", salePrice);
+        gameObject.put("normalPrice", normalPrice);
+        gameObject.put("isOnSale", isOnSale);
+        gameObject.put("savings", savings);
+        gameObject.put("metacriticScore", metacriticScore);
+        gameObject.put("steamRatingText", steamRatingText);
+        gameObject.put("steamRatingPercent", steamRatingPercent);
+        gameObject.put("steamRatingCount", steamRatingCount);
+        gameObject.put("dealRating", dealRating);
+        gameObject.put("thumb", thumb);
+        gameObject.put("storeName", storeName);
+
+        // Add the game object to the array
+        gamesArray.put(gameObject);
+
+        // Write back to file with pretty printing
+        try (FileWriter writer = new FileWriter(WISHLIST_PATH)) {
+            writer.write(jsonObject.toString(2));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+     }
 
     @Override
     public void saveWishlist(ArrayList<Game> games) {
