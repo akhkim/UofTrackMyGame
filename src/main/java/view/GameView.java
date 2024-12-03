@@ -146,6 +146,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
         notifyButton.addActionListener(e -> {
             String trackingPrice = trackingPriceField.getText();
             String email = emailField.getText();
+            gameController.setPriceAlert(email, game.getGameID(), trackingPrice);
             JOptionPane.showMessageDialog(panel,
                     "Notification set for price: $" + trackingPrice + " to email: " + email,
                     "Notification Set",

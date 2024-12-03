@@ -37,6 +37,7 @@ import interface_adapter.results.ResultsPresenter;
 import interface_adapter.game.GameViewModel;
 import use_case.results.ResultsInteractor;
 import view.ViewManager;
+import use_case.game.GameDataAccessInterface;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -115,8 +116,8 @@ public class AppBuilder {
 
     public AppBuilder addGameUseCase(){
 //        GameOutputBoundary gamePresenter = new GamePresenter(gameViewModel, viewManagerModel);
-        DataAccess wishlistDataAccess = new DataAccess();
-        GameInputBoundary gameInteractor = new GameInteractor(wishlistDataAccess);
+        GameDataAccessInterface gameDataAccess = new DataAccess();
+        GameInputBoundary gameInteractor = new GameInteractor(gameDataAccess);
         GameController gameController = new GameController(gameInteractor);
         gameView.setGameController(gameController);
         return this;

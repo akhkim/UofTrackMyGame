@@ -17,8 +17,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import use_case.search.GameSearchDataAccessInterface;
 import use_case.wishlist.WishlistDataAccessInterface;
+import use_case.game.GameDataAccessInterface;
 
-public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAccessInterface {
+public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAccessInterface, GameDataAccessInterface {
     private static final String WISHLIST_PATH = "src/main/java/data/wishlist.json";
     private static final Map<String, String> storeMap = new HashMap<String, String>() {{
         put("1", "https://store.steampowered.com");
@@ -254,7 +255,7 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
      * @param price Target price
      * @return true if alert was set successfully, false otherwise
      */
-    public boolean setPriceAlert(String email, String gameID, String price) {
+    public void setPriceAlert(String email, String gameID, String price) {
         String baseUrl = "https://www.cheapshark.com/api/1.0/alerts";
         Map<String, String> params = new HashMap<>();
         params.put("action", "set");
@@ -264,10 +265,9 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
 
         try {
             String response = executeRequest(baseUrl, params);
-            return "true".equals(response.trim().toLowerCase());
+            System.out.println(response);
         } catch (Exception e) {
             System.err.println("Error setting price alert: " + e.getMessage());
-            return false;
         }
     }
 }

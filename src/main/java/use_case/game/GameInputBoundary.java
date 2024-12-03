@@ -9,4 +9,5 @@ public interface GameInputBoundary {
                        String metacriticScore, String steamRatingText,
                        String steamRatingPercent, String steamRatingCount,
                        String dealRating, String thumb, String storeName);
+    void setPriceAlert(String email, String gameID, String price);
 }

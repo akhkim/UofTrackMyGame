@@ -18,4 +18,8 @@ public class GameController {
         interactor.addToWishlist(gameID, title, salePrice, normalPrice, isOnSale, savings, metacriticScore,
                 steamRatingText, steamRatingPercent, steamRatingCount, dealRating, thumb, storeName);
     }
+
+    public void setPriceAlert(String email, String gameID, String price) {
+        interactor.setPriceAlert(email, gameID, price);
+    }
 }
