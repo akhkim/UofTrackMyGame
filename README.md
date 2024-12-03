@@ -1,5 +1,5 @@
 # UofTrackMyGame
-Final Project for CSC2087 at the University of Toronto
+Final Project for CSC207 at the University of Toronto. 
 
 ## Table of Contents
 
@@ -18,31 +18,80 @@ Frederick Chen, Bhavya Jain, Andrew Kim, Kerri Wei, John Zhang
 
 
 ## Project Goals
-UofTrackMyGame is a game price searching application, where the user can search for a game, and the application compares the price of that game on various platforms to display the best available deal at that moment.
+UofTrackMyGame is a video game price searching application where users can search for games, and the application 
+compares the prices across various platforms to display the best available deal at that moment.
 
-This project was initially created to provide better access to gaming for all, especially those who find it financially burdening to pay the full price for a game; Even for those who can afford the games, with the modern game prices continuously increasing, everyone would prefer to save as much as possible on such games, which is what UofTrackMyGame is for. 
+This project was initially created to provide better access to gaming for all, especially those who find it financially
+burdening to pay the full price for a game. Overall, UofTrackMyGame aims to allow people to 
+save as much as possible on games. 
 
-UofTrackMyGame not only provides the best currently available price for the game you're looking for, but also allows you to search by various filters, including the availability of sale and metacritic score. Furthermore, the application has a feature to "Track the game", where you can set a desired price for a game and input your email. Then, when that game goes below the set desired price, the application will send you an email, allowing you to optimize your saving, without the need to constantly check the price of the game.
+UofTrackMyGame not only provides the best prices across various video game platforms, but also allows users to search by
+various filters, including the availability of sale and metacritic score. Furthermore, the application has a feature to 
+"Track the game", where users can set a desired price for a game and input their email. Then, when that game goes below 
+the set desired price, the application will send an email notification, preventing the user from having to constantly 
+check the price of the game. Finally, users can also keep track of multiple games via a wishlist, or find similar games 
+through the "Find Similar Games" feature.
 
 
 ## Features
-- Search Game by Title
-- Search Game by Filter
-  - Upper Price
-  - Lower Price
-  - Metacritic Score
-  - On Sale
-  - Sort By Deal Rating, Title, Savings, Price, Metacritic Score
-- Feeling Lucky (Random game suggestion)
-- Game Recommendation
-- Track the Game
-  - Sends you email when the game goes below a desired price
+- <b>Search Game by Title</b> 
+  - Users can search for games by Title. Results are sorted by descending Deal Rating (Deal Rating is a score out of 10
+  on how 'good' a deal is) 
+- <b>Search Game by Filter and Sorting </b>
+  - Users can search for games with the following filters:
+    - Upper Bound for Price
+    - Lower Bound for Price
+    - Metacritic Score (rating out of 100 on how good the game is)
+    - On Sale or Full Price
+  - When searching by filter, users can choose to sort the results (ascending or descending) by the following filters:
+    - Deal Rating 
+    - Title 
+    - Savings (percent of original price that the game is on sale for)
+    - Price
+    - Metacritic Score
+- <b>Find similarly priced games</b>
+  - After clicking open a game from the results page, there is a 'Find Similar Games' button that will search for 
+    games of similar price 
+- <b>Price Tracking of a specific game</b>
+  - For a specific game, users can set a 'threshold price' and enter their email to be notified when the price of the 
+    game drops below the threshold price
   - Adds to a Wishlist, where you can view all the games you are tracking
-
+- <b>Wishlist</b>
+  - Users can keep a list of games by adding them to their Wishlist
+  - Users can access their Wishlist via the Search page
+  
 ## Installation
-
+1. Clone the project from GitHub
+```text
+git clone https://github.com/akhkim/UofTrackMyGame.git
+```
+2. Open the project in an IDE
+3. Link Maven 
+4. Navigate to ```src/main/java/app/Main.java``` and run
 
 ## Usage Guide
+<b>Searching and Sorting Results</b>  
+Running ```Main.java``` will open the Search screen. From here, users can choose to search by title or search by 
+filters. The results can be sorted by a variety of filters.  
+[TODO: INSERT PHOTOS]
+
+After clicking "Search by Title" or "Search by Filters", the Results screen will open.  
+[TODO: INSERT PHOTOS]:
+
+Each panel of the Results screen can be clicked open to a Game Screen.  
+[TODO: INSERT PHOTOS]:  
+
+The Game Screen displays the thumbnail of the game, as well as other information. Users can enter a price and their 
+email and click "Notify Me" to be notified when the price of the game drops below their specified price. Users can also
+click "Find Similar Games" to find similarly priced games. Finally, users can add the game to their wishlist with the 
+"Add To Wishlist" button.  
+[TODO: INSERT PHOTOS]:  
+
+To switch between screens, users can click "Back" to be directed to the home screen.  
+[TODO: INSERT PHOTOS]:
+
+Lastly, users can view their wishlist by navigating to the Search Screen and click "Go to Wishlist".  
+[TODO: INSERT PHOTOS]:
 
 
 ## Feedbacks
