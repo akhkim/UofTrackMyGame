@@ -26,7 +26,7 @@ public class WishlistPresenter implements WishlistOutputBoundary {
     public WishlistOutputData presentError(String message) {
         viewModel.setMessage(message);
         viewModel.setSuccess(false);
-        viewManagerModel.firePropertyChanged(); // Notify listeners of the change
+        viewManagerModel.firePropertyChanged();
 
         return new WishlistOutputData(false, message);
     }

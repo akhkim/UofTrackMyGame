@@ -14,10 +14,12 @@ import java.net.URLEncoder;
 import entity.Game;
 import entity.GameFactory;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import use_case.search.GameSearchDataAccessInterface;
 import use_case.wishlist.WishlistDataAccessInterface;
 import use_case.game.GameDataAccessInterface;
+
 
 public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAccessInterface, GameDataAccessInterface {
     private static final String WISHLIST_PATH = "src/main/java/data/wishlist.json";
@@ -235,18 +237,68 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
         ArrayList<Game> gamesArray = new ArrayList<>();
         GameFactory gameFactory = new GameFactory();
         try {
+            // Read the JSON file as a string
             String stringJSON = new String(Files.readAllBytes(Paths.get(WISHLIST_PATH)));
-            JSONArray gamesJSON = new JSONArray(stringJSON);
-            for (int i = 0; i < gamesJSON.length(); i++){
+
+            // Parse it as a JSONObject
+            JSONObject jsonObject = new JSONObject(stringJSON);
+
+            // Get the "games" JSONArray from the JSONObject
+            JSONArray gamesJSON = jsonObject.getJSONArray("games");
+
+            // Iterate through the JSONArray and create Game objects
+            for (int i = 0; i < gamesJSON.length(); i++) {
                 gamesArray.add(gameFactory.create(gamesJSON.getJSONObject(i)));
             }
         } catch (NoSuchFileException e) {
             System.err.println("Wishlist file not found: " + WISHLIST_PATH);
         } catch (IOException e) {
             System.err.println("Error reading the wishlist: " + e.getMessage());
+        } catch (JSONException e) {
+            System.err.println("Error parsing the wishlist JSON: " + e.getMessage());
         }
         return gamesArray;
     }
+
+
+    @Override
+    public void removeGameFromWishlist(String gameID) {  // Change parameter name to gameID
+        try {
+            // Read the JSON file as a string
+            String stringJSON = new String(Files.readAllBytes(Paths.get(WISHLIST_PATH)));
+
+            // Parse it as a JSONObject
+            JSONObject jsonObject = new JSONObject(stringJSON);
+
+            // Get the "games" JSONArray
+            JSONArray gamesJSON = jsonObject.getJSONArray("games");
+            JSONArray updatedGames = new JSONArray();
+
+            // Filter the games by comparing the gameID instead of gameTitle
+            for (int i = 0; i < gamesJSON.length(); i++) {
+                JSONObject game = gamesJSON.getJSONObject(i);
+                // Assuming each game object has a "gameID" field
+                if (!game.getString("gameID").equalsIgnoreCase(gameID)) {  // Compare using gameID
+                    updatedGames.put(game);
+                }
+            }
+
+            // Update the "games" key in the JSONObject
+            jsonObject.put("games", updatedGames);
+
+            // Write the updated JSONObject back to the file
+            try (FileWriter file = new FileWriter(WISHLIST_PATH)) {
+                file.write(jsonObject.toString(4)); // Pretty print with an indent of 4
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating wishlist: " + e.getMessage());
+        } catch (JSONException e) {
+            System.err.println("Error parsing or updating wishlist JSON: " + e.getMessage());
+        }
+    }
+
+
+
 
     /**
      * Sets a price alert for a specific game

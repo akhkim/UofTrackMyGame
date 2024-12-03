@@ -8,7 +8,6 @@ import interface_adapter.wishlist.*;
 public class WishlistView extends JPanel {
     private final String viewName = "wishlist";
     private JPanel listPanel;
-    private JFrame frame;
     private WishlistViewModel viewModel;
     private WishlistController controller;
 
@@ -16,7 +15,7 @@ public class WishlistView extends JPanel {
         this.viewModel = viewModel;
         this.controller = controller;
         setupUI();
-        updateView();
+        updateView();  // Initial view setup
     }
 
     private void setupUI() {
@@ -33,69 +32,50 @@ public class WishlistView extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(listPanel);
         add(scrollPane, BorderLayout.CENTER);
-
-        // Add Game Panel
-        JPanel addPanel = new JPanel();
-        JTextField gameInput = new JTextField(20);
-        JButton addButton = new JButton("Add Game");
-
-        addPanel.add(gameInput);
-        addPanel.add(addButton);
-        add(addPanel, BorderLayout.SOUTH);
-
-        // Add Game Button Listener
-        addButton.addActionListener(e -> {
-            String gameTitle = gameInput.getText().trim();
-            if (!gameTitle.isEmpty()) {
-                controller.addGame(gameTitle);
-                updateView();
-                gameInput.setText(""); // Clear input field
-            }
-        });
     }
 
     public void updateView() {
-        listPanel.removeAll();
+        SwingUtilities.invokeLater(() -> {
+            listPanel.removeAll();  // Clear the existing game list
 
-        // Retrieve game data from ViewModel
-        java.util.ArrayList<String> gameTitles = viewModel.getGameTitles();
+            // Retrieve game data from ViewModel
+            java.util.ArrayList<String> gameTitles = viewModel.getGameTitles();
 
-        for (String title : gameTitles) {
-            JPanel gamePanel = new JPanel();
-            gamePanel.setLayout(new BorderLayout());
-            gamePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-            gamePanel.setPreferredSize(new Dimension(350, 50));
+            // Create new UI components based on the updated list
+            for (String title : gameTitles) {
+                JPanel gamePanel = new JPanel();
+                gamePanel.setLayout(new BorderLayout());
+                gamePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+                gamePanel.setPreferredSize(new Dimension(350, 50));
 
-            JLabel titleLabel = new JLabel(title);
+                JLabel titleLabel = new JLabel(title);
 
-            JButton removeButton = new JButton("Remove");
-            removeButton.addActionListener(e -> {
-                controller.removeGame(title);
-                updateView(); // Refresh UI
-            });
+                JButton removeButton = new JButton("Remove");
+                removeButton.addActionListener(e -> {
+                    controller.removeGame(title);  // Remove the game from wishlist
+                    updateView();  // Refresh UI after removing
+                });
 
-            gamePanel.add(titleLabel, BorderLayout.WEST);
-            gamePanel.add(removeButton, BorderLayout.EAST);
+                gamePanel.add(titleLabel, BorderLayout.WEST);
+                gamePanel.add(removeButton, BorderLayout.EAST);
 
-            gamePanel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    JOptionPane.showMessageDialog(null, "Clicked on: " + title);
-                }
-            });
+                gamePanel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        JOptionPane.showMessageDialog(null, "Clicked on: " + title);
+                    }
+                });
 
-            listPanel.add(gamePanel);
-        }
+                listPanel.add(gamePanel);  // Add new game panel to the list
+            }
 
-        // Use this to revalidate and repaint the current panel
-        revalidate();
-        repaint();
+            // After modifying the list, revalidate and repaint to ensure UI refresh
+            revalidate();
+            repaint();
+        });
     }
-
 
     public String getViewName() {
         return viewName;
     }
-
-
 }

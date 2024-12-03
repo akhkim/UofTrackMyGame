@@ -17,7 +17,9 @@ public class WishlistViewModel extends ViewModel<WishlistState> {
     public ArrayList<String> getGameTitles() {
         ArrayList<String> titles = new ArrayList<>();
         for (Game game : state.getGames()) {
-            titles.add(game.getTitle());
+            String title = game.getGameID();
+            titles.add(title);
+            System.out.println("Game Title: " + title);  // Debugging line to print titles
         }
         return titles;
     }
@@ -26,15 +28,7 @@ public class WishlistViewModel extends ViewModel<WishlistState> {
         this.message = message;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
     public void setSuccess(boolean success) {
         this.success = success;
-    }
-
-    public boolean isSuccess() {
-        return success;
     }
 }

@@ -9,6 +9,7 @@ public class Main {
                 .addGameView()
                 .addGameUseCase()
                 .addGameSearchView()
+                .addWishlistView()
                 .addResultsView()
                 .addGameSearchUseCase()
                 .addResultsUseCase()
