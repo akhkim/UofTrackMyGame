@@ -9,6 +9,10 @@ public class WishlistController {
         this.interactor = interactor;
     }
 
+    public void getGamesFromWishlist() {
+        interactor.getWishlistGames();
+    }
+
     public void removeGame(String gameTitle) {
         WishlistInputData inputData = new WishlistInputData(gameTitle);
         interactor.removeGameFromWishlist(inputData);
