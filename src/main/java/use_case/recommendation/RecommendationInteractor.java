@@ -1,12 +1,18 @@
 package use_case.recommendation;
 
-import entity.Game;
-import entity.GameFactory;
-import org.json.JSONArray;
-import use_case.search.GameSearchDataAccessInterface;
-
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+
+import entity.Game;
+import entity.GameFactory;
+import use_case.search.GameSearchDataAccessInterface;
+
+/**
+ * The RecommendationInteractor class is responsible for generating game recommendations
+ * based on a given input game. It interacts with the game search data access interface
+ * and the output boundary to prepare the recommendation results.
+ */
 public class RecommendationInteractor implements RecommendationInputBoundary {
     private RecommendationOutputBoundary recommendationOutputBoundary;
     private GameSearchDataAccessInterface gameSearchDataAccessInterface;
@@ -19,6 +25,13 @@ public class RecommendationInteractor implements RecommendationInputBoundary {
         this.gameSearchDataAccessInterface = gameSearchDataAccessInterface;
     }
 
+    /**
+     * Executes the recommendation logic. It uses the input data (game) to search for similar games
+     * based on price and other parameters. It continues searching until at least 9 recommendations
+     * are found or the search reaches a predefined price difference threshold.
+     *
+     * @param inputData The input data containing the game for which recommendations are to be made.
+     */
     public void execute(RecommendationInputData inputData) {
         GameFactory gameFactory = new GameFactory();
         Game game = inputData.getGame();

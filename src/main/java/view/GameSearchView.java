@@ -141,8 +141,8 @@ public class GameSearchView extends JPanel implements ActionListener, PropertyCh
         sortOptionsPanel.add(descToggleButton);
 
         // Add the sortOptionsPanel to the sortingPanel
-        gbc.gridx = 0;  // Column 0
-        gbc.gridy = 1;  // Row 1
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         sortingPanel.add(sortOptionsPanel, gbc);
 
         // Add sorting panel to the main layout

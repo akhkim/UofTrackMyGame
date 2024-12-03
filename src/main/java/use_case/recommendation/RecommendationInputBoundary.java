@@ -1,6 +1,4 @@
-
 package use_case.recommendation;
-
 
 /**
  * The RecommendationInputBoundary interface defines the contract for handling the input

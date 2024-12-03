@@ -15,6 +15,10 @@ public class ResultsInputData {
         this.game = game;
     }
 
+    /**
+     * Getter for game.
+     * @return game
+     */
     public Game getGame() {
         return this.game;
     }
