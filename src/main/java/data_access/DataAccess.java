@@ -1,4 +1,3 @@
-
 package data_access;
 
 import java.io.BufferedReader;
@@ -210,11 +209,11 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
      * @param storeName the name of the store where the game is available
      */
     @Override
-     public void saveToWishlist(String gameID, String title, String salePrice,
-                                String normalPrice, String isOnSale, String savings,
-                                String metacriticScore, String steamRatingText,
-                                String steamRatingPercent, String steamRatingCount,
-                                String dealRating, String thumb, String storeName) {
+    public void saveToWishlist(String gameID, String title, String salePrice,
+                            String normalPrice, String isOnSale, String savings,
+                            String metacriticScore, String steamRatingText,
+                            String steamRatingPercent, String steamRatingCount,
+                            String dealRating, String thumb, String storeName) {
         JSONObject jsonObject;
         JSONArray gamesArray;
 
@@ -229,44 +228,51 @@ public class DataAccess implements GameSearchDataAccessInterface, WishlistDataAc
                     gamesArray = new JSONArray();
                     jsonObject.put("games", gamesArray);
                 }
-            }
-            catch (Exception exception) {
+            } catch (Exception exception) {
                 jsonObject = new JSONObject();
                 gamesArray = new JSONArray();
                 jsonObject.put("games", gamesArray);
             }
-        }
-        else {
+        } else {
             jsonObject = new JSONObject();
             gamesArray = new JSONArray();
             jsonObject.put("games", gamesArray);
         }
 
-        // Create a new JSON object for this game
-        JSONObject gameObject = new JSONObject();
-        gameObject.put("gameID", gameID);
-        gameObject.put("title", title);
-        gameObject.put("salePrice", salePrice);
-        gameObject.put("normalPrice", normalPrice);
-        gameObject.put("isOnSale", isOnSale);
-        gameObject.put("savings", savings);
-        gameObject.put("metacriticScore", metacriticScore);
-        gameObject.put("steamRatingText", steamRatingText);
-        gameObject.put("steamRatingPercent", steamRatingPercent);
-        gameObject.put("steamRatingCount", steamRatingCount);
-        gameObject.put("dealRating", dealRating);
-        gameObject.put("thumb", thumb);
-        gameObject.put("storeName", storeName);
-
-        // Add the game object to the array
-        gamesArray.put(gameObject);
-
-        // Write back to file with pretty printing
-        try (FileWriter writer = new FileWriter(WISHLIST_PATH)) {
-            writer.write(jsonObject.toString(2));
+        // Check if the game is already in the wishlist
+        boolean gameExists = false;
+        for (int i = 0; i < gamesArray.length(); i++) {
+            JSONObject game = gamesArray.getJSONObject(i);
+            if (gameID.equals(game.optString("gameID"))) {
+                gameExists = true;
+                break;
+            }
         }
-        catch (IOException exception) {
-            exception.printStackTrace();
+
+        // If the game is not in the wishlist, add it
+        if (!gameExists) {
+            JSONObject gameObject = new JSONObject();
+            gameObject.put("gameID", gameID);
+            gameObject.put("title", title);
+            gameObject.put("salePrice", salePrice);
+            gameObject.put("normalPrice", normalPrice);
+            gameObject.put("isOnSale", isOnSale);
+            gameObject.put("savings", savings);
+            gameObject.put("metacriticScore", metacriticScore);
+            gameObject.put("steamRatingText", steamRatingText);
+            gameObject.put("steamRatingPercent", steamRatingPercent);
+            gameObject.put("steamRatingCount", steamRatingCount);
+            gameObject.put("dealRating", dealRating);
+            gameObject.put("thumb", thumb);
+            gameObject.put("storeName", storeName);
+
+            gamesArray.put(gameObject);
+
+            try (FileWriter writer = new FileWriter(WISHLIST_PATH)) {
+                writer.write(jsonObject.toString(2));
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
         }
     }
 
