@@ -140,6 +140,7 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         JLabel storeLabel = new JLabel("Store: " + game.getStoreName());
         storeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         storeLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+        storeLabel.setForeground(Color.WHITE);
         gameCard.add(storeLabel);
 
         // Price information
