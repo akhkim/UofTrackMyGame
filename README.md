@@ -60,14 +60,16 @@ through the "Find Similar Games" feature.
   - Users can keep a list of games by adding them to their Wishlist
   - Users can access their Wishlist via the Search page
   
-## Installation
-1. Clone the project from GitHub
+## Installation [TODO: add videos]
+1. Clone and open the project from GitHub by pasting the following line into the terminal (in VS Code or IntelliJ):
 ```text
 git clone https://github.com/akhkim/UofTrackMyGame.git
 ```
-2. Open the project in an IDE
-3. Link Maven 
+3. Link Maven when prompted.
 4. Navigate to ```src/main/java/app/Main.java``` and run
+
+<b>Troubleshooting and common issues</b>  
+[TODO: go over linking maven here]
 
 ## Usage Guide
 <b>Searching and Sorting Results</b>  
@@ -94,13 +96,14 @@ Lastly, users can view their wishlist by navigating to the Search Screen and cli
 [TODO: INSERT PHOTOS]:
 
 
-## Feedbacks
-Make sure to read the following text on the qualities of a good feedback first, then submit your feedback [here](https://forms.gle/hCCgtfJsUAzHo5sq5)!
+## Feedback
+Make sure to read the following text on the qualities of good feedback first, then submit your feedback [here](https://forms.gle/hCCgtfJsUAzHo5sq5)!
 
-5 Qualities of a "Good" feedback:
+<b>5 Qualities of good feedback:</b>
 
 1. Constructiveness
-    1. Avoid general statements like "It's bad"; instead, provide details such as "The UI is difficult to navigate because the icons are not labeled."
+    1. Avoid general statements like "It's bad." Instead, provide details such as "The UI is difficult to navigate 
+   because the icons are not labeled."
 
 2. Relevance
     1. The feedback should relate directly to the topic, product, or project.
