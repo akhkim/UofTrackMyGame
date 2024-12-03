@@ -61,7 +61,16 @@ public class GameView extends JPanel implements PropertyChangeListener {
             Image image = thumbIcon.getImage();
             int width = thumbIcon.getIconWidth();
             int height = thumbIcon.getIconHeight();
-            Image newimg = image.getScaledInstance(width * 2, height * 2, java.awt.Image.SCALE_SMOOTH);
+            
+            if (width > 1000 || height > 1000) {
+                width *= 0.3;
+                height *= 0.3;
+            } else {
+                width *= 2;
+                height *= 2;
+            }
+            
+            Image newimg = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
             thumbIcon = new ImageIcon(newimg);
             JLabel thumbLabel = new JLabel(thumbIcon);
             thumbLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -187,4 +196,3 @@ public class GameView extends JPanel implements PropertyChangeListener {
         recommendationController = controller;
     }
 }
-
