@@ -7,7 +7,6 @@ import javax.swing.WindowConstants;
 
 import data_access.DataAccess;
 import interface_adapter.game.GameController;
-import interface_adapter.game.GamePresenter;
 import interface_adapter.home.HomeController;
 import interface_adapter.home.HomePresenter;
 import interface_adapter.recommendation.RecommendationController;
@@ -21,7 +20,6 @@ import interface_adapter.wishlist.WishlistState;
 import interface_adapter.wishlist.WishlistViewModel;
 import use_case.game.GameInputBoundary;
 import use_case.game.GameInteractor;
-import use_case.game.GameOutputBoundary;
 import use_case.home.HomeInputBoundary;
 import use_case.home.HomeInteractor;
 import use_case.home.HomeOutputBoundary;
@@ -44,6 +42,8 @@ import interface_adapter.results.ResultsController;
 import interface_adapter.results.ResultsPresenter;
 import interface_adapter.game.GameViewModel;
 import use_case.results.ResultsInteractor;
+import view.ViewManager;
+import use_case.game.GameDataAccessInterface;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -154,8 +154,9 @@ public class AppBuilder {
     }
 
     public AppBuilder addGameUseCase(){
-        GameOutputBoundary gamePresenter = new GamePresenter(gameViewModel, viewManagerModel);
-        GameInputBoundary gameInteractor = new GameInteractor(gamePresenter);
+//        GameOutputBoundary gamePresenter = new GamePresenter(gameViewModel, viewManagerModel);
+        GameDataAccessInterface gameDataAccess = new DataAccess();
+        GameInputBoundary gameInteractor = new GameInteractor(gameDataAccess);
         GameController gameController = new GameController(gameInteractor);
         gameView.setGameController(gameController);
         return this;

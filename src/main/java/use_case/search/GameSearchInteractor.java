@@ -19,13 +19,12 @@ public class GameSearchInteractor implements GameSearchInputBoundary {
     @Override
     public void searchByFilters(String upperPrice, String lowerPrice, String metacritic, boolean onSale, String sortBy, boolean desc) {
         String response = dataAccess.searchByFilters(
-            upperPrice,
+            (upperPrice.isEmpty() ? "1000" : upperPrice),
             lowerPrice,
             metacritic,
             onSale ? "1" : "0",
             sortBy,
-            desc ? "1" : "0"
-        );
+            desc ? "1" : "0");
         // System.out.println(response);
         presenter.presentSearchResults(response);
     }

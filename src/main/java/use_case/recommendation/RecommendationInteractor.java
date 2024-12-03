@@ -23,24 +23,25 @@ public class RecommendationInteractor implements RecommendationInputBoundary {
         GameFactory gameFactory = new GameFactory();
         Game game = inputData.getGame();
         double price = Double.parseDouble(game.getSalePrice());
-        double thresholdRange = 0.0;
+        double delta = 0.0;
 
         JSONArray arrayJSON;
         do {
             String results = gameSearchDataAccessInterface.searchByFilters(
-                    Double.toString(price + thresholdRange),
-                    Double.toString(price - thresholdRange),
+                    Double.toString(price + delta),
+                    Double.toString(price - delta),
                     "",
                     "1",
                     "metacriticScore",
                     "1"
             );
             arrayJSON = new JSONArray(results);
-            thresholdRange += 0.01;
-        } while (arrayJSON.length() < 9);
+            delta += 0.01;
+
+        } while (arrayJSON.length() < 9 && delta <= 1.0);
 
         ArrayList<Game> games = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < Math.min(9, arrayJSON.length()); i++) {
             games.add(gameFactory.create(arrayJSON.getJSONObject(i)));
         }
 

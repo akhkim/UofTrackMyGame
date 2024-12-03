@@ -33,13 +33,8 @@ public class GameView extends JPanel implements PropertyChangeListener {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Wrap the panel in a JScrollPane
-        JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
         setLayout(new BorderLayout());
-        add(scrollPane, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
     }
 
     @Override
@@ -66,7 +61,16 @@ public class GameView extends JPanel implements PropertyChangeListener {
             Image image = thumbIcon.getImage();
             int width = thumbIcon.getIconWidth();
             int height = thumbIcon.getIconHeight();
-            Image newimg = image.getScaledInstance(width * 2, height * 2, java.awt.Image.SCALE_SMOOTH);
+            
+            if (width > 1000 || height > 1000) {
+                width *= 0.3;
+                height *= 0.3;
+            } else {
+                width *= 2;
+                height *= 2;
+            }
+            
+            Image newimg = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
             thumbIcon = new ImageIcon(newimg);
             JLabel thumbLabel = new JLabel(thumbIcon);
             thumbLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -146,6 +150,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
         notifyButton.addActionListener(e -> {
             String trackingPrice = trackingPriceField.getText();
             String email = emailField.getText();
+            gameController.setPriceAlert(email, game.getGameID(), trackingPrice);
             JOptionPane.showMessageDialog(panel,
                     "Notification set for price: $" + trackingPrice + " to email: " + email,
                     "Notification Set",
@@ -153,24 +158,31 @@ public class GameView extends JPanel implements PropertyChangeListener {
         });
         panel.add(notifyButton);
 
-
         // Recommendation Button
         JButton recommendationButton = new JButton("Find Similar Games");
         recommendationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         recommendationButton.addActionListener(e -> {
             recommendationController.execute(game);
         });
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some spacing
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
         panel.add(recommendationButton);
 
-        JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
         JFrame frame = new JFrame(game.getTitle());
-        frame.getContentPane().add(scrollPane);
+        frame.getContentPane().add(panel);
         frame.pack();
         frame.setVisible(true);
+
+        JButton addToWishlistButton = new JButton("Add To Wishlist");
+        addToWishlistButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addToWishlistButton.addActionListener(e -> {
+            gameController.addToWishlist(game.getTitle(), game.getSalePrice(), game.getNormalPrice(),
+                    game.getIsOnSale(), game.getSavings(), game.getMetacriticScore(), game.getSteamRatingText(),
+                    game.getSteamRatingPercent(), game.getSteamRatingCount(), game.getDealRating(), game.getThumb(),
+                    game.getGameID(), game.getStoreName());
+        });
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        panel.add(addToWishlistButton);
+        SwingUtilities.getWindowAncestor(panel).pack();
     }
 
     public String getViewName(){
