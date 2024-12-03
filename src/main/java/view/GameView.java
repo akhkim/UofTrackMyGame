@@ -33,13 +33,8 @@ public class GameView extends JPanel implements PropertyChangeListener {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Wrap the panel in a JScrollPane
-        JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
         setLayout(new BorderLayout());
-        add(scrollPane, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
     }
 
     @Override
@@ -154,26 +149,20 @@ public class GameView extends JPanel implements PropertyChangeListener {
         });
         panel.add(notifyButton);
 
-
         // Recommendation Button
         JButton recommendationButton = new JButton("Find Similar Games");
         recommendationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         recommendationButton.addActionListener(e -> {
             recommendationController.execute(game);
         });
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some spacing
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
         panel.add(recommendationButton);
 
-        JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
         JFrame frame = new JFrame(game.getTitle());
-        frame.getContentPane().add(scrollPane);
+        frame.getContentPane().add(panel);
         frame.pack();
         frame.setVisible(true);
 
-        // Add to Wishlist Button
         JButton addToWishlistButton = new JButton("Add To Wishlist");
         addToWishlistButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         addToWishlistButton.addActionListener(e -> {
@@ -182,7 +171,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
                     game.getSteamRatingPercent(), game.getSteamRatingCount(), game.getDealRating(), game.getThumb(),
                     game.getGameID(), game.getStoreName());
         });
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some spacing
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
         panel.add(addToWishlistButton);
     }
 
@@ -198,3 +187,4 @@ public class GameView extends JPanel implements PropertyChangeListener {
         recommendationController = controller;
     }
 }
+

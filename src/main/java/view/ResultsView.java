@@ -39,6 +39,9 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         scrollPane = new JScrollPane(gamesPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
+
 
         backButton = new JButton("Back");
         backButton.addActionListener(this);
@@ -46,11 +49,8 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         add(scrollPane, BorderLayout.CENTER);
         add(backButton, BorderLayout.SOUTH);
 
-        // Set preferred size to fit three games perfectly
-        setPreferredSize(new Dimension(1000, 700)); // Adjust dimensions as needed
-
-        // Set minimum size to ensure the window is not resized below a certain size
-        setMinimumSize(new Dimension(900, 600)); // Adjust dimensions as needed
+        setPreferredSize(new Dimension(1000, 700));
+        setMinimumSize(new Dimension(900, 600));
     }
 
     /**
@@ -60,7 +60,6 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
         if (evt.getSource() == backButton) {
-            // Switch to the search view
             homeController.execute();
         }
     }
@@ -110,7 +109,6 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         int panelHeight = (row + 1) * (cardHeight + gbc.insets.top + gbc.insets.bottom);
         gamesPanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
 
-        // Adjust the parent container size if needed
         gamesPanel.getParent().revalidate();
         gamesPanel.getParent().repaint();
     }
