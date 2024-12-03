@@ -31,6 +31,11 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
         this.resultsViewModel = resultsViewModel;
         this.resultsViewModel.addPropertyChangeListener(this);
 
+        Color backgroundColor = new Color(18, 18, 18);
+        Color buttonColor = new Color(242, 243, 245);
+        Font buttonFont = new Font("Arial", Font.PLAIN, 16);
+
+        this.setBackground(backgroundColor);
         setLayout(new BorderLayout());
 
         gamesPanel = new JPanel();
@@ -44,6 +49,8 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
 
 
         backButton = new JButton("Back");
+        backButton.setFont(buttonFont);
+        backButton.setBackground(buttonColor);
         backButton.addActionListener(this);
 
         add(scrollPane, BorderLayout.CENTER);
@@ -114,14 +121,21 @@ public class ResultsView extends JPanel implements ActionListener, PropertyChang
     }
 
     private JPanel createGameCard(Game game) {
+        Color backgroundColor = new Color(18, 18, 18);
+        Color textColor = new Color(224, 224, 224);
+        Font labelFont = new Font("Arial", Font.BOLD, 18);
+        Font secondaryFont = new Font("Arial", Font.BOLD, 16);
+
         JPanel gameCard = new JPanel();
         gameCard.setLayout(new BoxLayout(gameCard, BoxLayout.Y_AXIS));
         gameCard.setBorder(new EmptyBorder(15, 15, 15, 15));
+        gameCard.setBackground(backgroundColor);
 
         // Game title
         JLabel titleLabel = new JLabel(game.getTitle());
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        titleLabel.setForeground(textColor);
         gameCard.add(titleLabel);
 
         // Store name

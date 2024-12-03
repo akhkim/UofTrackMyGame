@@ -26,12 +26,20 @@ public class GameView extends JPanel implements PropertyChangeListener {
     private RecommendationController recommendationController;
 
     public GameView(GameViewModel gameViewModel) {
+        Color backgroundColor = new Color(18, 18, 18);
+        Color buttonColor = new Color(242, 243, 245);
+        Color textColor = new Color(224, 224, 224);
+        Font labelFont = new Font("Arial", Font.BOLD, 18);
+        Font secondaryFont = new Font("Arial", Font.BOLD, 16);
+        Font buttonFont = new Font("Arial", Font.PLAIN, 16);
+
         this.gameViewModel = gameViewModel;
         this.gameViewModel.addPropertyChangeListener(this);
 
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(backgroundColor);
 
         setLayout(new BorderLayout());
         add(panel, BorderLayout.CENTER);
@@ -46,10 +54,16 @@ public class GameView extends JPanel implements PropertyChangeListener {
     }
 
     private void updateGameWindow(GameState state) {
+        Color buttonColor = new Color(242, 243, 245);
+        Color textColor = new Color(224, 224, 224);
+        Font labelFont = new Font("Arial", Font.BOLD, 18);
+        Font secondaryFont = new Font("Arial", Font.PLAIN, 14);
+
         panel.removeAll();
         Game game = state.getGame();
         JLabel titleLabel = new JLabel("Game Title: " + game.getTitle());
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setFont(labelFont);
+        titleLabel.setForeground(textColor);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(titleLabel);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -82,7 +96,8 @@ public class GameView extends JPanel implements PropertyChangeListener {
         // Store Name
         String storeUrl = game.getStoreName();
         JLabel storeLabel = new JLabel("<html><a href='" + storeUrl + "'>Store: " + game.getStoreName() + "</a></html>");
-        storeLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        storeLabel.setFont(secondaryFont);
+        storeLabel.setForeground(textColor);
         storeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         storeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         storeLabel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
@@ -101,14 +116,16 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
         // Sale Price
         JLabel priceLabel = new JLabel("Price: $" + game.getSalePrice());
-        priceLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        priceLabel.setFont(secondaryFont);
+        priceLabel.setForeground(textColor);
         priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(priceLabel);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         // Metacritic Score
         JLabel metacriticLabel = new JLabel("Metacritic Score: " + game.getMetacriticScore());
-        metacriticLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        metacriticLabel.setFont(secondaryFont);
+        metacriticLabel.setForeground(textColor);
         metacriticLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(metacriticLabel);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -116,12 +133,15 @@ public class GameView extends JPanel implements PropertyChangeListener {
         // Deal Rating
         JLabel dealRatingLabel = new JLabel("Deal Rating: " + game.getDealRating());
         dealRatingLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        dealRatingLabel.setForeground(textColor);
         dealRatingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(dealRatingLabel);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         // Text Field for Tracking Price
         JLabel trackingPriceLabel = new JLabel("Enter tracking price:");
+        trackingPriceLabel.setFont(secondaryFont);
+        trackingPriceLabel.setForeground(textColor);
         trackingPriceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(trackingPriceLabel);
         panel.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -134,6 +154,8 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
         // Text Field for Email
         JLabel emailLabel = new JLabel("Enter email:");
+        emailLabel.setFont(secondaryFont);
+        emailLabel.setForeground(textColor);
         emailLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(emailLabel);
         panel.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -146,6 +168,8 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
         // Notify Me Button
         JButton notifyButton = new JButton("Notify Me");
+        notifyButton.setFont(secondaryFont);
+        notifyButton.setBackground(buttonColor);
         notifyButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         notifyButton.addActionListener(e -> {
             String trackingPrice = trackingPriceField.getText();
@@ -160,6 +184,8 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
         // Recommendation Button
         JButton recommendationButton = new JButton("Find Similar Games");
+        recommendationButton.setFont(secondaryFont);
+        recommendationButton.setBackground(buttonColor);
         recommendationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         recommendationButton.addActionListener(e -> {
             recommendationController.execute(game);
@@ -173,6 +199,8 @@ public class GameView extends JPanel implements PropertyChangeListener {
         frame.setVisible(true);
 
         JButton addToWishlistButton = new JButton("Add To Wishlist");
+        addToWishlistButton.setFont(secondaryFont);
+        addToWishlistButton.setBackground(buttonColor);
         addToWishlistButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         addToWishlistButton.addActionListener(e -> {
             gameController.addToWishlist(game.getTitle(), game.getSalePrice(), game.getNormalPrice(),
