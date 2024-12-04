@@ -51,8 +51,30 @@ public class WishlistInteractorTest {
         assertEquals("Test Game 1", testPresenter.getLastPresentedGames().get(0).getTitle());
     }
 
+    @Test
+    void testGetWishlistGamesError() {
+        // Simulate error in data access
+        testDataAccess.setSimulateError(true);
+
+        interactor.getWishlistGames();
+
+        // Verify presenter handles error
+        assertEquals("Error loading wishlist: Simulated data access error", testPresenter.getLastError());
+    }
+
+    @Test
+    void testEmptyWishlist() {
+        testDataAccess.clearWishlist();
+        interactor.getWishlistGames();
+
+        // Verify wishlist is empty
+        ArrayList<Game> games = testPresenter.getLastPresentedGames();
+        assertEquals(0, games.size());
+    }
+
     private static class TestWishlistDataAccess implements WishlistDataAccessInterface {
         private final ArrayList<Game> games = new ArrayList<>();
+        private boolean simulateError = false;
 
         @Override
         public void removeGameFromWishlist(String gameID) {
@@ -61,17 +83,28 @@ public class WishlistInteractorTest {
 
         @Override
         public ArrayList<Game> loadWishlist() {
+            if (simulateError) {
+                throw new RuntimeException("Simulated data access error");
+            }
             return new ArrayList<>(games);
         }
 
-
         public void addGame(Game game) {
             games.add(game);
+        }
+
+        public void clearWishlist() {
+            games.clear();
+        }
+
+        public void setSimulateError(boolean simulateError) {
+            this.simulateError = simulateError;
         }
     }
 
     private static class TestWishlistPresenter implements WishlistOutputBoundary {
         private ArrayList<Game> lastPresentedGames = new ArrayList<>();
+        private String lastError;
 
         @Override
         public void presentSuccess(ArrayList<Game> games) {
@@ -80,13 +113,16 @@ public class WishlistInteractorTest {
 
         @Override
         public WishlistOutputData presentError(String message) {
-            System.err.println(message);
+            this.lastError = message;
             return new WishlistOutputData(false, message);
         }
 
         public ArrayList<Game> getLastPresentedGames() {
             return lastPresentedGames;
         }
-    }
 
+        public String getLastError() {
+            return lastError;
+        }
+    }
 }
