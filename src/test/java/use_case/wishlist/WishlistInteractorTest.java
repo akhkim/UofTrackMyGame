@@ -72,6 +72,16 @@ public class WishlistInteractorTest {
         assertEquals(0, games.size());
     }
 
+    @Test
+    void testConstructorWithEmptyWishlist() {
+        testDataAccess.clearWishlist();
+        WishlistInteractor emptyInteractor = new WishlistInteractor(testDataAccess, testPresenter);
+
+        // Verify presenter handles an empty wishlist
+        emptyInteractor.getWishlistGames();
+        assertEquals(0, testPresenter.getLastPresentedGames().size());
+    }
+
     private static class TestWishlistDataAccess implements WishlistDataAccessInterface {
         private final ArrayList<Game> games = new ArrayList<>();
         private boolean simulateError = false;
