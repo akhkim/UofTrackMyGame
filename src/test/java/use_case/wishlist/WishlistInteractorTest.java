@@ -20,8 +20,12 @@ public class WishlistInteractorTest {
         testPresenter = new TestWishlistPresenter();
         interactor = new WishlistInteractor(testDataAccess, testPresenter);
 
-        testDataAccess.addGame(new Game("1", "Test Game 1", "2.99", "9.99", "100", "90", "10", "Positive", "5", "1000", "4.5", "test_image.jpg", "test_url"));
-        testDataAccess.addGame(new Game("2", "Test Game 2", "5.99", "19.99", "200", "80", "15", "Mixed", "10", "2000", "4.0", "test_image2.jpg", "test_url2"));
+        testDataAccess.addGame(new Game("1", "Test Game 1", "2.99", "9.99",
+                "100", "90", "10", "Positive", "5",
+                "1000", "4.5", "test_image.jpg", "test_url"));
+        testDataAccess.addGame(new Game("2", "Test Game 2", "5.99", "19.99",
+                "200", "80", "15", "Mixed", "10",
+                "2000", "4.0", "test_image2.jpg", "test_url2"));
     }
 
     @Test
@@ -33,14 +37,18 @@ public class WishlistInteractorTest {
         assertEquals("Test Game 2", games.get(0).getTitle());
     }
 
-
     @Test
     void testGetWishlistGames() {
-        ArrayList<Game> games = interactor.getWishlistGames();
+        interactor.getWishlistGames();
+        ArrayList<Game> games = testPresenter.getLastPresentedGames();
 
         assertEquals(2, games.size());
         assertEquals("Test Game 1", games.get(0).getTitle());
         assertEquals("Test Game 2", games.get(1).getTitle());
+
+        // Verify presenter received the correct data
+        assertEquals(2, testPresenter.getLastPresentedGames().size());
+        assertEquals("Test Game 1", testPresenter.getLastPresentedGames().get(0).getTitle());
     }
 
     private static class TestWishlistDataAccess implements WishlistDataAccessInterface {
@@ -56,11 +64,6 @@ public class WishlistInteractorTest {
             return new ArrayList<>(games);
         }
 
-        @Override
-        public void saveWishlist(ArrayList<Game> games) {
-            this.games.clear();
-            this.games.addAll(games);
-        }
 
         public void addGame(Game game) {
             games.add(game);
@@ -68,22 +71,22 @@ public class WishlistInteractorTest {
     }
 
     private static class TestWishlistPresenter implements WishlistOutputBoundary {
-        private String lastMessage;
+        private ArrayList<Game> lastPresentedGames = new ArrayList<>();
 
         @Override
-        public WishlistOutputData presentSuccess(String message) {
-            this.lastMessage = message;
-            return new WishlistOutputData(true, message);
+        public void presentSuccess(ArrayList<Game> games) {
+            this.lastPresentedGames = new ArrayList<>(games);
         }
 
         @Override
         public WishlistOutputData presentError(String message) {
-            this.lastMessage = message;
+            System.err.println(message);
             return new WishlistOutputData(false, message);
         }
 
-        public String getLastMessage() {
-            return lastMessage;
+        public ArrayList<Game> getLastPresentedGames() {
+            return lastPresentedGames;
         }
     }
+
 }
