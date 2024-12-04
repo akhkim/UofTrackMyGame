@@ -20,6 +20,7 @@ public class WishlistInteractorTest {
         testPresenter = new TestWishlistPresenter();
         interactor = new WishlistInteractor(testDataAccess, testPresenter);
 
+        // Add initial games to the test data access
         testDataAccess.addGame(new Game("1", "Test Game 1", "2.99", "9.99",
                 "100", "90", "10", "Positive", "5",
                 "1000", "4.5", "test_image.jpg", "test_url"));
@@ -29,7 +30,7 @@ public class WishlistInteractorTest {
     }
 
     @Test
-    void testRemoveGameFromWishlist() {
+    void testRemoveGameFromWishlistSuccess() {
         interactor.removeGameFromWishlist(new WishlistInputData("1"));
 
         ArrayList<Game> games = testDataAccess.loadWishlist();
@@ -38,36 +39,46 @@ public class WishlistInteractorTest {
     }
 
     @Test
-    void testGetWishlistGames() {
+    void testRemoveNonExistentGame() {
+        interactor.removeGameFromWishlist(new WishlistInputData("999")); // Non-existent game ID
+
+        ArrayList<Game> games = testDataAccess.loadWishlist();
+        assertEquals(2, games.size()); // No change in the wishlist
+    }
+
+    @Test
+    void testRemoveGameFromWishlistError() {
+        testDataAccess.setSimulateError(true);
+
+        interactor.removeGameFromWishlist(new WishlistInputData("1"));
+
+        assertEquals("Error loading wishlist: Simulated data access error", testPresenter.getLastError());
+    }
+
+    @Test
+    void testGetWishlistGamesSuccess() {
         interactor.getWishlistGames();
         ArrayList<Game> games = testPresenter.getLastPresentedGames();
 
         assertEquals(2, games.size());
         assertEquals("Test Game 1", games.get(0).getTitle());
         assertEquals("Test Game 2", games.get(1).getTitle());
-
-        // Verify presenter received the correct data
-        assertEquals(2, testPresenter.getLastPresentedGames().size());
-        assertEquals("Test Game 1", testPresenter.getLastPresentedGames().get(0).getTitle());
     }
 
     @Test
     void testGetWishlistGamesError() {
-        // Simulate error in data access
         testDataAccess.setSimulateError(true);
 
         interactor.getWishlistGames();
 
-        // Verify presenter handles error
         assertEquals("Error loading wishlist: Simulated data access error", testPresenter.getLastError());
     }
 
     @Test
-    void testEmptyWishlist() {
+    void testEmptyWishlistHandling() {
         testDataAccess.clearWishlist();
         interactor.getWishlistGames();
 
-        // Verify wishlist is empty
         ArrayList<Game> games = testPresenter.getLastPresentedGames();
         assertEquals(0, games.size());
     }
@@ -77,9 +88,9 @@ public class WishlistInteractorTest {
         testDataAccess.clearWishlist();
         WishlistInteractor emptyInteractor = new WishlistInteractor(testDataAccess, testPresenter);
 
-        // Verify presenter handles an empty wishlist
         emptyInteractor.getWishlistGames();
-        assertEquals(0, testPresenter.getLastPresentedGames().size());
+        ArrayList<Game> games = testPresenter.getLastPresentedGames();
+        assertEquals(0, games.size());
     }
 
     private static class TestWishlistDataAccess implements WishlistDataAccessInterface {
@@ -88,6 +99,9 @@ public class WishlistInteractorTest {
 
         @Override
         public void removeGameFromWishlist(String gameID) {
+            if (simulateError) {
+                throw new RuntimeException("Simulated data access error");
+            }
             games.removeIf(game -> game.getGameID().equals(gameID));
         }
 
