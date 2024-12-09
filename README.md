@@ -14,7 +14,7 @@ Final Project for CSC207 at the University of Toronto
 
 
 ## Contributors
-Frederick Chen, Bhavya Jain, Andrew Kim, Kerri Wei, John Zhang
+Frederick Chen - Pancraes, Bhavya Jain - bhavya-jain-364, Andrew Kim - akhkim, Kerri Wei - kerri-wei, John Zhang - ycz425
 
 
 ## Project Goals
